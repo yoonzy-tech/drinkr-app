@@ -17,7 +17,7 @@ class BarMapViewController: UIViewController {
 
     let locationManager = CLLocationManager()
 
-    var userCoordinates: CLLocationCoordinate2D?
+    var userCoordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 0, longitude: 0)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +31,10 @@ class BarMapViewController: UIViewController {
         locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         self.locationManager.requestWhenInUseAuthorization()
+        
+        if locationManager.authorizationStatus != .denied || locationManager.authorizationStatus != .notDetermined {
+            showNearbyBarsToUser()
+        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -44,73 +48,13 @@ class BarMapViewController: UIViewController {
 
 }
 
-// MARK: - Search Results Updating
-extension BarMapViewController: UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let query = searchController.searchBar.text,
-              !query.trimmingCharacters(in: .whitespaces).isEmpty
-//              let resultVC = searchController.searchResultsController as? ResultsViewController
-        else { return }
-//        resultVC.delegate = self
-    }
-
-}
-
-// MARK: - Apple System Location Manager
-extension BarMapViewController: CLLocationManagerDelegate {
-
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-
-        switch status {
-
-        case .denied: /// Setting option: Never
-            print("LocationManager didChangeAuthorization denied")
-
-        case .notDetermined: /// Setting option: Ask Next Time
-            print("LocationManager didChangeAuthorization notDetermined")
-
-        case .authorizedWhenInUse: /// Setting option: While Using the App
-            print("LocationManager didChangeAuthorization authorizedWhenInUse")
-            locationManager.requestLocation()
-            self.locationManager.startUpdatingLocation()
-            mapView.showsUserLocation = true
-
-        case .authorizedAlways: /// Setting option: Always
-            print("LocationManager didChangeAuthorization authorizedAlways")
-            locationManager.requestLocation()
-            self.locationManager.startUpdatingLocation()
-
-        case .restricted: /// Restricted by parental control
-            print("LocationManager didChangeAuthorization restricted")
-
-        default:
-            print("LocationManager didChangeAuthorization")
-        }
+// MARK: - Map Pins & User Location
+extension BarMapViewController {
+    func showNearbyBarsToUser() {
+        mapView.showsUserLocation = true
+        generateMapPins(with: userCoordinates)
     }
     
-    /// Store user latitude & longitude
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-
-        guard let locationValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-//        print("Coordinates: \(locationValue.latitude), \(locationValue.longitude)")
-
-        userCoordinates = locationValue
-
-        generateMapPins(with: locationValue)
-    }
-
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-
-        print("LocationManager didFailWithError \(error.localizedDescription)")
-
-        if let error = error as? CLError, error.code == .denied {
-            // Location updates are not authorized.
-            // To prevent forever looping of `didFailWithError` callback
-            locationManager.stopMonitoringSignificantLocationChanges()
-            return
-        }
-    }
-
     func generateMapPins(with userLocation: CLLocationCoordinate2D) {
 
         // Remove all map pins
@@ -141,4 +85,71 @@ extension BarMapViewController: CLLocationManagerDelegate {
             ), animated: true)
         }
     }
+}
+
+// MARK: - Apple System Location Manager
+extension BarMapViewController: CLLocationManagerDelegate {
+
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+
+        switch status {
+
+        case .denied: /// Setting option: Never
+            print("LocationManager didChangeAuthorization denied")
+
+        case .notDetermined: /// Setting option: Ask Next Time
+            print("LocationManager didChangeAuthorization notDetermined")
+
+        case .authorizedWhenInUse: /// Setting option: While Using the App
+            print("LocationManager didChangeAuthorization authorizedWhenInUse")
+            locationManager.requestLocation()
+            self.locationManager.startUpdatingLocation()
+            showNearbyBarsToUser()
+
+        case .authorizedAlways: /// Setting option: Always
+            print("LocationManager didChangeAuthorization authorizedAlways")
+            locationManager.requestLocation()
+            self.locationManager.startUpdatingLocation()
+            showNearbyBarsToUser()
+
+        case .restricted: /// Restricted by parental control
+            print("LocationManager didChangeAuthorization restricted")
+
+        default:
+            print("LocationManager didChangeAuthorization")
+        }
+    }
+    
+    // Store user latitude & longitude
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+
+        guard let locationValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+//        print("Coordinates: \(locationValue.latitude), \(locationValue.longitude)")
+
+        userCoordinates = locationValue
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+
+        print("LocationManager didFailWithError \(error.localizedDescription)")
+
+        if let error = error as? CLError, error.code == .denied {
+            // Location updates are not authorized.
+            // To prevent forever looping of `didFailWithError` callback
+            locationManager.stopMonitoringSignificantLocationChanges()
+            return
+        }
+    }
+}
+
+// MARK: - Search Results Updating
+extension BarMapViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let query = searchController.searchBar.text,
+              !query.trimmingCharacters(in: .whitespaces).isEmpty
+//              let resultVC = searchController.searchResultsController as? ResultsViewController
+        else { return }
+//        resultVC.delegate = self
+    }
+
 }
