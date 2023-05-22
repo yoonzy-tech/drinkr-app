@@ -1,0 +1,24 @@
+PODS:
+  - GooglePlaces (7.4.0)
+  - IQKeyboardManagerSwift (6.5.11)
+  - SwiftLint (0.52.2)
+
+DEPENDENCIES:
+  - GooglePlaces
+  - IQKeyboardManagerSwift
+  - SwiftLint
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - GooglePlaces
+    - IQKeyboardManagerSwift
+    - SwiftLint
+
+SPEC CHECKSUMS:
+  GooglePlaces: 544e908d94860bf6f8fc1865b80d2c7eb6b5f937
+  IQKeyboardManagerSwift: c7955c0bdbf7b2eb29bb7daaa44e3d90f55a9a85
+  SwiftLint: 1ac76dac888ca05cb0cf24d0c85887ec1209961d
+
+PODFILE CHECKSUM: 5769fa67858e6695810b39a4a501fcbfa64ed331
+
+COCOAPODS: 1.12.0
