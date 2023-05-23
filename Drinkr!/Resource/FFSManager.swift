@@ -8,12 +8,15 @@
 import Foundation
 import Firebase
 import FirebaseFirestore
+import FirebaseStorage
 
 final class FFSManager {
 
     static let shared = FFSManager()
 
     let database = Firestore.firestore()
+    
+    let storage = Storage.storage()
 
     private init() {}
     
@@ -38,11 +41,11 @@ final class FFSManager {
     }
     
     // Read Data for knowing where to pin on map (for now fetch all data in DB)
-    public func readBarData(completion: (([(docId: String, placeInfo: Any)])-> Void)? = nil) {
+    public func readBarData(completion: (([(docId: String, placeInfo: Any)]) -> Void)? = nil) {
         
         let collection = "places"
 
-        self.database.collection(collection).getDocuments() { querySnapshot, error in
+        self.database.collection(collection).getDocuments { querySnapshot, error in
             
             /// "latitude, longitude, name, rating, vicinity" : value
             var places: [(docId: String, placeInfo: Any)] = []

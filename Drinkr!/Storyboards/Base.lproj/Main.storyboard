@@ -4,26 +4,12 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Bar Map View Controller-->
-        <scene sceneID="tne-QT-ifu">
-            <objects>
-                <viewController id="BYZ-38-t0r" customClass="BarMapViewController" customModule="Drinkr_" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="4oZ-G7-gda"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2887.7862595419847" y="-4.2253521126760569"/>
-        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="fGi-1Y-h9U">
             <objects>
@@ -37,11 +23,12 @@
                     </tabBar>
                     <connections>
                         <segue destination="hGu-x3-2OI" kind="relationship" relationship="viewControllers" id="din-Zd-udG"/>
+                        <segue destination="6EG-rP-SzQ" kind="relationship" relationship="viewControllers" id="6Nu-Vs-2fp"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4e1-44-JbA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1034.3511450381679" y="-4.2253521126760569"/>
+            <point key="canvasLocation" x="964" y="380"/>
         </scene>
         <!--Item-->
         <scene sceneID="Auv-i6-9bL">
@@ -62,9 +49,236 @@
             </objects>
             <point key="canvasLocation" x="1961.0687022900763" y="-4.2253521126760569"/>
         </scene>
+        <!--Bar Map View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="BarMapViewController" customModule="Drinkr_" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="4oZ-G7-gda"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2887.7862595419847" y="-4.2253521126760569"/>
+        </scene>
+        <!--Scanner-->
+        <scene sceneID="GsJ-z6-GWb">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6EG-rP-SzQ" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Scanner" image="scanner" catalog="system" selectedImage="scanner.fill" id="kwv-Yo-km9"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="2cz-Nd-qWT"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="W0h-N3-H6C">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="JHF-np-lfz" kind="relationship" relationship="rootViewController" id="Oan-7t-uZs"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ggl-c8-w3f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1954.9618320610687" y="674.64788732394368"/>
+        </scene>
+        <!--Scanner-->
+        <scene sceneID="f7v-ID-JGP">
+            <objects>
+                <viewController id="JHF-np-lfz" customClass="ScannerViewController" customModule="Drinkr_" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2jL-rx-zOM">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="M12-NU-UHn">
+                                <rect key="frame" x="50" y="158" width="293" height="340"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="340" id="wef-NF-Kbs"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Take a photo or choose from library to scan" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBD-wX-dA0">
+                                <rect key="frame" x="16" y="558" width="361" height="45.666666666666629"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="3b5-OU-pTu"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="M12-NU-UHn" firstAttribute="leading" secondItem="3b5-OU-pTu" secondAttribute="leading" constant="50" id="5Bc-Ia-WKq"/>
+                            <constraint firstItem="gBD-wX-dA0" firstAttribute="centerX" secondItem="2jL-rx-zOM" secondAttribute="centerX" id="JpS-Px-5YI"/>
+                            <constraint firstItem="gBD-wX-dA0" firstAttribute="top" secondItem="M12-NU-UHn" secondAttribute="bottom" constant="60" id="QoK-sD-ucu"/>
+                            <constraint firstItem="3b5-OU-pTu" firstAttribute="trailing" secondItem="M12-NU-UHn" secondAttribute="trailing" constant="50" id="VKf-yW-5Om"/>
+                            <constraint firstItem="M12-NU-UHn" firstAttribute="top" secondItem="3b5-OU-pTu" secondAttribute="top" constant="55" id="W3F-Rd-a83"/>
+                            <constraint firstItem="M12-NU-UHn" firstAttribute="centerX" secondItem="2jL-rx-zOM" secondAttribute="centerX" id="fLf-d9-Sb0"/>
+                            <constraint firstItem="gBD-wX-dA0" firstAttribute="leading" secondItem="3b5-OU-pTu" secondAttribute="leading" constant="16" id="u32-he-wUF"/>
+                            <constraint firstItem="3b5-OU-pTu" firstAttribute="trailing" secondItem="gBD-wX-dA0" secondAttribute="trailing" constant="16" id="zPL-Er-Tv7"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Scanner" id="Cwk-n3-jbH">
+                        <barButtonItem key="leftBarButtonItem" image="camera.fill" catalog="system" id="Je6-RE-uDw">
+                            <connections>
+                                <action selector="camera:" destination="JHF-np-lfz" id="gIr-HD-yiB"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Library" id="FKL-bQ-Vqt">
+                            <connections>
+                                <action selector="openLibrary:" destination="JHF-np-lfz" id="YR2-cO-dj5"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="imageView" destination="M12-NU-UHn" id="EXe-Cl-rA0"/>
+                        <outlet property="itemLabel" destination="gBD-wX-dA0" id="3ui-bb-87s"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8n3-8S-XL8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2887.7862595419847" y="674.64788732394368"/>
+        </scene>
+        <!--Camera View Controller-->
+        <scene sceneID="mrg-TU-cmT">
+            <objects>
+                <viewController id="uyu-Pz-kwT" customClass="CameraViewController" customModule="Drinkr_" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jQF-Lv-5UG">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="9hg-zA-Z9D"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="jZ6-hS-sVS"/>
+                    <connections>
+                        <segue destination="01I-6p-eIm" kind="show" animates="NO" id="Zzo-4w-j9q"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BOz-wc-GpT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4152" y="713"/>
+        </scene>
+        <!--Photo Preview View Controller-->
+        <scene sceneID="p0X-6d-AAk">
+            <objects>
+                <viewController id="01I-6p-eIm" customClass="PhotoPreviewViewController" customModule="Drinkr_" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" autoresizesSubviews="NO" contentMode="scaleToFill" id="IEM-Pl-Yye">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="b8U-Ql-02f"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ZHc-Qr-TGo"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AvF-7o-ryZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5036" y="713"/>
+        </scene>
+        <!--Camera View Controller-->
+        <scene sceneID="zoz-SP-R9D">
+            <objects>
+                <viewController hidesBottomBarWhenPushed="YES" id="Wms-Fx-qPH" customClass="CameraViewController" customModule="Drinkr_" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oRr-Vx-Z8d">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ke5-ot-859">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Qm-dd-2YL">
+                                        <rect key="frame" x="179" y="718" width="26" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="KyD-Cr-mc4"/>
+                                            <constraint firstAttribute="width" constant="50" id="cJe-0W-Q7O"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal">
+                                            <imageReference key="image" image="circle.inset.filled" catalog="system" symbolScale="large"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G8p-dQ-HNF">
+                                        <rect key="frame" x="292" y="721" width="84" height="20"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="History"/>
+                                        <connections>
+                                            <action selector="goToScanHistoryVC:" destination="Wms-Fx-qPH" eventType="touchUpInside" id="nYf-Sc-qgx"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iwt-HP-h2G">
+                                        <rect key="frame" x="318" y="47" width="26" height="26"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal">
+                                            <imageReference key="image" image="xmark.circle.fill" catalog="system" symbolScale="large"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="closeCamera:" destination="Wms-Fx-qPH" eventType="touchUpInside" id="tFt-bP-3OU"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Ur-jJ-BtO">
+                                        <rect key="frame" x="175" y="25" width="34" height="71"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal">
+                                            <imageReference key="image" image="bolt" catalog="system" symbolScale="large"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="controlFlashMode:" destination="Wms-Fx-qPH" eventType="touchUpInside" id="cZO-ji-eEp"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cbx-UR-7bI">
+                                        <rect key="frame" x="32" y="720" width="25" height="22"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="photo.fill.on.rectangle.fill" catalog="system"/>
+                                        <connections>
+                                            <action selector="selectImage:" destination="Wms-Fx-qPH" eventType="touchUpInside" id="Xpg-Oe-qp9"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="0Qm-dd-2YL" secondAttribute="bottom" constant="100" id="CFq-1p-zC2"/>
+                                    <constraint firstItem="cbx-UR-7bI" firstAttribute="leading" secondItem="Ke5-ot-859" secondAttribute="leading" constant="32" id="cKl-dA-bol"/>
+                                    <constraint firstAttribute="trailing" secondItem="G8p-dQ-HNF" secondAttribute="trailing" constant="32" id="dun-DI-47j"/>
+                                    <constraint firstItem="0Qm-dd-2YL" firstAttribute="centerX" secondItem="Ke5-ot-859" secondAttribute="centerX" id="jLq-On-7Ia"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="iYa-od-Iym"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationItem key="navigationItem" id="sVh-4r-c5y"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="cameraButton" destination="0Qm-dd-2YL" id="Ie7-bY-cwS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oDO-bT-MAY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5080" y="1422"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="bolt" catalog="system" width="100" height="128"/>
+        <image name="camera.fill" catalog="system" width="128" height="93"/>
+        <image name="circle.inset.filled" catalog="system" width="128" height="123"/>
         <image name="map" catalog="system" width="128" height="112"/>
         <image name="map.fill" catalog="system" width="128" height="110"/>
+        <image name="photo.fill.on.rectangle.fill" catalog="system" width="128" height="98"/>
+        <image name="scanner" catalog="system" width="128" height="93"/>
+        <image name="scanner.fill" catalog="system" width="128" height="93"/>
+        <image name="xmark.circle.fill" catalog="system" width="128" height="123"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

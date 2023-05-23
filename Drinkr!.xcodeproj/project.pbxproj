@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		040DB2C12A1B8D44003E02A4 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB2C02A1B8D44003E02A4 /* CameraViewController.swift */; };
+		040DB3072A1C734E003E02A4 /* CamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB3062A1C734E003E02A4 /* CamViewController.swift */; };
+		040DB3092A1C8B82003E02A4 /* PhotoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB3082A1C8B82003E02A4 /* PhotoPreviewViewController.swift */; };
+		040DB30B2A1C99C2003E02A4 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB30A2A1C99C1003E02A4 /* ScannerViewController.swift */; };
+		040DB3112A1CA1E0003E02A4 /* ImagePredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB3102A1CA1E0003E02A4 /* ImagePredictor.swift */; };
+		040DB3152A1CBF6E003E02A4 /* CGImagePropertyOrientation+UIImageOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB3132A1CBF6E003E02A4 /* CGImagePropertyOrientation+UIImageOrientation.swift */; };
+		040DB3162A1CBF6E003E02A4 /* VNClassificationObservation+confidenceString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB3142A1CBF6E003E02A4 /* VNClassificationObservation+confidenceString.swift */; };
+		040DB3182A1CCEC9003E02A4 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB3172A1CCEC9003E02A4 /* Extension.swift */; };
+		040DB31A2A1CD8A3003E02A4 /* BarHeinModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 040DB3192A1CD8A3003E02A4 /* BarHeinModel.mlmodel */; };
 		048E16542A176A520008CF2A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048E16532A176A520008CF2A /* AppDelegate.swift */; };
 		048E16562A176A520008CF2A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048E16552A176A520008CF2A /* SceneDelegate.swift */; };
 		048E16582A176A520008CF2A /* BarMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048E16572A176A520008CF2A /* BarMapViewController.swift */; };
@@ -39,6 +48,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		040DB2C02A1B8D44003E02A4 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		040DB3062A1C734E003E02A4 /* CamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamViewController.swift; sourceTree = "<group>"; };
+		040DB3082A1C8B82003E02A4 /* PhotoPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPreviewViewController.swift; sourceTree = "<group>"; };
+		040DB30A2A1C99C1003E02A4 /* ScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
+		040DB3102A1CA1E0003E02A4 /* ImagePredictor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePredictor.swift; sourceTree = "<group>"; };
+		040DB3132A1CBF6E003E02A4 /* CGImagePropertyOrientation+UIImageOrientation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGImagePropertyOrientation+UIImageOrientation.swift"; sourceTree = "<group>"; };
+		040DB3142A1CBF6E003E02A4 /* VNClassificationObservation+confidenceString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VNClassificationObservation+confidenceString.swift"; sourceTree = "<group>"; };
+		040DB3172A1CCEC9003E02A4 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		040DB3192A1CD8A3003E02A4 /* BarHeinModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = BarHeinModel.mlmodel; sourceTree = "<group>"; };
 		048E16502A176A520008CF2A /* Drinkr!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Drinkr!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		048E16532A176A520008CF2A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		048E16552A176A520008CF2A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +104,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		040DB3122A1CA20E003E02A4 /* Draft */ = {
+			isa = PBXGroup;
+			children = (
+				040DB3132A1CBF6E003E02A4 /* CGImagePropertyOrientation+UIImageOrientation.swift */,
+				040DB3142A1CBF6E003E02A4 /* VNClassificationObservation+confidenceString.swift */,
+				040DB3102A1CA1E0003E02A4 /* ImagePredictor.swift */,
+				04B9EA0E2A1A8382002A7EC4 /* ResultsViewController.swift */,
+				040DB2C02A1B8D44003E02A4 /* CameraViewController.swift */,
+				040DB3082A1C8B82003E02A4 /* PhotoPreviewViewController.swift */,
+				040DB3062A1C734E003E02A4 /* CamViewController.swift */,
+			);
+			path = Draft;
+			sourceTree = "<group>";
+		};
+		040DB31B2A1CD8EE003E02A4 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				040DB3172A1CCEC9003E02A4 /* Extension.swift */,
+				04B9EA082A1A81BA002A7EC4 /* GooglePlacesManager.swift */,
+				04B9EA102A1A83F5002A7EC4 /* FFSManager.swift */,
+				04B9EA0A2A1A8235002A7EC4 /* ApiKeys.swift */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
 		048E16472A176A520008CF2A = {
 			isa = PBXGroup;
 			children = (
@@ -107,9 +150,7 @@
 		048E16522A176A520008CF2A /* Drinkr! */ = {
 			isa = PBXGroup;
 			children = (
-				04B9EA082A1A81BA002A7EC4 /* GooglePlacesManager.swift */,
-				04B9EA102A1A83F5002A7EC4 /* FFSManager.swift */,
-				04B9EA0A2A1A8235002A7EC4 /* ApiKeys.swift */,
+				040DB31B2A1CD8EE003E02A4 /* Resource */,
 				048E166B2A1773C30008CF2A /* Models */,
 				048E166D2A1773D90008CF2A /* Controllers */,
 				048E166E2A1774170008CF2A /* Storyboards */,
@@ -118,6 +159,7 @@
 				048E165C2A176A540008CF2A /* Assets.xcassets */,
 				048E16612A176A540008CF2A /* Info.plist */,
 				04B9E9D32A1A3B39002A7EC4 /* GoogleService-Info.plist */,
+				040DB3122A1CA20E003E02A4 /* Draft */,
 			);
 			path = "Drinkr!";
 			sourceTree = "<group>";
@@ -125,6 +167,7 @@
 		048E166B2A1773C30008CF2A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				040DB3192A1CD8A3003E02A4 /* BarHeinModel.mlmodel */,
 				04B9EA0C2A1A8248002A7EC4 /* PlacesResponse.swift */,
 			);
 			path = Models;
@@ -134,7 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				048E16572A176A520008CF2A /* BarMapViewController.swift */,
-				04B9EA0E2A1A8382002A7EC4 /* ResultsViewController.swift */,
+				040DB30A2A1C99C1003E02A4 /* ScannerViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -338,14 +381,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				040DB3072A1C734E003E02A4 /* CamViewController.swift in Sources */,
 				04B9EA0D2A1A8248002A7EC4 /* PlacesResponse.swift in Sources */,
 				04B9EA092A1A81BA002A7EC4 /* GooglePlacesManager.swift in Sources */,
 				048E16582A176A520008CF2A /* BarMapViewController.swift in Sources */,
+				040DB3152A1CBF6E003E02A4 /* CGImagePropertyOrientation+UIImageOrientation.swift in Sources */,
+				040DB3112A1CA1E0003E02A4 /* ImagePredictor.swift in Sources */,
+				040DB31A2A1CD8A3003E02A4 /* BarHeinModel.mlmodel in Sources */,
+				040DB3092A1C8B82003E02A4 /* PhotoPreviewViewController.swift in Sources */,
 				04B9EA0F2A1A8382002A7EC4 /* ResultsViewController.swift in Sources */,
 				048E16542A176A520008CF2A /* AppDelegate.swift in Sources */,
+				040DB3162A1CBF6E003E02A4 /* VNClassificationObservation+confidenceString.swift in Sources */,
+				040DB3182A1CCEC9003E02A4 /* Extension.swift in Sources */,
+				040DB30B2A1C99C2003E02A4 /* ScannerViewController.swift in Sources */,
 				04B9EA112A1A83F5002A7EC4 /* FFSManager.swift in Sources */,
 				048E16562A176A520008CF2A /* SceneDelegate.swift in Sources */,
 				04B9EA0B2A1A8235002A7EC4 /* ApiKeys.swift in Sources */,
+				040DB2C12A1B8D44003E02A4 /* CameraViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
