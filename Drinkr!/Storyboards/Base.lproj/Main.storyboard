@@ -97,9 +97,11 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="M12-NU-UHn">
                                 <rect key="frame" x="50" y="158" width="293" height="340"/>
+                                <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="340" id="wef-NF-Kbs"/>
                                 </constraints>
+                                <imageReference key="image" image="beer bottle" symbolScale="small"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Take a photo or choose from library to scan" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBD-wX-dA0">
                                 <rect key="frame" x="16" y="558" width="361" height="45.666666666666629"/>
@@ -268,6 +270,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="beer bottle" width="204" height="204"/>
         <image name="bolt" catalog="system" width="100" height="128"/>
         <image name="camera.fill" catalog="system" width="128" height="93"/>
         <image name="circle.inset.filled" catalog="system" width="128" height="123"/>

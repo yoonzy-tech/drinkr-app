@@ -71,6 +71,7 @@ extension ScannerViewController: UINavigationControllerDelegate, UIImagePickerCo
                     PHAssetChangeRequest.creationRequestForAsset(from: pickedImage)
                 }, completionHandler: { success, error in
                     if success {
+                        FFSManager.shared.uploadScanImage(image: pickedImage)
                         print("Photo saved successfully")
                     } else if let error = error {
                         print("Error saving photo: \(error)")
@@ -90,6 +91,7 @@ extension ScannerViewController: UINavigationControllerDelegate, UIImagePickerCo
 
 extension ScannerViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        
         picker.dismiss(animated: true)
         
         let itemProviders = results.map(\.itemProvider)
@@ -99,12 +101,14 @@ extension ScannerViewController: PHPickerViewControllerDelegate {
                     print("PHPicker loading error: \(error)")
                 }
                 if let image = object as? UIImage {
+                    FFSManager.shared.uploadScanImage(image: image)
+                    // Get prediction
+                    guard let pixelBuffer = image.pixelBuffer(width: 299, height: 299),
+                          let prediction = try? self.model?.prediction(image: pixelBuffer) else { return }
+                    
                     // Use picked image here
                     DispatchQueue.main.async {
-                        // Get prediction
-                        guard let pixelBuffer = image.pixelBuffer(width: 299, height: 299),
-                              let prediction = try? self.model?.prediction(image: pixelBuffer) else { return }
-                        
+                        // MARK: - TODO # Add Awaiting Animation / Popup
                         // Perform UI related operations here
                         self.imageView.image = image
                         self.itemLabel.text = "Predicted object: \(prediction.classLabel)"

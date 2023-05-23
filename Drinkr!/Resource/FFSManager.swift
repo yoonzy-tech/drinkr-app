@@ -16,7 +16,11 @@ final class FFSManager {
 
     let database = Firestore.firestore()
     
+    // Get a reference to the storage service using the default Firebase App
     let storage = Storage.storage()
+
+    // Create a storage reference from our storage service
+    let storageRef = Storage.storage().reference()
 
     private init() {}
     
@@ -62,4 +66,23 @@ final class FFSManager {
         }
     }
     
+    public func uploadScanImage(image: UIImage) {
+        guard let imageData = image.pngData() else { return }
+        
+        let imageReferenceId = "1234567\(Date())" // UserId + Date
+        let ref = storageRef.child("Scan_Images").child(imageReferenceId)
+        
+        ref.putData(imageData, metadata: nil) { _, error in
+            guard error == nil else {
+                print("Failed to upload")
+                return
+            }
+            ref.downloadURL { url, error in
+                guard let url = url, error == nil else { return }
+                let urlString = url.absoluteString
+                // MARK: - TODO # Store URL to Somewhere
+                print("Download URL: \(urlString)")
+            }
+        }
+    }
 }
