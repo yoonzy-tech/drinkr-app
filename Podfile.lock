@@ -2,12 +2,14 @@ PODS:
   - GooglePlaces (7.4.0)
   - IQKeyboardManagerSwift (6.5.11)
   - Kingfisher (7.6.2)
+  - MJRefresh (3.7.5)
   - SwiftLint (0.52.2)
 
 DEPENDENCIES:
   - GooglePlaces
   - IQKeyboardManagerSwift
   - Kingfisher
+  - MJRefresh
   - SwiftLint
 
 SPEC REPOS:
@@ -15,14 +17,16 @@ SPEC REPOS:
     - GooglePlaces
     - IQKeyboardManagerSwift
     - Kingfisher
+    - MJRefresh
     - SwiftLint
 
 SPEC CHECKSUMS:
   GooglePlaces: 544e908d94860bf6f8fc1865b80d2c7eb6b5f937
   IQKeyboardManagerSwift: c7955c0bdbf7b2eb29bb7daaa44e3d90f55a9a85
   Kingfisher: 6c5449c6450c5239166510ba04afe374a98afc4f
+  MJRefresh: fdf5e979eb406a0341468932d1dfc8b7f9fce961
   SwiftLint: 1ac76dac888ca05cb0cf24d0c85887ec1209961d
 
-PODFILE CHECKSUM: c635a9d5dbe2ec5e097852d2f8b20a3b9246e998
+PODFILE CHECKSUM: 17714c61afc68e99084e6e6962f03480f73633c3
 
 COCOAPODS: 1.12.0

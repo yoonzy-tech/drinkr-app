@@ -10,5 +10,6 @@ target 'Drinkr!' do
   pod 'SwiftLint'
   pod 'IQKeyboardManagerSwift'
   pod 'Kingfisher'
+  pod 'MJRefresh'
 
 end
