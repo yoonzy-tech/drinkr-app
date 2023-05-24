@@ -6,22 +6,24 @@
 //
 
 import Foundation
-import Firebase
+import FirebaseCore
 import FirebaseFirestore
 import FirebaseStorage
 
 final class FFSManager {
-
+    
     static let shared = FFSManager()
-
+    
+    let userId: String = "12345678"
+    
     let database = Firestore.firestore()
     
     // Get a reference to the storage service using the default Firebase App
     let storage = Storage.storage()
-
+    
     // Create a storage reference from our storage service
     let storageRef = Storage.storage().reference()
-
+    
     private init() {}
     
     public func addBarData(placeResponse: [Place]) {
@@ -33,8 +35,8 @@ final class FFSManager {
                 "vicinity": place.vicinity as Any,
                 "rating": place.rating ?? 0
             ]
-//            print("🧤🧤🧤🧤🧤🧤🧤🧤 \(docData)")
-            self.database.collection("places").addDocument(data: docData) { error in
+            //            print("🧤🧤🧤🧤🧤🧤🧤🧤 \(docData)")
+            self.database.collection("Places").addDocument(data: docData) { error in
                 if let error = error {
                     print("Error writing document: \(error)")
                 } else {
@@ -48,7 +50,7 @@ final class FFSManager {
     public func readBarData(completion: (([(docId: String, placeInfo: Any)]) -> Void)? = nil) {
         
         let collection = "places"
-
+        
         self.database.collection(collection).getDocuments { querySnapshot, error in
             
             /// "latitude, longitude, name, rating, vicinity" : value
@@ -59,29 +61,139 @@ final class FFSManager {
             } else {
                 for document in querySnapshot!.documents {
                     places.append((docId: document.documentID, placeInfo: document.data()))
-//                    print("🧤🧤🧤🧤🧤🧤🧤🧤🧤 \(document.data())")
+                    //                    print("🧤🧤🧤🧤🧤🧤🧤🧤🧤 \(document.data())")
                 }
                 completion?(places)
             }
         }
     }
     
-    public func uploadScanImage(image: UIImage) {
-        guard let imageData = image.pngData() else { return }
+    public func uploadScanImage(image: UIImage, brand: String) {
         
-        let imageReferenceId = "1234567\(Date())" // UserId + Date
+        var imageData: Data?
+        
+        if image.imageOrientation != .up {
+            // Rotate the image to the default orientation
+            UIGraphicsBeginImageContextWithOptions(image.size, false, image.scale)
+            image.draw(in: CGRect(origin: .zero, size: image.size))
+            let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            
+            // Use the normalized image for storage
+            if let pngData = normalizedImage?.pngData() {
+                // Store the PNG data in the database
+                imageData = pngData
+            }
+        } else {
+            // The image is already in the default orientation, so directly store it
+            if let pngData = image.pngData() {
+                // Store the PNG data in the database
+                imageData = pngData
+            }
+        }
+        
+        guard let imageData = imageData else { return }
+        
+        let imageReferenceId = "\(self.userId)\(Timestamp())" // UserId + Date
+        
         let ref = storageRef.child("Scan_Images").child(imageReferenceId)
         
         ref.putData(imageData, metadata: nil) { _, error in
-            guard error == nil else {
-                print("Failed to upload")
+            if let error = error {
+                print("Failed to upload: \(error.localizedDescription)")
                 return
             }
+            
+            // Get image download URL
             ref.downloadURL { url, error in
-                guard let url = url, error == nil else { return }
-                let urlString = url.absoluteString
-                // MARK: - TODO # Store URL to Somewhere
-                print("Download URL: \(urlString)")
+                if let error = error {
+                    print("Failed to get download URL: \(error.localizedDescription)")
+                    
+                } else if let url = url {
+                    let urlString = url.absoluteString
+                    print("Download URL: \(urlString)")
+                    
+                    // Store the record in Scan History
+                    let data: [String: Any] = [
+                        "userId": self.userId,
+                        "brandName": brand,
+                        "imageUrl": urlString,
+                        "imageRefNo": imageReferenceId,
+                        "time": NSDate().timeIntervalSince1970
+                    ]
+                    
+                    // Store the scan history
+                    if let scanHistory = ScanHistory(data: data) {
+                        self.addScanHistory(history: scanHistory)
+                    } else {
+                        print("Failed to add Scan History to DB")
+                    }
+                }
+            }
+        }
+    }
+    
+    public func addScanHistory(history: ScanHistory) {
+        let docData: [String: Any] = [
+            "userId": history.userId as Any,
+            "brandName": history.brandName as Any,
+            "imageUrl": history.imageUrl as Any,
+            "imageRefNo": history.imageRefNo as Any,
+            "time": history.time as Any
+        ]
+        print("🧤🧤🧤🧤🧤🧤🧤🧤 \(docData)")
+        self.database.collection("scan_history").addDocument(data: docData) { error in
+            if let error = error {
+                print("Error writing document: \(error)")
+            } else {
+                print("Document successfully written!")
+            }
+        }
+    }
+    
+    public func readScanHistory(userId: String = "12345678", completion: @escaping (([QueryDocumentSnapshot]) -> Void)) {
+        
+        let collection = "scan_history"
+        
+        self.database.collection(collection)
+            .whereField("userId", isEqualTo: userId)
+            .getDocuments(completion: { querySnapshot, error in
+            
+            if let error = error {
+                print("Error getting scan history: \(error.localizedDescription)")
+                return
+            }
+            guard let documents = querySnapshot?.documents else {
+                print("No article data available")
+                return
+            }
+            completion(documents)
+        })
+    }
+    
+    func listenScanHistory(completion: (() -> Void)? = nil) {
+        
+        self.database.collection("scan_history").addSnapshotListener { snapshot, error in
+            
+            if let error = error {
+                print("Error listen to document change: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let snapshot else { return }
+            
+            snapshot.documentChanges.forEach { documentChange in
+                switch documentChange.type {
+                case .added:
+                    print("Added")
+                case .modified:
+                    print("Modified")
+                case .removed:
+                    print("removed")
+                }
+            }
+            if completion != nil {
+                completion!()
             }
         }
     }

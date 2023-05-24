@@ -9,5 +9,6 @@ target 'Drinkr!' do
   pod 'GooglePlaces'
   pod 'SwiftLint'
   pod 'IQKeyboardManagerSwift'
+  pod 'Kingfisher'
 
 end

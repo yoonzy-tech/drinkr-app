@@ -48,18 +48,20 @@ final class GooglePlacesManager {
         task.resume()
     }
     
-//    self.searchNearbyBars { result in
-//        switch result {
-//        case .success(let data):
-//            let decoder = JSONDecoder()
-//            do {
-//                let placesResponse = try decoder.decode(PlacesResponse.self, from: data)
-//                FFSManager.shared.addBarData(placeResponse: placesResponse)
-//            } catch {
-//                print("Decoding error: \(error)")
-//            }
-//        case .failure(let error):
-//            print("Error fetching data: \(error)")
-//        }
-//    }
+    func decodeBarDataToStoreFirebase() {
+        //    self.searchNearbyBars { result in
+        //        switch result {
+        //        case .success(let data):
+        //            let decoder = JSONDecoder()
+        //            do {
+        //                let placesResponse = try decoder.decode(PlacesResponse.self, from: data)
+        //                FFSManager.shared.addBarData(placeResponse: placesResponse)
+        //            } catch {
+        //                print("Decoding error: \(error)")
+        //            }
+        //        case .failure(let error):
+        //            print("Error fetching data: \(error)")
+        //        }
+        //    }
+    }
 }

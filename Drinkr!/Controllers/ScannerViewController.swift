@@ -32,10 +32,7 @@ class ScannerViewController: UIViewController {
     }
     
     @IBAction func camera(_ sender: Any) {
-        
-        if !UIImagePickerController.isSourceTypeAvailable(.camera) {
-            return
-        }
+        if !UIImagePickerController.isSourceTypeAvailable(.camera) { return }
         
         cameraPicker.delegate = self
         cameraPicker.sourceType = .camera
@@ -55,33 +52,36 @@ class ScannerViewController: UIViewController {
     
 }
 
+// MARK: - User Take Photo
 extension ScannerViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController,
-                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+    func imagePickerController(_ picker: UIImagePickerController,didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         
         if let pickedImage = info[.originalImage] as? UIImage {
-            // Save the image to Photo Library only if it's from the camera
+            // Save the image to Photo Library
             if picker.sourceType == .camera {
                 PHPhotoLibrary.shared().performChanges({
                     PHAssetChangeRequest.creationRequestForAsset(from: pickedImage)
                 }, completionHandler: { success, error in
                     if success {
-                        FFSManager.shared.uploadScanImage(image: pickedImage)
                         print("Photo saved successfully")
                     } else if let error = error {
                         print("Error saving photo: \(error)")
                     }
                 })
             }
-            // Get prediction
+            // Get Model Prediction
             guard let pixelBuffer = pickedImage.pixelBuffer(width: 299, height: 299),
                   let prediction = try? model?.prediction(image: pixelBuffer) else { return }
-            
+            // Store Scan History to DB
+            FFSManager.shared.uploadScanImage(
+                image: pickedImage,
+                brand: prediction.classLabel)
+            // Show Scanned Item & Info on UI
             imageView.image = pickedImage
             itemLabel.text = "Predicted object: \(prediction.classLabel)"
         }
@@ -89,6 +89,7 @@ extension ScannerViewController: UINavigationControllerDelegate, UIImagePickerCo
     }
 }
 
+// MARK: - User Select Photo from PHPicker
 extension ScannerViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         
@@ -101,12 +102,15 @@ extension ScannerViewController: PHPickerViewControllerDelegate {
                     print("PHPicker loading error: \(error)")
                 }
                 if let image = object as? UIImage {
-                    FFSManager.shared.uploadScanImage(image: image)
-                    // Get prediction
+                    // Get Model Prediction
                     guard let pixelBuffer = image.pixelBuffer(width: 299, height: 299),
                           let prediction = try? self.model?.prediction(image: pixelBuffer) else { return }
+                    // Store Scan History to DB
+                    FFSManager.shared.uploadScanImage(
+                        image: image,
+                        brand: prediction.classLabel)
                     
-                    // Use picked image here
+                    // Put Picked Image on ImageView
                     DispatchQueue.main.async {
                         // MARK: - TODO # Add Awaiting Animation / Popup
                         // Perform UI related operations here
