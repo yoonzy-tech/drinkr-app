@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MJRefresh
 
 class ScanHistoryViewController: UIViewController {
     
@@ -22,12 +23,15 @@ class ScanHistoryViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
-//        updateDataSource()
+        updateDataSource()
         
-        FFSManager.shared.listenScanHistory {
-            self.updateDataSource()
-        }
-        
+        tableView.mj_header = MJRefreshNormalHeader()
+        tableView.mj_header?.setRefreshingTarget(self, refreshingAction: #selector(refreshData))
+    }
+    
+    @objc func refreshData() {
+        updateDataSource()
+        tableView.mj_header?.endRefreshing()
     }
     
     private func updateDataSource() {

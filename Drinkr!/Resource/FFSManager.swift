@@ -72,6 +72,8 @@ final class FFSManager {
         
         var imageData: Data?
         
+        let compressionQuality: CGFloat = 0.5
+        
         if image.imageOrientation != .up {
             // Rotate the image to the default orientation
             UIGraphicsBeginImageContextWithOptions(image.size, false, image.scale)
@@ -80,15 +82,15 @@ final class FFSManager {
             UIGraphicsEndImageContext()
             
             // Use the normalized image for storage
-            if let pngData = normalizedImage?.pngData() {
+            if let jpegData = normalizedImage?.jpegData(compressionQuality: compressionQuality) {
                 // Store the PNG data in the database
-                imageData = pngData
+                imageData = jpegData
             }
         } else {
             // The image is already in the default orientation, so directly store it
-            if let pngData = image.pngData() {
+            if let jpegData = image.jpegData(compressionQuality: compressionQuality) {
                 // Store the PNG data in the database
-                imageData = pngData
+                imageData = jpegData
             }
         }
         
