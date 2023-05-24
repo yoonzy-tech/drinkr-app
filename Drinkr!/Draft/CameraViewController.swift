@@ -36,6 +36,11 @@ class CameraViewController: UIViewController {
         setupPreviewLayer()
         startRunningCaptureSession()
         setupUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // Hide Navigation Bar
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
         // Hide the tab bar
         tabBarController?.tabBar.isHidden = true
     }
@@ -43,6 +48,8 @@ class CameraViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.captureSession.stopRunning()
+        // Show the navigation bar on other view controllers
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     func setupCaptureSession() {
@@ -130,7 +137,7 @@ class CameraViewController: UIViewController {
         
         // Add image view to the previewView
         imageView.contentMode = .scaleAspectFill
-        imageView.alpha = 0.5  // You can adjust this
+        imageView.alpha = 1  // You can adjust this
         imageView.isHidden = true
         view.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -150,11 +157,13 @@ class CameraViewController: UIViewController {
     
     @objc func toggleFlash(_ button: UIButton) {
         flashMode = flashMode == .on ? .off : .on
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(flashMode == .on ? "Flash On" : "Flash Off", for: .normal)
     }
     
     @objc func closeCamera(_ button: UIButton) {
-        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
+//        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func openImagePicker(_ button: UIButton) {
@@ -166,12 +175,10 @@ class CameraViewController: UIViewController {
 extension CameraViewController: AVCapturePhotoCaptureDelegate {
     // AVCapturePhotoCaptureDelegate method
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        if let imageData = photo.fileDataRepresentation() {
-            let image = UIImage(data: imageData)
-            
+        if let imageData = photo.fileDataRepresentation(), let image = UIImage(data: imageData) {
             // Save the captured image to photo library
             PHPhotoLibrary.shared().performChanges({
-                PHAssetChangeRequest.creationRequestForAsset(from: self.image!)
+                PHAssetChangeRequest.creationRequestForAsset(from: image)
             }, completionHandler: { success, error in
                 if success {
                     print("Photo saved successfully")
@@ -201,6 +208,7 @@ extension CameraViewController: PHPickerViewControllerDelegate {
                 if let error = error {
                     print("PHPicker loading error: \(error)")
                 }
+                self.captureSession.stopRunning()
                 if let image = object as? UIImage {
                     DispatchQueue.main.async {
                         self.imageView.image = image

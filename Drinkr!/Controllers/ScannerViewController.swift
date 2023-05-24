@@ -59,7 +59,7 @@ extension ScannerViewController: UINavigationControllerDelegate, UIImagePickerCo
         dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController,didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         
         if let pickedImage = info[.originalImage] as? UIImage {
             // Save the image to Photo Library
