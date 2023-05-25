@@ -20,4 +20,7 @@ class PhotoPreviewViewController: UIViewController {
         imageView.image = photo
         view.addSubview(imageView)
     }
+    
+    
 }
+

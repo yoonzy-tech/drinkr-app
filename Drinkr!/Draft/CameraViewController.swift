@@ -12,8 +12,12 @@ import PhotosUI
 
 class CameraViewController: UIViewController {
     
+    var currentCaption: String?
+    
     var captureSession = AVCaptureSession()
+    
     var backCamera: AVCaptureDevice?
+    
     var currentCamera: AVCaptureDevice?
     
     var photoOutput: AVCapturePhotoOutput?
@@ -27,7 +31,52 @@ class CameraViewController: UIViewController {
     var picker: PHPickerViewController!
     
     let imageView = UIImageView()
-
+    
+    // Add Caption Button
+    lazy var captionButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Add Caption", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .white
+        button.addTarget(self, action: #selector(addCaption(_:)), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isHidden = true // Initially hidden
+        return button
+    }()
+    
+    lazy var publishButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Publish", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .white
+        button.addTarget(self, action: #selector(publishImage(_:)), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isHidden = true // Initially hidden
+        return button
+    }()
+    
+    lazy var tagFriendsButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Tag Friends", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .white
+        button.addTarget(self, action: #selector(tagFriends(_:)), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isHidden = true // Initially hidden
+        return button
+    }()
+    
+    lazy var discardButton: UIButton = {
+            let button = UIButton()
+            button.setTitle("Discard", for: .normal)
+            button.setTitleColor(.red, for: .normal)
+            button.backgroundColor = .white
+            button.addTarget(self, action: #selector(discardPhoto(_:)), for: .touchUpInside)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.isHidden = true // Initially hidden
+            return button
+        }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCaptureSession()
@@ -43,6 +92,8 @@ class CameraViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         // Hide the tab bar
         tabBarController?.tabBar.isHidden = true
+        
+        startRunningCaptureSession()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -76,7 +127,7 @@ class CameraViewController: UIViewController {
             photoOutput = AVCapturePhotoOutput()
             photoOutput?.setPreparedPhotoSettingsArray(
                 [AVCapturePhotoSettings(
-                format: [AVVideoCodecKey: AVVideoCodecType.jpeg])],
+                    format: [AVVideoCodecKey: AVVideoCodecType.jpeg])],
                 completionHandler: nil)
             captureSession.addOutput(photoOutput!)
         } catch {
@@ -95,6 +146,14 @@ class CameraViewController: UIViewController {
     func startRunningCaptureSession() {
         DispatchQueue.global().async {
             self.captureSession.startRunning()
+
+            DispatchQueue.main.async {
+                // Hide buttons when camera resumes
+                self.captionButton.isHidden = true
+                self.publishButton.isHidden = true
+                self.tagFriendsButton.isHidden = true
+                self.discardButton.isHidden = true
+            }
         }
     }
     
@@ -147,6 +206,82 @@ class CameraViewController: UIViewController {
             imageView.topAnchor.constraint(equalTo: view.topAnchor),
             imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+        
+        // Add Caption Button
+        view.addSubview(captionButton)
+        NSLayoutConstraint.activate([
+            captionButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            captionButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -80), // Adjust constant as needed
+            captionButton.widthAnchor.constraint(equalToConstant: 120), // Adjust as needed
+            captionButton.heightAnchor.constraint(equalToConstant: 60) // Adjust as needed
+        ])
+        
+        // Add publish button
+        view.addSubview(publishButton)
+        NSLayoutConstraint.activate([
+            publishButton.leadingAnchor.constraint(equalTo: captionButton.trailingAnchor, constant: 10), // Adjust the constant as needed
+            publishButton.centerYAnchor.constraint(equalTo: captionButton.centerYAnchor),
+            publishButton.widthAnchor.constraint(equalToConstant: 120), // Adjust as needed
+            publishButton.heightAnchor.constraint(equalToConstant: 60) // Adjust as needed
+        ])
+        
+        // Add "Tag Friends" button
+        view.addSubview(tagFriendsButton)
+        NSLayoutConstraint.activate([
+            tagFriendsButton.trailingAnchor.constraint(equalTo: captionButton.leadingAnchor, constant: -10), // Adjust the constant as needed
+            tagFriendsButton.centerYAnchor.constraint(equalTo: captionButton.centerYAnchor),
+            tagFriendsButton.widthAnchor.constraint(equalToConstant: 120), // Adjust as needed
+            tagFriendsButton.heightAnchor.constraint(equalToConstant: 60) // Adjust as needed
+        ])
+        
+        // Add discard button
+        view.addSubview(discardButton)
+        NSLayoutConstraint.activate([
+            discardButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            discardButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            discardButton.widthAnchor.constraint(equalToConstant: 120),
+            discardButton.heightAnchor.constraint(equalToConstant: 60)
+        ])
+    }
+    
+    @objc func tagFriends(_ button: UIButton) {
+        // Implement tagging of friends here
+    }
+    
+    @objc func publishImage(_ button: UIButton) {
+        // Implement publishing of the image here
+    }
+    
+    @objc func discardPhoto(_ button: UIButton) {
+        // Hide buttons and clear photo
+        self.imageView.image = nil
+        self.imageView.isHidden = true
+        self.captionButton.isHidden = true
+        self.publishButton.isHidden = true
+        self.tagFriendsButton.isHidden = true
+        self.discardButton.isHidden = true
+
+        // Restart capture session
+        startRunningCaptureSession()
+    }
+    
+    @objc func addCaption(_ button: UIButton) {
+        let alertController = UIAlertController(title: "Add Caption", message: "Please enter a caption for your photo", preferredStyle: .alert)
+        alertController.addTextField { (textField: UITextField!) -> Void in
+            textField.placeholder = "Enter Caption"
+            textField.text = self.currentCaption  // Display the existing caption
+        }
+        let saveAction = UIAlertAction(title: "Save", style: .default, handler: { alert -> Void in
+            let firstTextField = alertController.textFields![0] as UITextField
+            self.currentCaption = firstTextField.text
+            button.setTitle("Edit Caption", for: .normal)  // Change button title to "Edit Caption"
+        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: {(alert: UIAlertAction!) -> Void in
+            print("Cancelled")
+        })
+        alertController.addAction(saveAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true, completion: nil)
     }
     
     @objc func captureImage(_ button: UIButton) {
@@ -163,13 +298,13 @@ class CameraViewController: UIViewController {
     
     @objc func closeCamera(_ button: UIButton) {
         self.navigationController?.popViewController(animated: true)
-//        self.dismiss(animated: true, completion: nil)
+        //        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func openImagePicker(_ button: UIButton) {
         present(picker, animated: true)
     }
-
+    
 }
 
 extension CameraViewController: AVCapturePhotoCaptureDelegate {
@@ -189,9 +324,10 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
                 DispatchQueue.main.async {
                     self.imageView.image = image
                     self.imageView.isHidden = false
-//                    let photoPreviewViewController = PhotoPreviewViewController()
-//                    photoPreviewViewController.photo = self.image
-//                    self.navigationController?.pushViewController(photoPreviewViewController, animated: true)
+                    self.captionButton.isHidden = false
+                    self.publishButton.isHidden = false
+                    self.tagFriendsButton.isHidden = false
+                    self.discardButton.isHidden = false
                 }
             })
         }
@@ -213,10 +349,10 @@ extension CameraViewController: PHPickerViewControllerDelegate {
                     DispatchQueue.main.async {
                         self.imageView.image = image
                         self.imageView.isHidden = false
-//                        let photoPreviewViewController = PhotoPreviewViewController()
-//                        photoPreviewViewController.photo = image
-//                        self.navigationController?.pushViewController(photoPreviewViewController, animated: true)
-                        
+                        self.captionButton.isHidden = false
+                        self.publishButton.isHidden = false
+                        self.tagFriendsButton.isHidden = false
+                        self.discardButton.isHidden = false
                     }
                 }
             }
