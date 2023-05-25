@@ -1,0 +1,36 @@
+PODS:
+  - Alamofire (5.7.1)
+  - GooglePlaces (7.4.0)
+  - IQKeyboardManagerSwift (6.5.11)
+  - Kingfisher (7.6.2)
+  - MJRefresh (3.7.5)
+  - SwiftLint (0.52.2)
+
+DEPENDENCIES:
+  - Alamofire
+  - GooglePlaces
+  - IQKeyboardManagerSwift
+  - Kingfisher
+  - MJRefresh
+  - SwiftLint
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - GooglePlaces
+    - IQKeyboardManagerSwift
+    - Kingfisher
+    - MJRefresh
+    - SwiftLint
+
+SPEC CHECKSUMS:
+  Alamofire: 0123a34370cb170936ae79a8df46cc62b2edeb88
+  GooglePlaces: 544e908d94860bf6f8fc1865b80d2c7eb6b5f937
+  IQKeyboardManagerSwift: c7955c0bdbf7b2eb29bb7daaa44e3d90f55a9a85
+  Kingfisher: 6c5449c6450c5239166510ba04afe374a98afc4f
+  MJRefresh: fdf5e979eb406a0341468932d1dfc8b7f9fce961
+  SwiftLint: 1ac76dac888ca05cb0cf24d0c85887ec1209961d
+
+PODFILE CHECKSUM: 023cc45c9b7b91bf90bace45b39d2950f2029833
+
+COCOAPODS: 1.12.0

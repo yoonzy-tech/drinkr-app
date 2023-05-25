@@ -1,0 +1,6 @@
+framework module Pods_Drinkr_ {
+  umbrella header "Pods-Drinkr!-umbrella.h"
+
+  export *
+  module * { export * }
+}
