@@ -199,4 +199,17 @@ final class FFSManager {
             }
         }
     }
+    
+    func addCocktails(drinkList: [Drink]) {
+        
+        for drink in drinkList {
+            self.database.collection("latest_cocktails").addDocument(data: drink.toDictionary()) { error in
+                if let error = error {
+                    print("Error writing document: \(error)")
+                } else {
+                    print("Document successfully written!")
+                }
+            }
+        }
+    }
 }
