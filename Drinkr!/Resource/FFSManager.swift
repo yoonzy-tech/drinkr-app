@@ -18,14 +18,12 @@ final class FFSManager {
     
     let database = Firestore.firestore()
     
-    // Get a reference to the storage service using the default Firebase App
-    let storage = Storage.storage()
-    
     // Create a storage reference from our storage service
     let storageRef = Storage.storage().reference()
     
     private init() {}
     
+    // MARK: - Bar Data Manipulation
     public func addBarData(placeResponse: [Place]) {
         for place in placeResponse {
             let docData: [String: Any] = [
@@ -48,28 +46,22 @@ final class FFSManager {
     
     // Read Data for knowing where to pin on map (for now fetch all data in DB)
     public func readBarData(completion: (([(docId: String, placeInfo: Any)]) -> Void)? = nil) {
-        
-        let collection = "places"
-        
-        self.database.collection(collection).getDocuments { querySnapshot, error in
-            
-            /// "latitude, longitude, name, rating, vicinity" : value
+        self.database.collection("places").getDocuments { querySnapshot, error in
+            // "latitude, longitude, name, rating, vicinity" : value
             var places: [(docId: String, placeInfo: Any)] = []
-            
             if let error = error {
                 print("Error adding document: \(error)")
             } else {
                 for document in querySnapshot!.documents {
                     places.append((docId: document.documentID, placeInfo: document.data()))
-                    //                    print("🧤🧤🧤🧤🧤🧤🧤🧤🧤 \(document.data())")
                 }
                 completion?(places)
             }
         }
     }
     
+    // MARK: - Scan History
     public func uploadScanImage(image: UIImage, brand: String) {
-        
         var imageData: Data?
         
         let compressionQuality: CGFloat = 0.5
@@ -80,7 +72,6 @@ final class FFSManager {
             image.draw(in: CGRect(origin: .zero, size: image.size))
             let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
-            
             // Use the normalized image for storage
             if let jpegData = normalizedImage?.jpegData(compressionQuality: compressionQuality) {
                 // Store the PNG data in the database
@@ -96,7 +87,7 @@ final class FFSManager {
         
         guard let imageData = imageData else { return }
         
-        let imageReferenceId = "\(self.userId)\(Timestamp())" // UserId + Date
+        let imageReferenceId = "\(self.userId)\(Date().formatNowDate)" // UserId + Date
         
         let ref = storageRef.child("Scan_Images").child(imageReferenceId)
         
@@ -153,12 +144,9 @@ final class FFSManager {
         }
     }
     
-    public func readScanHistory(userId: String = "12345678", completion: @escaping (([QueryDocumentSnapshot]) -> Void)) {
-        
-        let collection = "scan_history"
-        
-        self.database.collection(collection)
-            .whereField("userId", isEqualTo: userId)
+    public func readScanHistory(completion: @escaping (([QueryDocumentSnapshot]) -> Void)) {
+        self.database.collection("scan_history")
+            .whereField("userId", isEqualTo: self.userId)
             .getDocuments(completion: { querySnapshot, error in
             
             if let error = error {
@@ -166,15 +154,14 @@ final class FFSManager {
                 return
             }
             guard let documents = querySnapshot?.documents else {
-                print("No article data available")
+                print("No scan history available")
                 return
             }
             completion(documents)
         })
     }
     
-    func listenScanHistory(completion: (() -> Void)? = nil) {
-        
+    public func listenScanHistory(completion: (() -> Void)? = nil) {
         self.database.collection("scan_history").addSnapshotListener { snapshot, error in
             
             if let error = error {
@@ -200,8 +187,8 @@ final class FFSManager {
         }
     }
     
-    func addCocktails(drinkList: [Drink]) {
-        
+    // MARK: - Cocktails
+    public func addCocktails(drinkList: [Drink]) {
         for drink in drinkList {
             self.database.collection("latest_cocktails").addDocument(data: drink.toDictionary()) { error in
                 if let error = error {
@@ -211,5 +198,97 @@ final class FFSManager {
                 }
             }
         }
+    }
+    
+    // MARK: - Post Related Manipulation
+    public func uploadPostImage(image: UIImage, completion: ((String, String) -> Void)? = nil) {
+        var imageData: Data?
+        
+        let compressionQuality: CGFloat = 0.5
+        
+        if image.imageOrientation != .up {
+            // Rotate the image to the default orientation
+            UIGraphicsBeginImageContextWithOptions(image.size, false, image.scale)
+            image.draw(in: CGRect(origin: .zero, size: image.size))
+            let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            // Use the normalized image for storage
+            if let jpegData = normalizedImage?.jpegData(compressionQuality: compressionQuality) {
+                // Store the PNG data in the database
+                imageData = jpegData
+            }
+        } else {
+            // The image is already in the default orientation, so directly store it
+            if let jpegData = image.jpegData(compressionQuality: compressionQuality) {
+                // Store the PNG data in the database
+                imageData = jpegData
+            }
+        }
+        
+        guard let imageData = imageData else { return }
+        
+        let imageReferenceId = "\(self.userId)\(Date().formatNowDate)" // UserId + Date
+        
+        let ref = storageRef.child("Posts").child(imageReferenceId)
+        
+        ref.putData(imageData, metadata: nil) { _, error in
+            if let error = error {
+                print("Failed to upload: \(error.localizedDescription)")
+                return
+            }
+            
+            // Get image download URL
+            ref.downloadURL { url, error in
+                if let error = error {
+                    print("Failed to get download URL: \(error.localizedDescription)")
+                    
+                } else if let url = url {
+                    let urlString = url.absoluteString
+                    print("Download URL: \(urlString)")
+                    
+                    completion?(imageReferenceId, urlString)
+                }
+            }
+        }
+    }
+
+    func addPost(post: Post) {
+        let collectionRef = self.database.collection("posts")
+        let fsGeneratedID = collectionRef.document().documentID
+        let docData: [String: Any] = [
+            "postId": fsGeneratedID,
+            "userId": post.userId as Any,
+            "caption": post.caption as Any,
+            "taggedFriends": post.taggedFriends as Any,
+            "location": post.location as Any,
+            "imageUrl": post.imageUrl as Any,
+            "imageRefNo": post.imageFileRef as Any,
+            "time": NSDate().timeIntervalSince1970 as Any
+        ]
+        print("🧤🧤🧤🧤🧤🧤🧤🧤 \(docData)")
+        collectionRef.addDocument(data: docData) { error in
+            if let error = error {
+                print("Error writing document: \(error)")
+            } else {
+                print("Document successfully written!")
+            }
+        }
+    }
+    
+    public func readPosts(completion: @escaping (([QueryDocumentSnapshot]) -> Void)) {
+        self.database.collection("posts")
+            .whereField("userId", isEqualTo: self.userId)
+            .getDocuments(completion: { querySnapshot, error in
+            
+            if let error = error {
+                print("Error getting post data: \(error.localizedDescription)")
+                return
+            }
+            guard let documents = querySnapshot?.documents else {
+                print("No post data available")
+                return
+            }
+            completion(documents)
+        })
     }
 }

@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		040DB2C12A1B8D44003E02A4 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB2C02A1B8D44003E02A4 /* CameraViewController.swift */; };
-		040DB3092A1C8B82003E02A4 /* PhotoPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB3082A1C8B82003E02A4 /* PhotoPreviewViewController.swift */; };
+		040DB3092A1C8B82003E02A4 /* CameraViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB3082A1C8B82003E02A4 /* CameraViewController+Extension.swift */; };
 		040DB30B2A1C99C2003E02A4 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB30A2A1C99C1003E02A4 /* ScannerViewController.swift */; };
 		040DB3112A1CA1E0003E02A4 /* ImagePredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB3102A1CA1E0003E02A4 /* ImagePredictor.swift */; };
 		040DB3152A1CBF6E003E02A4 /* CGImagePropertyOrientation+UIImageOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB3132A1CBF6E003E02A4 /* CGImagePropertyOrientation+UIImageOrientation.swift */; };
@@ -49,13 +49,15 @@
 		04B9EA322A1A956F002A7EC4 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 04B9EA312A1A956F002A7EC4 /* FirebaseStorageCombine-Community */; };
 		04D2C1C72A1F4441001212A7 /* DrinksManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1C62A1F4441001212A7 /* DrinksManager.swift */; };
 		04D2C1C92A1F459F001212A7 /* Drink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1C82A1F459F001212A7 /* Drink.swift */; };
-		04D2C1CC2A1F54B1001212A7 /* Codable+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1CB2A1F54B1001212A7 /* Codable+Extension.swift */; };
-		7F5EBDDF676666DD1E3BB26F /* Pods_Drinkr_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33FE291A4DB885520FEB6D9B /* Pods_Drinkr_.framework */; };
+		04D2C1CE2A1F64C8001212A7 /* PostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1CD2A1F64C8001212A7 /* PostCollectionViewCell.swift */; };
+		04D2C1D02A1F6539001212A7 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1CF2A1F6539001212A7 /* Post.swift */; };
+		04D2C1D22A207444001212A7 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1D12A207444001212A7 /* Date+Extension.swift */; };
+		F3EEB3BA26076AFD5FCEA003 /* Pods_Drinkr_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BB0E2B5F3435C8674393EF8 /* Pods_Drinkr_.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		040DB2C02A1B8D44003E02A4 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
-		040DB3082A1C8B82003E02A4 /* PhotoPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPreviewViewController.swift; sourceTree = "<group>"; };
+		040DB3082A1C8B82003E02A4 /* CameraViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Extension.swift"; sourceTree = "<group>"; };
 		040DB30A2A1C99C1003E02A4 /* ScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
 		040DB3102A1CA1E0003E02A4 /* ImagePredictor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePredictor.swift; sourceTree = "<group>"; };
 		040DB3132A1CBF6E003E02A4 /* CGImagePropertyOrientation+UIImageOrientation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGImagePropertyOrientation+UIImageOrientation.swift"; sourceTree = "<group>"; };
@@ -82,10 +84,12 @@
 		04B9EA102A1A83F5002A7EC4 /* FFSManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FFSManager.swift; sourceTree = "<group>"; };
 		04D2C1C62A1F4441001212A7 /* DrinksManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinksManager.swift; sourceTree = "<group>"; };
 		04D2C1C82A1F459F001212A7 /* Drink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drink.swift; sourceTree = "<group>"; };
-		04D2C1CB2A1F54B1001212A7 /* Codable+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Codable+Extension.swift"; sourceTree = "<group>"; };
-		33FE291A4DB885520FEB6D9B /* Pods_Drinkr_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Drinkr_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CF870B4B27DFA3922B4E6092 /* Pods-Drinkr!.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drinkr!.release.xcconfig"; path = "Target Support Files/Pods-Drinkr!/Pods-Drinkr!.release.xcconfig"; sourceTree = "<group>"; };
-		EDE67526AF32781CC3428956 /* Pods-Drinkr!.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drinkr!.debug.xcconfig"; path = "Target Support Files/Pods-Drinkr!/Pods-Drinkr!.debug.xcconfig"; sourceTree = "<group>"; };
+		04D2C1CD2A1F64C8001212A7 /* PostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCell.swift; sourceTree = "<group>"; };
+		04D2C1CF2A1F6539001212A7 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		04D2C1D12A207444001212A7 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		5BB0E2B5F3435C8674393EF8 /* Pods_Drinkr_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Drinkr_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE559A43A4F2DBB9910367AB /* Pods-Drinkr!.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drinkr!.release.xcconfig"; path = "Target Support Files/Pods-Drinkr!/Pods-Drinkr!.release.xcconfig"; sourceTree = "<group>"; };
+		C0B0CC910109A565297FE5AE /* Pods-Drinkr!.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drinkr!.debug.xcconfig"; path = "Target Support Files/Pods-Drinkr!/Pods-Drinkr!.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,30 +113,20 @@
 				04B9EA2E2A1A956F002A7EC4 /* FirebaseMessaging in Frameworks */,
 				04B9EA282A1A956F002A7EC4 /* FirebaseInAppMessaging-Beta in Frameworks */,
 				04B9EA2C2A1A956F002A7EC4 /* FirebaseMLModelDownloader in Frameworks */,
-				7F5EBDDF676666DD1E3BB26F /* Pods_Drinkr_.framework in Frameworks */,
+				F3EEB3BA26076AFD5FCEA003 /* Pods_Drinkr_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		02F75CDBCCC25508D6142F68 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				33FE291A4DB885520FEB6D9B /* Pods_Drinkr_.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		040DB3122A1CA20E003E02A4 /* Draft */ = {
 			isa = PBXGroup;
 			children = (
-				040DB2C02A1B8D44003E02A4 /* CameraViewController.swift */,
 				040DB3132A1CBF6E003E02A4 /* CGImagePropertyOrientation+UIImageOrientation.swift */,
 				040DB3142A1CBF6E003E02A4 /* VNClassificationObservation+confidenceString.swift */,
 				040DB3102A1CA1E0003E02A4 /* ImagePredictor.swift */,
 				04B9EA0E2A1A8382002A7EC4 /* ResultsViewController.swift */,
-				040DB3082A1C8B82003E02A4 /* PhotoPreviewViewController.swift */,
 			);
 			path = Draft;
 			sourceTree = "<group>";
@@ -154,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				0419034E2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift */,
+				04D2C1CD2A1F64C8001212A7 /* PostCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -164,7 +159,7 @@
 				048E16522A176A520008CF2A /* Drinkr! */,
 				048E16512A176A520008CF2A /* Products */,
 				6B09F3D11902C8C6B05A2164 /* Pods */,
-				02F75CDBCCC25508D6142F68 /* Frameworks */,
+				6887EAF4B283BDF906F2ECA3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -200,6 +195,7 @@
 				04B9EA0C2A1A8248002A7EC4 /* PlacesResponse.swift */,
 				047AF2A72A1DEB2B00FB9ADD /* ScanHistory.swift */,
 				04D2C1C82A1F459F001212A7 /* Drink.swift */,
+				04D2C1CF2A1F6539001212A7 /* Post.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -207,6 +203,8 @@
 		048E166D2A1773D90008CF2A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				040DB2C02A1B8D44003E02A4 /* CameraViewController.swift */,
+				040DB3082A1C8B82003E02A4 /* CameraViewController+Extension.swift */,
 				048E16572A176A520008CF2A /* BarMapViewController.swift */,
 				040DB30A2A1C99C1003E02A4 /* ScannerViewController.swift */,
 				0419034C2A1DB59B009BD42A /* ScanHistoryViewController.swift */,
@@ -228,16 +226,24 @@
 			isa = PBXGroup;
 			children = (
 				040DB3172A1CCEC9003E02A4 /* UIImage+Extension.swift */,
-				04D2C1CB2A1F54B1001212A7 /* Codable+Extension.swift */,
+				04D2C1D12A207444001212A7 /* Date+Extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		6887EAF4B283BDF906F2ECA3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5BB0E2B5F3435C8674393EF8 /* Pods_Drinkr_.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		6B09F3D11902C8C6B05A2164 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				EDE67526AF32781CC3428956 /* Pods-Drinkr!.debug.xcconfig */,
-				CF870B4B27DFA3922B4E6092 /* Pods-Drinkr!.release.xcconfig */,
+				C0B0CC910109A565297FE5AE /* Pods-Drinkr!.debug.xcconfig */,
+				AE559A43A4F2DBB9910367AB /* Pods-Drinkr!.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -249,13 +255,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 048E16642A176A540008CF2A /* Build configuration list for PBXNativeTarget "Drinkr!" */;
 			buildPhases = (
-				471F94B8F7811714E45FEC91 /* [CP] Check Pods Manifest.lock */,
+				A1BFB4C872B1550364981664 /* [CP] Check Pods Manifest.lock */,
 				048E164C2A176A520008CF2A /* Sources */,
 				048E164D2A176A520008CF2A /* Frameworks */,
 				048E164E2A176A520008CF2A /* Resources */,
 				04B9EA332A1B391E002A7EC4 /* ShellScript */,
-				6B28FB8716250BC58A5323AF /* [CP] Embed Pods Frameworks */,
-				AAA1FA7EBD4B3EAACD781EE6 /* [CP] Copy Pods Resources */,
+				833BE6496FF430908A75EEAE /* [CP] Embed Pods Frameworks */,
+				386E18EDD14ED8049134439A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -352,7 +358,41 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\n\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
-		471F94B8F7811714E45FEC91 /* [CP] Check Pods Manifest.lock */ = {
+		386E18EDD14ED8049134439A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Drinkr!/Pods-Drinkr!-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Drinkr!/Pods-Drinkr!-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Drinkr!/Pods-Drinkr!-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		833BE6496FF430908A75EEAE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Drinkr!/Pods-Drinkr!-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Drinkr!/Pods-Drinkr!-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Drinkr!/Pods-Drinkr!-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A1BFB4C872B1550364981664 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -374,40 +414,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6B28FB8716250BC58A5323AF /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Drinkr!/Pods-Drinkr!-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Drinkr!/Pods-Drinkr!-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Drinkr!/Pods-Drinkr!-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		AAA1FA7EBD4B3EAACD781EE6 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Drinkr!/Pods-Drinkr!-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Drinkr!/Pods-Drinkr!-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Drinkr!/Pods-Drinkr!-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -415,6 +421,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04D2C1D22A207444001212A7 /* Date+Extension.swift in Sources */,
 				04B9EA0D2A1A8248002A7EC4 /* PlacesResponse.swift in Sources */,
 				04B9EA092A1A81BA002A7EC4 /* GooglePlacesManager.swift in Sources */,
 				047AF2A82A1DEB2B00FB9ADD /* ScanHistory.swift in Sources */,
@@ -423,7 +430,8 @@
 				040DB3152A1CBF6E003E02A4 /* CGImagePropertyOrientation+UIImageOrientation.swift in Sources */,
 				040DB3112A1CA1E0003E02A4 /* ImagePredictor.swift in Sources */,
 				040DB31A2A1CD8A3003E02A4 /* BarHeinModel.mlmodel in Sources */,
-				040DB3092A1C8B82003E02A4 /* PhotoPreviewViewController.swift in Sources */,
+				040DB3092A1C8B82003E02A4 /* CameraViewController+Extension.swift in Sources */,
+				04D2C1D02A1F6539001212A7 /* Post.swift in Sources */,
 				04B9EA0F2A1A8382002A7EC4 /* ResultsViewController.swift in Sources */,
 				048E16542A176A520008CF2A /* AppDelegate.swift in Sources */,
 				040DB3162A1CBF6E003E02A4 /* VNClassificationObservation+confidenceString.swift in Sources */,
@@ -434,7 +442,7 @@
 				04B9EA112A1A83F5002A7EC4 /* FFSManager.swift in Sources */,
 				048E16562A176A520008CF2A /* SceneDelegate.swift in Sources */,
 				04B9EA0B2A1A8235002A7EC4 /* ApiKeys.swift in Sources */,
-				04D2C1CC2A1F54B1001212A7 /* Codable+Extension.swift in Sources */,
+				04D2C1CE2A1F64C8001212A7 /* PostCollectionViewCell.swift in Sources */,
 				04D2C1C72A1F4441001212A7 /* DrinksManager.swift in Sources */,
 				0419034D2A1DB59B009BD42A /* ScanHistoryViewController.swift in Sources */,
 				040DB2C12A1B8D44003E02A4 /* CameraViewController.swift in Sources */,
@@ -579,7 +587,7 @@
 		};
 		048E16652A176A540008CF2A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EDE67526AF32781CC3428956 /* Pods-Drinkr!.debug.xcconfig */;
+			baseConfigurationReference = C0B0CC910109A565297FE5AE /* Pods-Drinkr!.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -608,7 +616,7 @@
 		};
 		048E16662A176A540008CF2A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CF870B4B27DFA3922B4E6092 /* Pods-Drinkr!.release.xcconfig */;
+			baseConfigurationReference = AE559A43A4F2DBB9910367AB /* Pods-Drinkr!.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

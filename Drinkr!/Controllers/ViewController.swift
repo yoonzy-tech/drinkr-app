@@ -13,9 +13,9 @@ class ViewController: UIViewController {
     //MARK:- Vars
     var captureSession : AVCaptureSession!
     
-    var backCamera : AVCaptureDevice!
-    var frontCamera : AVCaptureDevice!
-    var backInput : AVCaptureInput!
+    var backCamera: AVCaptureDevice!
+    var frontCamera: AVCaptureDevice!
+    var backInput: AVCaptureInput!
     var frontInput : AVCaptureInput!
     
     var previewLayer : AVCaptureVideoPreviewLayer!

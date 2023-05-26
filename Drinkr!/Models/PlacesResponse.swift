@@ -7,10 +7,10 @@
 
 import Foundation
 
-//struct Place {
+// struct Place {
 //    let name: String
 //    let identifier: String
-//}
+// }
 
 struct PlacesResponse: Codable {
     let htmlAttributions: [String]?
