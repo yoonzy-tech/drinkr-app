@@ -262,7 +262,7 @@ final class FFSManager {
             "taggedFriends": post.taggedFriends as Any,
             "location": post.location as Any,
             "imageUrl": post.imageUrl as Any,
-            "imageRefNo": post.imageFileRef as Any,
+            "imageRefNo": post.imageRefNo as Any,
             "time": NSDate().timeIntervalSince1970 as Any
         ]
         print("🧤🧤🧤🧤🧤🧤🧤🧤 \(docData)")

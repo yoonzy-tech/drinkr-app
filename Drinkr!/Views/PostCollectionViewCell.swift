@@ -9,4 +9,8 @@ import UIKit
 
 class PostCollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet weak var userProfileImageView: UIImageView!
+    @IBOutlet weak var username: UILabel!
+    @IBOutlet weak var captionLabel: UILabel!
+    @IBOutlet weak var postImageView: UIImageView!
 }

@@ -62,20 +62,26 @@ extension CameraViewController {
             textField.placeholder = "Enter Caption"
             textField.text = self.currentCaption  // Display the existing caption
         }
+        
         let saveAction = UIAlertAction(
             title: "Save",
             style: .default,
             handler: { _ -> Void in
-            let firstTextField = alertController.textFields![0] as UITextField
-            self.currentCaption = firstTextField.text
-            button.setTitle("Edit Caption", for: .normal)  // Change button title to "Edit Caption"
-        })
+                let firstTextField = alertController.textFields?[0] as? UITextField
+                if let text = firstTextField?.text, !text.trimmingCharacters(in: .whitespaces).isEmpty {
+                    self.currentCaption = text
+                    button.setTitle("Edit Caption", for: .normal)
+                } else {
+                    print("User typed nothing")
+                }
+            })
+        
         let cancelAction = UIAlertAction(
             title: "Cancel",
             style: .default,
             handler: { _ -> Void in
-            print("Cancelled")
-        })
+                print("Cancelled")
+            })
         alertController.addAction(saveAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)

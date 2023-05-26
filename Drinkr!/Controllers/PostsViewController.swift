@@ -7,10 +7,15 @@
 
 import UIKit
 import MJRefresh
+import Kingfisher
 
 class PostsViewController: UIViewController {
 
-    var dataSource: [Post] = []
+    var dataSource: [Post] = [] {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -63,6 +68,13 @@ extension PostsViewController: UICollectionViewDataSource,
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: "PostCollectionViewCell", for: indexPath) as? PostCollectionViewCell
         else { fatalError("Unable to generate Post  Collection View Cell") }
+        
+        let imageUrl = URL(string: dataSource[indexPath.row].imageUrl)
+        
+        cell.captionLabel.text = dataSource[indexPath.row].caption
+        cell.postImageView.kf.setImage(with: imageUrl)
+        cell.username.text = "Test User"
+//        cell.userProfileImageView.image = UIImage
         
         return cell
     }
