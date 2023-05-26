@@ -67,13 +67,9 @@ extension CameraViewController {
             title: "Save",
             style: .default,
             handler: { _ -> Void in
-                let firstTextField = alertController.textFields?[0] as? UITextField
-                if let text = firstTextField?.text, !text.trimmingCharacters(in: .whitespaces).isEmpty {
-                    self.currentCaption = text
-                    button.setTitle("Edit Caption", for: .normal)
-                } else {
-                    print("User typed nothing")
-                }
+                let firstTextField = alertController.textFields![0] as UITextField
+                button.setTitle("Edit Caption", for: .normal)
+                self.currentCaption = firstTextField.text
             })
         
         let cancelAction = UIAlertAction(
@@ -112,7 +108,7 @@ extension CameraViewController {
         if let image = imageView.image {
             FFSManager.shared.uploadPostImage(
                 image: image
-            ) { imageFileRef, imageUrl in
+            ) { imageRefNo, imageUrl in
                 
                 let data: [String: Any] = [
                     "userId": FFSManager.shared.userId,
@@ -120,8 +116,8 @@ extension CameraViewController {
                     "taggedFriends": self.taggedFriends as Any,
                     "location": self.location as Any,
                     "imageUrl": imageUrl,
-                    "imageFileRef": imageFileRef,
-                    "time": Date().timeIntervalSince1970
+                    "imageRefNo": imageRefNo,
+                    "time": NSDate().timeIntervalSince1970
                 ]
                 
                 // Save the packaged data to Firestore

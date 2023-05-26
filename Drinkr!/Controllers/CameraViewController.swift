@@ -275,7 +275,6 @@ extension CameraViewController {
     
     @objc func toggleFlash(_ button: UIButton) {
         flashMode = flashMode == .on ? .off : .on
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(flashMode == .on ? "Flash On" : "Flash Off", for: .normal)
     }
     

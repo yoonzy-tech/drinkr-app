@@ -44,7 +44,7 @@ class PostsViewController: UIViewController {
             
             self?.dataSource = documents.compactMap { document in
                 guard let post = Post(data: document.data()) else {
-                    print("Failed to convert document to A Post: \(document)") // print any documents that can't be converted
+                    print("Failed to convert document to A Post: \(document)")
                     return nil
                 }
                 return post

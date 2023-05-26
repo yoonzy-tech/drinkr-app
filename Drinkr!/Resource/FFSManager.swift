@@ -10,7 +10,7 @@ import FirebaseCore
 import FirebaseFirestore
 import FirebaseStorage
 
-final class FFSManager {
+class FFSManager {
     
     static let shared = FFSManager()
     
@@ -22,45 +22,10 @@ final class FFSManager {
     let storageRef = Storage.storage().reference()
     
     private init() {}
-    
-    // MARK: - Bar Data Manipulation
-    public func addBarData(placeResponse: [Place]) {
-        for place in placeResponse {
-            let docData: [String: Any] = [
-                "name": place.name as Any,
-                "latitude": place.geometry?.location.lat as Any,
-                "longitude": place.geometry?.location.lng as Any,
-                "vicinity": place.vicinity as Any,
-                "rating": place.rating ?? 0
-            ]
-            //            print("🧤🧤🧤🧤🧤🧤🧤🧤 \(docData)")
-            self.database.collection("Places").addDocument(data: docData) { error in
-                if let error = error {
-                    print("Error writing document: \(error)")
-                } else {
-                    print("Document successfully written!")
-                }
-            }
-        }
-    }
-    
-    // Read Data for knowing where to pin on map (for now fetch all data in DB)
-    public func readBarData(completion: (([(docId: String, placeInfo: Any)]) -> Void)? = nil) {
-        self.database.collection("places").getDocuments { querySnapshot, error in
-            // "latitude, longitude, name, rating, vicinity" : value
-            var places: [(docId: String, placeInfo: Any)] = []
-            if let error = error {
-                print("Error adding document: \(error)")
-            } else {
-                for document in querySnapshot!.documents {
-                    places.append((docId: document.documentID, placeInfo: document.data()))
-                }
-                completion?(places)
-            }
-        }
-    }
-    
-    // MARK: - Scan History
+}
+
+// MARK: - Scan History
+extension FFSManager {
     public func uploadScanImage(image: UIImage, brand: String) {
         var imageData: Data?
         
@@ -148,17 +113,17 @@ final class FFSManager {
         self.database.collection("scan_history")
             .whereField("userId", isEqualTo: self.userId)
             .getDocuments(completion: { querySnapshot, error in
-            
-            if let error = error {
-                print("Error getting scan history: \(error.localizedDescription)")
-                return
-            }
-            guard let documents = querySnapshot?.documents else {
-                print("No scan history available")
-                return
-            }
-            completion(documents)
-        })
+                
+                if let error = error {
+                    print("Error getting scan history: \(error.localizedDescription)")
+                    return
+                }
+                guard let documents = querySnapshot?.documents else {
+                    print("No scan history available")
+                    return
+                }
+                completion(documents)
+            })
     }
     
     public func listenScanHistory(completion: (() -> Void)? = nil) {
@@ -186,11 +151,21 @@ final class FFSManager {
             }
         }
     }
-    
-    // MARK: - Cocktails
-    public func addCocktails(drinkList: [Drink]) {
-        for drink in drinkList {
-            self.database.collection("latest_cocktails").addDocument(data: drink.toDictionary()) { error in
+}
+
+// MARK: - Bar Data Manipulation
+extension FFSManager {
+    public func addBarData(placeResponse: [Place]) {
+        for place in placeResponse {
+            let docData: [String: Any] = [
+                "name": place.name as Any,
+                "latitude": place.geometry?.location.lat as Any,
+                "longitude": place.geometry?.location.lng as Any,
+                "vicinity": place.vicinity as Any,
+                "rating": place.rating ?? 0
+            ]
+            //            print("🧤🧤🧤🧤🧤🧤🧤🧤 \(docData)")
+            self.database.collection("Places").addDocument(data: docData) { error in
                 if let error = error {
                     print("Error writing document: \(error)")
                 } else {
@@ -200,7 +175,25 @@ final class FFSManager {
         }
     }
     
-    // MARK: - Post Related Manipulation
+    // Read Data for knowing where to pin on map (for now fetch all data in DB)
+    public func readBarData(completion: (([(docId: String, placeInfo: Any)]) -> Void)? = nil) {
+        self.database.collection("places").getDocuments { querySnapshot, error in
+            // "latitude, longitude, name, rating, vicinity" : value
+            var places: [(docId: String, placeInfo: Any)] = []
+            if let error = error {
+                print("Error adding document: \(error)")
+            } else {
+                for document in querySnapshot!.documents {
+                    places.append((docId: document.documentID, placeInfo: document.data()))
+                }
+                completion?(places)
+            }
+        }
+    }
+}
+
+// MARK: - Post Related Manipulation
+extension FFSManager {
     public func uploadPostImage(image: UIImage, completion: ((String, String) -> Void)? = nil) {
         var imageData: Data?
         
@@ -252,7 +245,7 @@ final class FFSManager {
         }
     }
 
-    func addPost(post: Post) {
+    public func addPost(post: Post) {
         let collectionRef = self.database.collection("posts")
         let fsGeneratedID = collectionRef.document().documentID
         let docData: [String: Any] = [
@@ -278,6 +271,37 @@ final class FFSManager {
     public func readPosts(completion: @escaping (([QueryDocumentSnapshot]) -> Void)) {
         self.database.collection("posts")
             .whereField("userId", isEqualTo: self.userId)
+            .getDocuments(completion: { querySnapshot, error in
+            
+            if let error = error {
+                print("Error getting post data: \(error.localizedDescription)")
+                return
+            }
+            guard let documents = querySnapshot?.documents else {
+                print("No post data available")
+                return
+            }
+            completion(documents)
+        })
+    }
+}
+
+// MARK: - Cocktails
+extension FFSManager {
+    public func addCocktails(drinkList: [Drink]) {
+        for drink in drinkList {
+            self.database.collection("latest_cocktails").addDocument(data: drink.toDictionary()) { error in
+                if let error = error {
+                    print("Error writing document: \(error)")
+                } else {
+                    print("Document successfully written!")
+                }
+            }
+        }
+    }
+    
+    public func readCocktails(completion: @escaping (([QueryDocumentSnapshot]) -> Void)) {
+        self.database.collection("latest_cocktails")
             .getDocuments(completion: { querySnapshot, error in
             
             if let error = error {
