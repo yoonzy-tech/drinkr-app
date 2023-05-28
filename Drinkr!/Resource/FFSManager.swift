@@ -14,7 +14,11 @@ class FFSManager {
     
     static let shared = FFSManager()
     
-    let userId: String = "12345678"
+    var userUid: String = "12345678"
+    
+    // "id, name, email, friends" : value
+    var userInfoDocId: String = ""
+    var userInfo: [String: Any] = [:]
     
     let database = Firestore.firestore()
     
@@ -22,6 +26,64 @@ class FFSManager {
     let storageRef = Storage.storage().reference()
     
     private init() {}
+}
+
+// MARK: - User
+extension FFSManager {
+    
+    func checkUserExistsInFirestore(uid: String, completion: @escaping (Bool, Error?) -> Void) {
+        self.database.collection("users")
+            .whereField("uid", isEqualTo: uid)
+            .limit(to: 1)
+            .getDocuments { (snapshot, error) in
+            if let error = error {
+                completion(false, error)
+                return
+            }
+
+            guard let snapshot = snapshot else {
+                completion(false, nil)
+                return
+            }
+            completion(!snapshot.isEmpty, nil)
+        }
+    }
+
+    func fetchAccountInfo(uid: String, completion: (([String: Any]) -> Void)? = nil) {
+        self.database.collection("users")
+            .whereField("uid", isEqualTo: uid)
+            .getDocuments { querySnapshot, error in
+                
+                if let error = error {
+                    print("Error getting document: \(error)")
+                } else {
+                    // Only 1 document is looped here (UID is unique)
+                    for document in querySnapshot!.documents {
+                        self.userInfoDocId = document.documentID
+                        self.userInfo = document.data()
+                        print("👉 User Info ~ DocID(key): \(document.documentID), userInfo(value): \(document.data())")
+                    }
+                    self.userUid = uid
+                    completion?(self.userInfo)
+                }
+            }
+    }
+    
+    func addUserInfo(uid: String, name: String, email: String) {
+        let docData: [String: Any] = [
+            "uid": uid as Any,
+            "name": name as Any,
+            "email": email as Any
+        ]
+        print("🧤Adding User Info: \(docData)")
+        self.database.collection("users").addDocument(data: docData) { error in
+            if let error = error {
+                print("Error writing document: \(error)")
+            } else {
+                print("Document successfully written!")
+            }
+        }
+    }
 }
 
 // MARK: - Scan History
@@ -52,7 +114,7 @@ extension FFSManager {
         
         guard let imageData = imageData else { return }
         
-        let imageReferenceId = "\(self.userId)\(Date().formatNowDate)" // UserId + Date
+        let imageReferenceId = "\(self.userUid)\(Date().formatNowDate)" // UserId + Date
         
         let ref = storageRef.child("Scan_Images").child(imageReferenceId)
         
@@ -73,7 +135,7 @@ extension FFSManager {
                     
                     // Store the record in Scan History
                     let data: [String: Any] = [
-                        "userId": self.userId,
+                        "userId": self.userUid,
                         "brandName": brand,
                         "imageUrl": urlString,
                         "imageRefNo": imageReferenceId,
@@ -111,7 +173,7 @@ extension FFSManager {
     
     public func readScanHistory(completion: @escaping (([QueryDocumentSnapshot]) -> Void)) {
         self.database.collection("scan_history")
-            .whereField("userId", isEqualTo: self.userId)
+            .whereField("userId", isEqualTo: self.userUid)
             .getDocuments(completion: { querySnapshot, error in
                 
                 if let error = error {
@@ -220,7 +282,7 @@ extension FFSManager {
         
         guard let imageData = imageData else { return }
         
-        let imageReferenceId = "\(self.userId)\(Date().formatNowDate)" // UserId + Date
+        let imageReferenceId = "\(self.userUid)\(Date().formatNowDate)" // UserId + Date
         
         let ref = storageRef.child("Posts").child(imageReferenceId)
         
@@ -270,7 +332,7 @@ extension FFSManager {
     
     public func readPosts(completion: @escaping (([QueryDocumentSnapshot]) -> Void)) {
         self.database.collection("posts")
-            .whereField("userId", isEqualTo: self.userId)
+            .whereField("userId", isEqualTo: self.userUid)
             .getDocuments(completion: { querySnapshot, error in
             
             if let error = error {

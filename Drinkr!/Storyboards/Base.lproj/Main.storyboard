@@ -27,17 +27,33 @@
                         <segue destination="6EG-rP-SzQ" kind="relationship" relationship="viewControllers" id="6Nu-Vs-2fp"/>
                         <segue destination="bJv-OL-3uH" kind="relationship" relationship="viewControllers" id="66H-30-KcK"/>
                         <segue destination="553-DS-3cQ" kind="relationship" relationship="viewControllers" id="1cg-Wk-kEq"/>
+                        <segue destination="eaG-3a-iCQ" kind="relationship" relationship="viewControllers" id="fJB-Cn-ihG"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4e1-44-JbA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-352" y="1644"/>
+            <point key="canvasLocation" x="-381" y="2359"/>
         </scene>
-        <!--Item-->
+        <!--View Controller-->
+        <scene sceneID="GrH-Zb-GsC">
+            <objects>
+                <viewController id="l7r-gR-zWu" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gsa-4G-bwC">
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="F4u-Ac-fax"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9w2-ie-H2I" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1275" y="1581"/>
+        </scene>
+        <!--Bar Map-->
         <scene sceneID="Auv-i6-9bL">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hGu-x3-2OI" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" image="map" catalog="system" selectedImage="map.fill" id="F59-FA-1XF"/>
+                    <tabBarItem key="tabBarItem" title="Bar Map" image="map" catalog="system" selectedImage="map.fill" id="F59-FA-1XF"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="iRj-bn-Mc9">
                         <rect key="frame" x="0.0" y="59" width="430" height="96"/>
@@ -185,7 +201,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uJd-Q7-6zt">
                                                     <rect key="frame" x="0.0" y="0.0" width="430" height="75"/>
                                                     <subviews>
-                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Qnh-dY-OBS">
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="252" verticalHuggingPriority="251" image="person.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Qnh-dY-OBS">
                                                             <rect key="frame" x="16" y="8.6666666666666643" width="60" height="58.666666666666664"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" secondItem="Qnh-dY-OBS" secondAttribute="height" multiplier="1:1" id="Tqo-bD-XjK"/>
@@ -218,7 +234,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7xA-pb-qhF">
                                                     <rect key="frame" x="0.0" y="397.66666666666669" width="430" height="75"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LdD-vn-Lkm">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LdD-vn-Lkm">
                                                             <rect key="frame" x="16" y="27" width="42" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
@@ -422,6 +438,48 @@
             </objects>
             <point key="canvasLocation" x="2894" y="2064"/>
         </scene>
+        <!--Sign In-->
+        <scene sceneID="KCF-sE-il7">
+            <objects>
+                <viewController title="Sign In" id="ICO-Ki-Y3W" customClass="SignInViewController" customModule="Drinkr_" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wYU-Yw-M8v">
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create account to continue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ps7-gK-3Vf">
+                                <rect key="frame" x="20" y="163" width="390" height="21.666666666666657"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EjW-rl-dVp" customClass="GIDSignInButton">
+                                <rect key="frame" x="20" y="249.66666666666663" width="390" height="50"/>
+                                <color key="backgroundColor" systemColor="systemGray2Color"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="eP3-hU-I4A"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="signInGoogle:" destination="ICO-Ki-Y3W" eventType="touchUpInside" id="IhB-qC-kpU"/>
+                                </connections>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="KGP-Fe-1X0"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="KGP-Fe-1X0" firstAttribute="trailing" secondItem="ps7-gK-3Vf" secondAttribute="trailing" constant="20" id="DX4-CW-q6v"/>
+                            <constraint firstItem="KGP-Fe-1X0" firstAttribute="trailing" secondItem="EjW-rl-dVp" secondAttribute="trailing" constant="20" id="JcE-Pi-QtJ"/>
+                            <constraint firstItem="ps7-gK-3Vf" firstAttribute="leading" secondItem="KGP-Fe-1X0" secondAttribute="leading" constant="20" id="OeI-Bn-UC2"/>
+                            <constraint firstItem="EjW-rl-dVp" firstAttribute="leading" secondItem="KGP-Fe-1X0" secondAttribute="leading" constant="20" id="TFh-ac-P4K"/>
+                            <constraint firstItem="ps7-gK-3Vf" firstAttribute="top" secondItem="KGP-Fe-1X0" secondAttribute="top" constant="8" id="UAD-X9-WA8"/>
+                            <constraint firstItem="EjW-rl-dVp" firstAttribute="top" secondItem="ps7-gK-3Vf" secondAttribute="bottom" constant="65" id="uGF-Sd-wkY"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Getting started" id="hDu-ZO-cSq"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qof-Qx-SWr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2893.953488372093" y="2794.6351931330473"/>
+        </scene>
         <!--Camera View Controller-->
         <scene sceneID="zoz-SP-R9D">
             <objects>
@@ -561,6 +619,25 @@
             </objects>
             <point key="canvasLocation" x="1960" y="2064"/>
         </scene>
+        <!--Profile-->
+        <scene sceneID="YA2-SG-uYr">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="eaG-3a-iCQ" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Profile" image="person.circle" catalog="system" selectedImage="person.circle.fill" id="aEi-cx-2Dt"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="L3M-nv-fTT">
+                        <rect key="frame" x="0.0" y="59" width="430" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="ICO-Ki-Y3W" kind="relationship" relationship="rootViewController" id="tpt-wD-eTt"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xxf-Yu-XmL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1955" y="2795"/>
+        </scene>
     </scenes>
     <resources>
         <image name="beer bottle" width="204" height="204"/>
@@ -571,6 +648,7 @@
         <image name="map.fill" catalog="system" width="128" height="110"/>
         <image name="newspaper" catalog="system" width="128" height="111"/>
         <image name="newspaper.fill" catalog="system" width="128" height="112"/>
+        <image name="person.circle" catalog="system" width="128" height="123"/>
         <image name="person.circle.fill" catalog="system" width="128" height="123"/>
         <image name="photo.fill.on.rectangle.fill" catalog="system" width="128" height="98"/>
         <image name="plus" catalog="system" width="128" height="113"/>
@@ -581,6 +659,9 @@
         <image name="xmark.circle.fill" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray2Color">
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray5Color">
             <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

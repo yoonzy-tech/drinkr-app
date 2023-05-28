@@ -23,10 +23,10 @@ class BarMapViewController: UIViewController {
         super.viewDidLoad()
         title = "Bar Map"
         view.addSubview(mapView)
-//        searchVC.searchBar.backgroundColor = .white
-//        searchVC.searchResultsUpdater = self
-//        navigationItem.searchController = searchVC
-
+        searchVC.searchBar.backgroundColor = .white
+        searchVC.searchResultsUpdater = self
+        navigationItem.searchController = searchVC
+        
         /// Ask Permission to Retrieve User Location
         locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -35,6 +35,8 @@ class BarMapViewController: UIViewController {
         if locationManager.authorizationStatus != .denied || locationManager.authorizationStatus != .notDetermined {
             showNearbyBarsToUser()
         }
+        
+//        GooglePlacesManager.shared.decodeBarDataToStoreFirebase()
     }
 
     override func viewDidLayoutSubviews() {

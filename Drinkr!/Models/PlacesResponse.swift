@@ -15,6 +15,13 @@ import Foundation
 struct PlacesResponse: Codable {
     let htmlAttributions: [String]?
     let results: [Place]
+    let nextPageToken: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case htmlAttributions
+        case results
+        case nextPageToken = "next_page_token"
+    }
 }
 
 struct Place: Codable {

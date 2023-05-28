@@ -23,11 +23,13 @@ final class GooglePlacesManager {
     public func searchNearbyBars(completion: @escaping (Result<Data, Error>) -> Void) {
         
         let location  = "25.044367149608902,121.53305163254714"
-        let radius = 3000
+        let radius = 100000
         let type = "bar"
-        let language = "zh-TW"
+//        let language = "zh-TW"
         
-        let api = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(location)&radius=\(radius)&type=\(type)&language=\(language)&key=\(GMSPlacesAPIKey)"
+        let api = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(location)&radius=\(radius)&type=\(type)&key=\(GMSPlacesAPIKey)"
+        
+        //&language=\(language)
         
         guard let url = URL(string: api) else {
             print("Invalid URL")
@@ -43,25 +45,29 @@ final class GooglePlacesManager {
             if let data = data {
                 completion(.success(data))
             }
+            
+            if let response = response {
+                
+            }
         }
         
         task.resume()
     }
     
     func decodeBarDataToStoreFirebase() {
-        //    self.searchNearbyBars { result in
-        //        switch result {
-        //        case .success(let data):
-        //            let decoder = JSONDecoder()
-        //            do {
-        //                let placesResponse = try decoder.decode(PlacesResponse.self, from: data)
-        //                FFSManager.shared.addBarData(placeResponse: placesResponse)
-        //            } catch {
-        //                print("Decoding error: \(error)")
-        //            }
-        //        case .failure(let error):
-        //            print("Error fetching data: \(error)")
-        //        }
-        //    }
+            self.searchNearbyBars { result in
+                switch result {
+                case .success(let data):
+                    let decoder = JSONDecoder()
+                    do {
+                        let placesResponse = try decoder.decode(PlacesResponse.self, from: data)
+                        FFSManager.shared.addBarData(placeResponse: placesResponse.results)
+                    } catch {
+                        print("Decoding error: \(error)")
+                    }
+                case .failure(let error):
+                    print("Error fetching data: \(error)")
+                }
+            }
     }
 }

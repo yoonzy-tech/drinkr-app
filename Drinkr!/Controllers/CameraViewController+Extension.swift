@@ -111,7 +111,7 @@ extension CameraViewController {
             ) { imageRefNo, imageUrl in
                 
                 let data: [String: Any] = [
-                    "userId": FFSManager.shared.userId,
+                    "userId": FFSManager.shared.userUid,
                     "caption": self.currentCaption as Any,
                     "taggedFriends": self.taggedFriends as Any,
                     "location": self.location as Any,

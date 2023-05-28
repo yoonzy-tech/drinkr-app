@@ -25,7 +25,6 @@
 		048E165B2A176A520008CF2A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048E16592A176A520008CF2A /* Main.storyboard */; };
 		048E165D2A176A540008CF2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 048E165C2A176A540008CF2A /* Assets.xcassets */; };
 		048E16602A176A540008CF2A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048E165E2A176A540008CF2A /* LaunchScreen.storyboard */; };
-		04B9E9D42A1A3B39002A7EC4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04B9E9D32A1A3B39002A7EC4 /* GoogleService-Info.plist */; };
 		04B9EA092A1A81BA002A7EC4 /* GooglePlacesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9EA082A1A81BA002A7EC4 /* GooglePlacesManager.swift */; };
 		04B9EA0B2A1A8235002A7EC4 /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9EA0A2A1A8235002A7EC4 /* ApiKeys.swift */; };
 		04B9EA0D2A1A8248002A7EC4 /* PlacesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9EA0C2A1A8248002A7EC4 /* PlacesResponse.swift */; };
@@ -54,6 +53,9 @@
 		04D2C1D22A207444001212A7 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1D12A207444001212A7 /* Date+Extension.swift */; };
 		04D2C1D42A20BFC0001212A7 /* RecipesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1D32A20BFC0001212A7 /* RecipesViewController.swift */; };
 		04D2C1D62A20BFF7001212A7 /* RecipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1D52A20BFF7001212A7 /* RecipeTableViewCell.swift */; };
+		04D2C1D92A238A39001212A7 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 04D2C1D82A238A39001212A7 /* GoogleSignIn */; };
+		04D2C1DB2A238B77001212A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04D2C1DA2A238B77001212A7 /* GoogleService-Info.plist */; };
+		04D2C1DD2A238C03001212A7 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1DC2A238C03001212A7 /* SignInViewController.swift */; };
 		F3EEB3BA26076AFD5FCEA003 /* Pods_Drinkr_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BB0E2B5F3435C8674393EF8 /* Pods_Drinkr_.framework */; };
 /* End PBXBuildFile section */
 
@@ -78,7 +80,6 @@
 		048E165C2A176A540008CF2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		048E165F2A176A540008CF2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		048E16612A176A540008CF2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		04B9E9D32A1A3B39002A7EC4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		04B9EA082A1A81BA002A7EC4 /* GooglePlacesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GooglePlacesManager.swift; sourceTree = "<group>"; };
 		04B9EA0A2A1A8235002A7EC4 /* ApiKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 		04B9EA0C2A1A8248002A7EC4 /* PlacesResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesResponse.swift; sourceTree = "<group>"; };
@@ -91,6 +92,8 @@
 		04D2C1D12A207444001212A7 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		04D2C1D32A20BFC0001212A7 /* RecipesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesViewController.swift; sourceTree = "<group>"; };
 		04D2C1D52A20BFF7001212A7 /* RecipeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTableViewCell.swift; sourceTree = "<group>"; };
+		04D2C1DA2A238B77001212A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		04D2C1DC2A238C03001212A7 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		5BB0E2B5F3435C8674393EF8 /* Pods_Drinkr_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Drinkr_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE559A43A4F2DBB9910367AB /* Pods-Drinkr!.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drinkr!.release.xcconfig"; path = "Target Support Files/Pods-Drinkr!/Pods-Drinkr!.release.xcconfig"; sourceTree = "<group>"; };
 		C0B0CC910109A565297FE5AE /* Pods-Drinkr!.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drinkr!.debug.xcconfig"; path = "Target Support Files/Pods-Drinkr!/Pods-Drinkr!.debug.xcconfig"; sourceTree = "<group>"; };
@@ -118,6 +121,7 @@
 				04B9EA282A1A956F002A7EC4 /* FirebaseInAppMessaging-Beta in Frameworks */,
 				04B9EA2C2A1A956F002A7EC4 /* FirebaseMLModelDownloader in Frameworks */,
 				F3EEB3BA26076AFD5FCEA003 /* Pods_Drinkr_.framework in Frameworks */,
+				04D2C1D92A238A39001212A7 /* GoogleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,7 +191,7 @@
 				048E166E2A1774170008CF2A /* Storyboards */,
 				048E165C2A176A540008CF2A /* Assets.xcassets */,
 				048E16612A176A540008CF2A /* Info.plist */,
-				04B9E9D32A1A3B39002A7EC4 /* GoogleService-Info.plist */,
+				04D2C1DA2A238B77001212A7 /* GoogleService-Info.plist */,
 				040DB3122A1CA20E003E02A4 /* Draft */,
 			);
 			path = "Drinkr!";
@@ -215,6 +219,7 @@
 				0419034C2A1DB59B009BD42A /* ScanHistoryViewController.swift */,
 				0475FF422A1E46FC00DBA6E0 /* PostsViewController.swift */,
 				04D2C1D32A20BFC0001212A7 /* RecipesViewController.swift */,
+				04D2C1DC2A238C03001212A7 /* SignInViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -291,6 +296,7 @@
 				04B9EA2D2A1A956F002A7EC4 /* FirebaseMessaging */,
 				04B9EA2F2A1A956F002A7EC4 /* FirebaseStorage */,
 				04B9EA312A1A956F002A7EC4 /* FirebaseStorageCombine-Community */,
+				04D2C1D82A238A39001212A7 /* GoogleSignIn */,
 			);
 			productName = "Drinkr!";
 			productReference = 048E16502A176A520008CF2A /* Drinkr!.app */;
@@ -322,6 +328,7 @@
 			mainGroup = 048E16472A176A520008CF2A;
 			packageReferences = (
 				04B9EA122A1A956F002A7EC4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				04D2C1D72A238A39001212A7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			productRefGroup = 048E16512A176A520008CF2A /* Products */;
 			projectDirPath = "";
@@ -338,7 +345,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				048E16602A176A540008CF2A /* LaunchScreen.storyboard in Resources */,
-				04B9E9D42A1A3B39002A7EC4 /* GoogleService-Info.plist in Resources */,
+				04D2C1DB2A238B77001212A7 /* GoogleService-Info.plist in Resources */,
 				048E165D2A176A540008CF2A /* Assets.xcassets in Resources */,
 				048E165B2A176A520008CF2A /* Main.storyboard in Resources */,
 			);
@@ -427,6 +434,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04D2C1DD2A238C03001212A7 /* SignInViewController.swift in Sources */,
 				04D2C1D22A207444001212A7 /* Date+Extension.swift in Sources */,
 				04B9EA0D2A1A8248002A7EC4 /* PlacesResponse.swift in Sources */,
 				04B9EA092A1A81BA002A7EC4 /* GooglePlacesManager.swift in Sources */,
@@ -604,6 +612,9 @@
 				DEVELOPMENT_TEAM = 98ZG5UZMCT;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Drinkr!/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Drinkr! needs access to your camera to scan bottle labels.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Drinkr! needs your location to show you nearby bars.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Drinkr! needs access to your photo library to store your photos.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -633,6 +644,9 @@
 				DEVELOPMENT_TEAM = 98ZG5UZMCT;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Drinkr!/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Drinkr! needs access to your camera to scan bottle labels.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Drinkr! needs your location to show you nearby bars.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Drinkr! needs access to your photo library to store your photos.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -681,6 +695,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 10.0.0;
+			};
+		};
+		04D2C1D72A238A39001212A7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -765,6 +787,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 04B9EA122A1A956F002A7EC4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseStorageCombine-Community";
+		};
+		04D2C1D82A238A39001212A7 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04D2C1D72A238A39001212A7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
