@@ -14,7 +14,7 @@ class FFSManager {
     
     static let shared = FFSManager()
     
-    var userUid: String = ""
+    var userUid: String = "12345678"
     
     // "id, name, email, friends" : value
     var userInfoDocId: String = ""
@@ -228,7 +228,7 @@ extension FFSManager {
                 "vicinity": place.vicinity as Any,
                 "rating": place.rating ?? 0,
                 "userRatingsTotal": place.userRatingsTotal as Any,
-                "openingHours": place.openingHours as Any,
+                "icon": place.icon as Any
             ]
             // print("🧤🧤🧤🧤🧤🧤🧤🧤 \(docData)")
             self.database.collection("places").addDocument(data: docData) { error in

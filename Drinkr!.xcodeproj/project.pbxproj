@@ -10,9 +10,6 @@
 		040DB2C12A1B8D44003E02A4 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB2C02A1B8D44003E02A4 /* CameraViewController.swift */; };
 		040DB3092A1C8B82003E02A4 /* CameraViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB3082A1C8B82003E02A4 /* CameraViewController+Extension.swift */; };
 		040DB30B2A1C99C2003E02A4 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB30A2A1C99C1003E02A4 /* ScannerViewController.swift */; };
-		040DB3112A1CA1E0003E02A4 /* ImagePredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB3102A1CA1E0003E02A4 /* ImagePredictor.swift */; };
-		040DB3152A1CBF6E003E02A4 /* CGImagePropertyOrientation+UIImageOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB3132A1CBF6E003E02A4 /* CGImagePropertyOrientation+UIImageOrientation.swift */; };
-		040DB3162A1CBF6E003E02A4 /* VNClassificationObservation+confidenceString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB3142A1CBF6E003E02A4 /* VNClassificationObservation+confidenceString.swift */; };
 		040DB3182A1CCEC9003E02A4 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB3172A1CCEC9003E02A4 /* UIImage+Extension.swift */; };
 		040DB31A2A1CD8A3003E02A4 /* BarHeinModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 040DB3192A1CD8A3003E02A4 /* BarHeinModel.mlmodel */; };
 		0419034D2A1DB59B009BD42A /* ScanHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0419034C2A1DB59B009BD42A /* ScanHistoryViewController.swift */; };
@@ -25,6 +22,7 @@
 		048E165B2A176A520008CF2A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048E16592A176A520008CF2A /* Main.storyboard */; };
 		048E165D2A176A540008CF2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 048E165C2A176A540008CF2A /* Assets.xcassets */; };
 		048E16602A176A540008CF2A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048E165E2A176A540008CF2A /* LaunchScreen.storyboard */; };
+		04946E6F2A248C0600DCD2A4 /* BarCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04946E6E2A248C0600DCD2A4 /* BarCardCollectionViewCell.swift */; };
 		04B9EA092A1A81BA002A7EC4 /* GooglePlacesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9EA082A1A81BA002A7EC4 /* GooglePlacesManager.swift */; };
 		04B9EA0B2A1A8235002A7EC4 /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9EA0A2A1A8235002A7EC4 /* ApiKeys.swift */; };
 		04B9EA0D2A1A8248002A7EC4 /* PlacesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9EA0C2A1A8248002A7EC4 /* PlacesResponse.swift */; };
@@ -63,9 +61,6 @@
 		040DB2C02A1B8D44003E02A4 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		040DB3082A1C8B82003E02A4 /* CameraViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Extension.swift"; sourceTree = "<group>"; };
 		040DB30A2A1C99C1003E02A4 /* ScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
-		040DB3102A1CA1E0003E02A4 /* ImagePredictor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePredictor.swift; sourceTree = "<group>"; };
-		040DB3132A1CBF6E003E02A4 /* CGImagePropertyOrientation+UIImageOrientation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGImagePropertyOrientation+UIImageOrientation.swift"; sourceTree = "<group>"; };
-		040DB3142A1CBF6E003E02A4 /* VNClassificationObservation+confidenceString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VNClassificationObservation+confidenceString.swift"; sourceTree = "<group>"; };
 		040DB3172A1CCEC9003E02A4 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		040DB3192A1CD8A3003E02A4 /* BarHeinModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = BarHeinModel.mlmodel; sourceTree = "<group>"; };
 		0419034C2A1DB59B009BD42A /* ScanHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScanHistoryViewController.swift; path = "Drinkr!/Controllers/ScanHistoryViewController.swift"; sourceTree = SOURCE_ROOT; };
@@ -80,6 +75,7 @@
 		048E165C2A176A540008CF2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		048E165F2A176A540008CF2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		048E16612A176A540008CF2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04946E6E2A248C0600DCD2A4 /* BarCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		04B9EA082A1A81BA002A7EC4 /* GooglePlacesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GooglePlacesManager.swift; sourceTree = "<group>"; };
 		04B9EA0A2A1A8235002A7EC4 /* ApiKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 		04B9EA0C2A1A8248002A7EC4 /* PlacesResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesResponse.swift; sourceTree = "<group>"; };
@@ -131,9 +127,6 @@
 		040DB3122A1CA20E003E02A4 /* Draft */ = {
 			isa = PBXGroup;
 			children = (
-				040DB3132A1CBF6E003E02A4 /* CGImagePropertyOrientation+UIImageOrientation.swift */,
-				040DB3142A1CBF6E003E02A4 /* VNClassificationObservation+confidenceString.swift */,
-				040DB3102A1CA1E0003E02A4 /* ImagePredictor.swift */,
 				04B9EA0E2A1A8382002A7EC4 /* ResultsViewController.swift */,
 			);
 			path = Draft;
@@ -158,6 +151,7 @@
 				0419034E2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift */,
 				04D2C1CD2A1F64C8001212A7 /* PostCollectionViewCell.swift */,
 				04D2C1D52A20BFF7001212A7 /* RecipeTableViewCell.swift */,
+				04946E6E2A248C0600DCD2A4 /* BarCardCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -441,15 +435,12 @@
 				047AF2A82A1DEB2B00FB9ADD /* ScanHistory.swift in Sources */,
 				048E16582A176A520008CF2A /* BarMapViewController.swift in Sources */,
 				0475FF432A1E46FC00DBA6E0 /* PostsViewController.swift in Sources */,
-				040DB3152A1CBF6E003E02A4 /* CGImagePropertyOrientation+UIImageOrientation.swift in Sources */,
-				040DB3112A1CA1E0003E02A4 /* ImagePredictor.swift in Sources */,
 				040DB31A2A1CD8A3003E02A4 /* BarHeinModel.mlmodel in Sources */,
 				040DB3092A1C8B82003E02A4 /* CameraViewController+Extension.swift in Sources */,
 				04D2C1D02A1F6539001212A7 /* Post.swift in Sources */,
 				04B9EA0F2A1A8382002A7EC4 /* ResultsViewController.swift in Sources */,
 				04D2C1D62A20BFF7001212A7 /* RecipeTableViewCell.swift in Sources */,
 				048E16542A176A520008CF2A /* AppDelegate.swift in Sources */,
-				040DB3162A1CBF6E003E02A4 /* VNClassificationObservation+confidenceString.swift in Sources */,
 				0419034F2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift in Sources */,
 				040DB3182A1CCEC9003E02A4 /* UIImage+Extension.swift in Sources */,
 				04D2C1C92A1F459F001212A7 /* Drink.swift in Sources */,
@@ -459,6 +450,7 @@
 				04B9EA0B2A1A8235002A7EC4 /* ApiKeys.swift in Sources */,
 				04D2C1CE2A1F64C8001212A7 /* PostCollectionViewCell.swift in Sources */,
 				04D2C1C72A1F4441001212A7 /* DrinksManager.swift in Sources */,
+				04946E6F2A248C0600DCD2A4 /* BarCardCollectionViewCell.swift in Sources */,
 				0419034D2A1DB59B009BD42A /* ScanHistoryViewController.swift in Sources */,
 				04D2C1D42A20BFC0001212A7 /* RecipesViewController.swift in Sources */,
 				040DB2C12A1B8D44003E02A4 /* CameraViewController.swift in Sources */,
