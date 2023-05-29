@@ -14,7 +14,7 @@ class FFSManager {
     
     static let shared = FFSManager()
     
-    var userUid: String = "12345678"
+    var userUid: String = ""
     
     // "id, name, email, friends" : value
     var userInfoDocId: String = ""
@@ -69,11 +69,12 @@ extension FFSManager {
             }
     }
     
-    func addUserInfo(uid: String, name: String, email: String) {
+    func addUserInfo(uid: String, name: String, email: String, profileImageUrl: String) {
         let docData: [String: Any] = [
             "uid": uid as Any,
             "name": name as Any,
-            "email": email as Any
+            "email": email as Any,
+            "profileImageUrl": profileImageUrl as Any
         ]
         print("🧤Adding User Info: \(docData)")
         self.database.collection("users").addDocument(data: docData) { error in
@@ -171,7 +172,7 @@ extension FFSManager {
         }
     }
     
-    public func readScanHistory(completion: @escaping (([QueryDocumentSnapshot]) -> Void)) {
+    public func fetchScanHistories(completion: @escaping (([QueryDocumentSnapshot]) -> Void)) {
         self.database.collection("scan_history")
             .whereField("userId", isEqualTo: self.userUid)
             .getDocuments(completion: { querySnapshot, error in
@@ -215,19 +216,22 @@ extension FFSManager {
     }
 }
 
-// MARK: - Bar Data Manipulation
+// MARK: - Bar
 extension FFSManager {
-    public func addBarData(placeResponse: [Place]) {
+    public func addBars(placeResponse: [Place]) {
         for place in placeResponse {
             let docData: [String: Any] = [
+                "placeId": place.placeID as Any,
                 "name": place.name as Any,
                 "latitude": place.geometry?.location.lat as Any,
                 "longitude": place.geometry?.location.lng as Any,
                 "vicinity": place.vicinity as Any,
-                "rating": place.rating ?? 0
+                "rating": place.rating ?? 0,
+                "userRatingsTotal": place.userRatingsTotal as Any,
+                "openingHours": place.openingHours as Any,
             ]
-            //            print("🧤🧤🧤🧤🧤🧤🧤🧤 \(docData)")
-            self.database.collection("Places").addDocument(data: docData) { error in
+            // print("🧤🧤🧤🧤🧤🧤🧤🧤 \(docData)")
+            self.database.collection("places").addDocument(data: docData) { error in
                 if let error = error {
                     print("Error writing document: \(error)")
                 } else {
@@ -238,7 +242,7 @@ extension FFSManager {
     }
     
     // Read Data for knowing where to pin on map (for now fetch all data in DB)
-    public func readBarData(completion: (([(docId: String, placeInfo: Any)]) -> Void)? = nil) {
+    public func fetchBars(completion: (([(docId: String, placeInfo: Any)]) -> Void)? = nil) {
         self.database.collection("places").getDocuments { querySnapshot, error in
             // "latitude, longitude, name, rating, vicinity" : value
             var places: [(docId: String, placeInfo: Any)] = []
@@ -250,6 +254,24 @@ extension FFSManager {
                 }
                 completion?(places)
             }
+        }
+    }
+    
+    func checkBarExistInFirestore(placeId: String, completion: @escaping (Bool, Error?) -> Void) {
+        self.database.collection("places")
+            .whereField("placeId", isEqualTo: placeId)
+            .limit(to: 1)
+            .getDocuments { (snapshot, error) in
+            if let error = error {
+                completion(false, error)
+                return
+            }
+
+            guard let snapshot = snapshot else {
+                completion(false, nil)
+                return
+            }
+            completion(!snapshot.isEmpty, nil)
         }
     }
 }
@@ -330,7 +352,7 @@ extension FFSManager {
         }
     }
     
-    public func readPosts(completion: @escaping (([QueryDocumentSnapshot]) -> Void)) {
+    public func fetchPosts(completion: @escaping (([QueryDocumentSnapshot]) -> Void)) {
         self.database.collection("posts")
             .whereField("userId", isEqualTo: self.userUid)
             .getDocuments(completion: { querySnapshot, error in
@@ -362,7 +384,7 @@ extension FFSManager {
         }
     }
     
-    public func readCocktails(completion: @escaping (([QueryDocumentSnapshot]) -> Void)) {
+    public func fetchCocktails(completion: @escaping (([QueryDocumentSnapshot]) -> Void)) {
         self.database.collection("latest_cocktails")
             .getDocuments(completion: { querySnapshot, error in
             

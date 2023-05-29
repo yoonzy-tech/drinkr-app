@@ -40,7 +40,7 @@ class PostsViewController: UIViewController {
     }
     
     private func updateDataSource() {
-        FFSManager.shared.readPosts { [weak self] documents in
+        FFSManager.shared.fetchPosts { [weak self] documents in
             
             self?.dataSource = documents.compactMap { document in
                 guard let post = Post(data: document.data()) else {

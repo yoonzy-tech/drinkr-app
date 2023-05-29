@@ -24,14 +24,11 @@ class SignInViewController: UIViewController {
     }
 
     func signInGoogle() {
-        
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
         print("🧤 ➡️ Firebase Client ID: \(clientID)")
         
         let config = GIDConfiguration(clientID: clientID)
-        
         GIDSignIn.sharedInstance.configuration = config
-        
         GIDSignIn.sharedInstance.signIn(withPresenting: self) { result, error in
             guard error == nil else { return }
             guard let user = result?.user,
@@ -61,6 +58,11 @@ class SignInViewController: UIViewController {
                     return
                 }
                 
+                guard let profileImageUrl = result.user.photoURL?.absoluteString else {
+                    print("User has no profile image")
+                    return
+                }
+                
                 FFSManager.shared.checkUserExistsInFirestore(uid: userUid) { exists, error in
                     if let error = error {
                         print("Error: \(error)")
@@ -71,10 +73,13 @@ class SignInViewController: UIViewController {
                         FFSManager.shared.fetchAccountInfo(uid: userUid)
                     } else {
                         print("User does not exist in Firestore.")
+                        // TODO: # Request User Sign In
                         FFSManager.shared.addUserInfo(
                             uid: userUid,
                             name: name,
-                            email: email)
+                            email: email,
+                            profileImageUrl: profileImageUrl
+                        )
                     }
                 }
                 // If has this UID in DB, then fetch data

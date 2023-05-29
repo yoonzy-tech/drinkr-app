@@ -35,7 +35,7 @@ class ScanHistoryViewController: UIViewController {
     }
     
     private func updateDataSource() {
-        FFSManager.shared.readScanHistory { [weak self] documents in
+        FFSManager.shared.fetchScanHistories { [weak self] documents in
             
             self?.dataSource = documents.compactMap { document in
                 guard let scanHistory = ScanHistory(data: document.data()) else {

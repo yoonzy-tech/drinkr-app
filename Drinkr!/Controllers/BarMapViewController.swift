@@ -64,7 +64,7 @@ extension BarMapViewController {
         mapView.removeAnnotations(annotations)
 
         // Fetch Nearby Bars Locations
-        FFSManager.shared.readBarData { [weak self] places in
+        FFSManager.shared.fetchBars { [weak self] places in
 
             // Add a map pin
             for place in places {

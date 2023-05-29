@@ -36,7 +36,7 @@ class RecipesViewController: UIViewController {
     }
     
     private func updateDataSource() {
-        FFSManager.shared.readCocktails(completion: { [weak self] documents in
+        FFSManager.shared.fetchCocktails(completion: { [weak self] documents in
             
             self?.dataSource = documents.compactMap { document in
                 guard let drink = Drink(data: document.data()) else {

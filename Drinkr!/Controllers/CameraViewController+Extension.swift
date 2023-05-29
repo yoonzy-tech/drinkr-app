@@ -63,6 +63,13 @@ extension CameraViewController {
             textField.text = self.currentCaption  // Display the existing caption
         }
         
+        let cancelAction = UIAlertAction(
+            title: "Cancel",
+            style: .default,
+            handler: { _ -> Void in
+                print("Cancelled")
+            })
+        
         let saveAction = UIAlertAction(
             title: "Save",
             style: .default,
@@ -72,14 +79,8 @@ extension CameraViewController {
                 self.currentCaption = firstTextField.text
             })
         
-        let cancelAction = UIAlertAction(
-            title: "Cancel",
-            style: .default,
-            handler: { _ -> Void in
-                print("Cancelled")
-            })
-        alertController.addAction(saveAction)
         alertController.addAction(cancelAction)
+        alertController.addAction(saveAction)
         present(alertController, animated: true, completion: nil)
     }
     
