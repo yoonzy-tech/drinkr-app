@@ -265,9 +265,10 @@ extension BarMapViewController: UICollectionViewDataSource,
             cell.placeDistanceLabel.text = "\(distance) km away"
         }
         
+        cell.directionButton.tag = indexPath.row
         cell.directionButton.addTarget(self, action: #selector(getDirections), for: .touchUpInside)
+        cell.saveButton.tag = indexPath.row
         cell.saveButton.addTarget(self, action: #selector(saveToFavorite), for: .touchUpInside)
-        cell.tag = indexPath.row
         
         return cell
     }
