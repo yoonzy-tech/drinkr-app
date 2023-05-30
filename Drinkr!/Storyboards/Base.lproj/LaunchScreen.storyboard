@@ -16,8 +16,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="sdM-ab-3O2">
-                                <rect key="frame" x="0.0" y="256" width="393" height="341.33333333333326"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Launch" translatesAutoresizingMaskIntoConstraints="NO" id="sdM-ab-3O2">
+                                <rect key="frame" x="0.0" y="255.33333333333334" width="393" height="341.33333333333326"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -35,6 +35,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Logo" width="341.33334350585938" height="341.33334350585938"/>
+        <image name="Launch" width="341.33334350585938" height="341.33334350585938"/>
     </resources>
 </document>
