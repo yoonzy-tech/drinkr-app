@@ -22,7 +22,7 @@ final class GooglePlacesManager {
     
     public func searchNearbyBars(with nextPageToken: String? = nil, completion: ((Result<Data, Error>) -> Void)? = nil) {
         
-        let location  = "25.044367149608902,121.53305163254714"
+        let location  = "25.03028805128867,121.53062812349258"
         let radius = 50000
         let type = "bar"
         let language = "zh-TW"

@@ -9,7 +9,7 @@ import UIKit
 import CoreLocation
 
 protocol ResultsViewControllerDelegate: AnyObject {
-    func didTapPlace(with coordinates: CLLocationCoordinate2D)
+    func didTapPlace(with coordinates: CLLocationCoordinate2D, name: String)
 }
 
 class ResultsViewController: UIViewController {
@@ -22,7 +22,7 @@ class ResultsViewController: UIViewController {
         return table
     }()
     
-    private var places: [Place] = []
+    private var places: [[String: Any]] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +37,7 @@ class ResultsViewController: UIViewController {
         tableView.frame = view.bounds
     }
     
-    public func update(with places: [Place]) {
+    public func update(with places: [[String: Any]]) {
         self.tableView.isHidden = false
         self.places = places
         tableView.reloadData()
@@ -52,26 +52,20 @@ extension ResultsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = places[indexPath.row].name
+        cell.textLabel?.text = places[indexPath.row]["name"] as? String
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
         tableView.isHidden = true
-        
-        let place = places[indexPath.row]
-//        GooglePlacesManager.shared.resolveLocation(for: place) { [weak self] result in
-//            switch result {
-//            case .success(let coordinate):
-//                DispatchQueue.main.async {
-//                    self?.delegate?.didTapPlace(with: coordinate)
-//                }
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
+        if let placelatitude = places[indexPath.row]["latitude"] as? Double,
+           let placelongitude = places[indexPath.row]["longitude"] as? Double,
+           let placeName = places[indexPath.row]["name"] as? String {
+            self.delegate?.didTapPlace(with: CLLocationCoordinate2D(latitude: placelatitude, longitude: placelongitude), name: placeName)
+        } else {
+            print("fail to get lat and long ")
+        }
     }
 }

@@ -59,25 +59,25 @@ struct Place: Codable {
         case vicinity
     }
     
-//    init(from dictionary: [String: Any]) {
-//        businessStatus = dictionary["business_status"] as? String
-//        geometry = dictionary["geometry"] as? Geometry
-//        icon = dictionary["icon"] as? String
-//        iconBackgroundColor = dictionary["icon_background_color"] as? String
-//        iconMaskBaseURI = dictionary["icon_mask_base_uri"] as? String
-//        name = dictionary["name"] as? String
-//        openingHours = dictionary["opening_hours"] as? [String: Bool]
-//        photos = (dictionary["photos"] as? [[String: Any]])?.compactMap { Photo(from: $0) }
-//        placeID = dictionary["place_id"] as? String
-//        plusCode = dictionary["plus_code"] as? PlusCode
-//        priceLevel = dictionary["price_level"] as? Int
-//        rating = dictionary["rating"] as? Double
-//        reference = dictionary["reference"] as? String
-//        scope = dictionary["scope"] as? String
-//        types = dictionary["types"] as? [String]
-//        userRatingsTotal = dictionary["user_ratings_total"] as? Int
-//        vicinity = dictionary["vicinity"] as? String
-//    }
+    init(from dictionary: [String: Any]) {
+        businessStatus = dictionary["business_status"] as? String
+        geometry = dictionary["geometry"] as? Geometry
+        icon = dictionary["icon"] as? String
+        iconBackgroundColor = dictionary["icon_background_color"] as? String
+        iconMaskBaseURI = dictionary["icon_mask_base_uri"] as? String
+        name = dictionary["name"] as? String
+        openingHours = dictionary["opening_hours"] as? [String: Bool]
+        photos = (dictionary["photos"] as? [[String: Any]])?.compactMap { Photo(from: $0) }
+        placeID = dictionary["place_id"] as? String
+        plusCode = dictionary["plus_code"] as? PlusCode
+        priceLevel = dictionary["price_level"] as? Int
+        rating = dictionary["rating"] as? Double
+        reference = dictionary["reference"] as? String
+        scope = dictionary["scope"] as? String
+        types = dictionary["types"] as? [String]
+        userRatingsTotal = dictionary["user_ratings_total"] as? Int
+        vicinity = dictionary["vicinity"] as? String
+    }
 }
 
 struct Geometry: Codable {

@@ -14,4 +14,7 @@ class BarCardCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var placeRatingOpenHourLabel: UILabel!
     @IBOutlet weak var placeNameLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
+    
+    @IBOutlet weak var directionButton: UIButton!
+    @IBOutlet weak var saveButton: UIButton!
 }

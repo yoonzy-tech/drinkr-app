@@ -18,6 +18,7 @@ class BarMapViewController: UIViewController {
             collectionView.reloadData()
         }
     }
+    
     @IBOutlet weak var collectionView: UICollectionView!
     
     // Search Controller Var
@@ -42,7 +43,8 @@ class BarMapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Search Controller Setup
-        searchVC.searchBar.backgroundColor = .white
+//        searchVC.searchBar.backgroundColor = UIColor(red: 23/255, green: 44/255, blue: 211/255, alpha: 1.0)
+//        searchVC.searchBar.searchTextField.backgroundColor = .white
         searchVC.searchResultsUpdater = self
         navigationItem.searchController = searchVC
         
@@ -54,13 +56,40 @@ class BarMapViewController: UIViewController {
         if locationManager.authorizationStatus == .authorizedWhenInUse ||
             locationManager.authorizationStatus == .authorizedAlways {
             locationManager.requestLocation()
+            locationManager.startUpdatingLocation()
             showNearbyBarsToUser()
         }
-        
         mapView.delegate = self
-        
-        // Store Map Data
-//        GooglePlacesManager.shared.decodeBarDataToStoreFirebase()
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+            if let annotation = view.annotation as? MKPointAnnotation {
+                let tappedCoordinates = annotation.coordinate
+                // Use the tappedCoordinates as needed
+                print("Tapped Coordinates: \(tappedCoordinates.latitude), \(tappedCoordinates.longitude)")
+                
+                // You can also perform additional actions based on the tapped pin if needed
+                // For example, scroll to the corresponding collection view cell using the tappedCoordinates
+                let correspondingIndex = calculateCorrespondingIndex(for: tappedCoordinates)
+                scrollToCollectionViewCell(at: correspondingIndex)
+            }
+        }
+    
+    func calculateCorrespondingIndex(for coordinates: CLLocationCoordinate2D) -> Int {
+        // Iterate through your annotations or overlays and find the matching coordinates
+        for (index, annotation) in dataSource.enumerated() {
+            if annotation["latitude"] as? Double == coordinates.latitude &&
+                annotation["longitude"] as? Double == coordinates.longitude {
+                return index
+            }
+        }
+        return 0 // Default index if no match is found
+    }
+    
+    // Step 4: Scroll to Collection View Cell
+    func scrollToCollectionViewCell(at index: Int) {
+        let indexPath = IndexPath(item: index, section: 0)
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
     
 }
@@ -79,8 +108,6 @@ extension BarMapViewController: MKMapViewDelegate {
         
         // Fetch Nearby Bars Locations
         FFSManager.shared.fetchBars { [weak self] places in
-            // Have Collection View Load Nearby Bar Cards
-            
             // Add a map pin
             for place in places {
                 guard let placeInfo = place.placeInfo as? [String: Any],
@@ -95,6 +122,7 @@ extension BarMapViewController: MKMapViewDelegate {
                     longitude: longitude)
                 pin.title = placeInfo["name"] as? String
                 pin.subtitle = String(placeInfo["rating"] as? Double ?? 0)
+
                 self?.mapView.addAnnotation(pin)
             }
             
@@ -178,15 +206,32 @@ extension BarMapViewController: CLLocationManagerDelegate {
 }
 
 // MARK: - Search Results Updating
-extension BarMapViewController: UISearchResultsUpdating {
+extension BarMapViewController: UISearchResultsUpdating, ResultsViewControllerDelegate {
     func updateSearchResults(for searchController: UISearchController) {
         guard let query = searchController.searchBar.text,
               !query.trimmingCharacters(in: .whitespaces).isEmpty,
               let resultVC = searchController.searchResultsController as? ResultsViewController
         else { return }
-        //        resultVC.delegate = self
+        resultVC.delegate = self
+        FFSManager.shared.findBars(query: query) { documents in
+            let places = documents.compactMap { $0.data() }
+            DispatchQueue.main.async {
+                resultVC.update(with: places)
+            }
+        }
     }
     
+    func didTapPlace(with coordinates: CLLocationCoordinate2D, name: String) {
+        searchVC.searchBar.resignFirstResponder()
+        searchVC.searchBar.text = name
+        searchVC.dismiss(animated: true)
+        self.mapView.setRegion(MKCoordinateRegion(
+            center: coordinates,
+            span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+        ), animated: true)
+        let correspondingIndex = calculateCorrespondingIndex(for: coordinates)
+        scrollToCollectionViewCell(at: correspondingIndex)
+    }
 }
 
 // MARK: - Bar Place Card Collection View
@@ -219,6 +264,11 @@ extension BarMapViewController: UICollectionViewDataSource,
             )
             cell.placeDistanceLabel.text = "\(distance) km away"
         }
+        
+        cell.directionButton.addTarget(self, action: #selector(getDirections), for: .touchUpInside)
+        cell.saveButton.addTarget(self, action: #selector(saveToFavorite), for: .touchUpInside)
+        cell.tag = indexPath.row
+        
         return cell
     }
     
@@ -229,5 +279,70 @@ extension BarMapViewController: UICollectionViewDataSource,
         let distanceInKilometers = distanceInMeters / 1000.0
         let roundedDistance = (distanceInKilometers * 100).rounded() / 100
         return roundedDistance
+    }
+    
+    @objc func saveToFavorite(_ sender: UIButton) {
+        
+    }
+    
+    @objc func getDirections(_ sender: UIButton) {
+        let index = sender.tag
+        guard let desLat = self.dataSource[index]["latitude"],
+              let desLon = self.dataSource[index]["longitude"],
+              let placeId = self.dataSource[index]["placeId"] else {
+            print("Error in getting user or destination location")
+            return
+        }
+        let source = "\(self.userCoordinates.latitude),\(self.userCoordinates.longitude)"
+        let destination = "\(desLat),\(desLon)"
+        
+        // create an actionSheet
+       let actionSheetController: UIAlertController = UIAlertController(
+        title: nil,
+        message: "What would you like to do?",
+        preferredStyle: .actionSheet)
+
+        // create an action
+        let firstAction: UIAlertAction = UIAlertAction(
+            title: "Copy Address",
+            style: .default) { _ in
+                print("Copy Address Action pressed")
+            }
+
+        let secondAction: UIAlertAction = UIAlertAction(
+            title: "Open in Apple Maps",
+            style: .default) { _ in
+                let directionsURLString = "http://maps.apple.com/?saddr=\(source)&daddr=\(destination)"
+                guard let directionsURL = URL(string: directionsURLString) else { return }
+                UIApplication.shared.open(directionsURL, options: [:], completionHandler: nil)
+                print("Apple Maps Action pressed")
+            }
+        
+        let thirdAction: UIAlertAction = UIAlertAction(
+            title: "Open in Google Maps",
+            style: .default) { _ in
+                // Create the URL with the place ID
+                let directionsURLString = "https://www.google.com/maps/search/?api=1&query=\(destination)&query_place_id=\(placeId)"
+                guard let directionsURL = URL(string: directionsURLString) else { return }
+                UIApplication.shared.open(directionsURL, options: [:], completionHandler: nil)
+
+                print("Google Maps Action pressed")
+            }
+
+        let cancelAction: UIAlertAction = UIAlertAction(
+            title: "Cancel",
+            style: .cancel)
+
+        // add actions
+        actionSheetController.addAction(firstAction)
+        actionSheetController.addAction(secondAction)
+        actionSheetController.addAction(thirdAction)
+        actionSheetController.addAction(cancelAction)
+
+        actionSheetController.popoverPresentationController?.sourceView = self.view
+
+        self.present(actionSheetController, animated: true) {
+            print("option menu presented")
+        }
     }
 }

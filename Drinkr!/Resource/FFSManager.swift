@@ -218,6 +218,25 @@ extension FFSManager {
 
 // MARK: - Bar
 extension FFSManager {
+    func findBars(query: String, completion: @escaping ([QueryDocumentSnapshot]) -> Void) {
+        self.database.collection("places")
+            .whereField("name", isGreaterThan: query)
+            .whereField("name", isLessThanOrEqualTo: query + "\u{f8ff}")
+            .getDocuments { (snapshot, error) in
+                if let error = error {
+                    print("Error fetching documents: \(error)")
+                    return
+                }
+                
+                guard let documents = snapshot?.documents else {
+                    print("No matching results in Firestore")
+                    return
+                }
+                
+                completion(documents)
+            }
+    }
+    
     public func addBars(placeResponse: [Place]) {
         for place in placeResponse {
             let docData: [String: Any] = [
@@ -251,6 +270,22 @@ extension FFSManager {
             } else {
                 for document in querySnapshot!.documents {
                     places.append((docId: document.documentID, placeInfo: document.data()))
+                }
+                completion?(places)
+            }
+        }
+    }
+    
+    // Refine version
+    public func fetchAllBars(completion: (([Place]) -> Void)? = nil) {
+        self.database.collection("places").getDocuments { querySnapshot, error in
+            // "latitude, longitude, name, rating, vicinity" : value
+            var places: [Place] = []
+            if let error = error {
+                print("Error adding document: \(error)")
+            } else {
+                for document in querySnapshot!.documents {
+                    places.append(Place(from: document.data()))
                 }
                 completion?(places)
             }

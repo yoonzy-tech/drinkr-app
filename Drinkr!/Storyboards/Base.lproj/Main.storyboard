@@ -35,21 +35,6 @@
             </objects>
             <point key="canvasLocation" x="-381" y="2359"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="GrH-Zb-GsC">
-            <objects>
-                <viewController id="l7r-gR-zWu" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="gsa-4G-bwC">
-                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="F4u-Ac-fax"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9w2-ie-H2I" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1275" y="1581"/>
-        </scene>
         <!--Bar Map-->
         <scene sceneID="Auv-i6-9bL">
             <objects>
@@ -188,19 +173,24 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <size key="customSize" width="410" height="188"/>
                                         <connections>
+                                            <outlet property="directionButton" destination="dsz-iI-c9A" id="9Ae-Zl-E70"/>
                                             <outlet property="imageView" destination="ZDb-Pl-Y0o" id="PxQ-pR-Ngg"/>
                                             <outlet property="placeAddressLabel" destination="FkJ-fE-VXa" id="29F-S3-H6m"/>
                                             <outlet property="placeDistanceLabel" destination="pad-vI-MHl" id="deg-I2-kB1"/>
                                             <outlet property="placeNameLabel" destination="hCj-4R-jBd" id="IOT-jP-KMs"/>
                                             <outlet property="placeRatingOpenHourLabel" destination="VJF-MD-1bO" id="tZq-LC-Qqq"/>
+                                            <outlet property="saveButton" destination="0yZ-qh-xJU" id="2um-sJ-aus"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sAu-N2-PfV">
-                                <rect key="frame" x="364" y="255" width="50" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sAu-N2-PfV">
+                                <rect key="frame" x="364" y="235" width="50" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="37P-ab-siG"/>
+                                    <constraint firstAttribute="width" constant="50" id="Yn8-Th-9PC"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="refresh.png"/>
@@ -209,14 +199,30 @@
                                     <action selector="refetchNearbyBars:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uq1-1T-Css"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pac-Cx-7bB">
-                                <rect key="frame" x="364" y="321" width="50" height="50"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pac-Cx-7bB">
+                                <rect key="frame" x="364" y="301" width="50" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Pma-QZ-Lak"/>
+                                    <constraint firstAttribute="width" constant="50" id="WbH-y7-wHS"/>
+                                </constraints>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="mappin.and.ellipse" catalog="system"/>
                                 <connections>
                                     <action selector="relocateUserPosition:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6A3-k6-LR3"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fVz-ak-Dbv">
+                                <rect key="frame" x="364" y="367" width="50" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="4gq-B4-efT"/>
+                                    <constraint firstAttribute="height" constant="50" id="yyQ-MS-NWP"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="suit.heart.fill" catalog="system"/>
+                                <connections>
+                                    <segue destination="InR-9v-ghY" kind="show" id="tno-ao-ckW"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -225,7 +231,14 @@
                         <constraints>
                             <constraint firstItem="Sjl-Kq-f3H" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="9jm-Xd-Ccr"/>
                             <constraint firstItem="Sjl-Kq-f3H" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="BhG-Wv-Dfk"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="fVz-ak-Dbv" secondAttribute="trailing" constant="16" id="CsW-oo-AKz"/>
+                            <constraint firstItem="fVz-ak-Dbv" firstAttribute="top" secondItem="Pac-Cx-7bB" secondAttribute="bottom" constant="16" id="KE1-xs-3Rm"/>
+                            <constraint firstItem="Pac-Cx-7bB" firstAttribute="top" secondItem="sAu-N2-PfV" secondAttribute="bottom" constant="16" id="Ze6-Iw-MRg"/>
                             <constraint firstItem="Sjl-Kq-f3H" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="cek-4G-4JJ"/>
+                            <constraint firstItem="sAu-N2-PfV" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="235" id="d8a-mL-Z00"/>
+                            <constraint firstItem="Sjl-Kq-f3H" firstAttribute="top" relation="lessThanOrEqual" secondItem="fVz-ak-Dbv" secondAttribute="bottom" constant="207" id="dI7-Hs-Fu1"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="sAu-N2-PfV" secondAttribute="trailing" constant="16" id="mai-QW-Hy3"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Pac-Cx-7bB" secondAttribute="trailing" constant="16" id="uLh-gV-Weq"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Bar Map" id="4oZ-G7-gda"/>
@@ -237,6 +250,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2886.9767441860463" y="-4.5064377682403434"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="My0-V4-pdw">
+            <objects>
+                <viewController id="InR-9v-ghY" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="XfD-3I-SUi">
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="4Fm-LM-w0i"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="YCN-3F-WNh"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AZh-3K-o8M" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3772" y="-5"/>
         </scene>
         <!--Scanner-->
         <scene sceneID="GsJ-z6-GWb">
@@ -812,6 +841,7 @@
         <image name="refresh.png" width="15.75" height="15.75"/>
         <image name="scanner" catalog="system" width="128" height="93"/>
         <image name="scanner.fill" catalog="system" width="128" height="93"/>
+        <image name="suit.heart.fill" catalog="system" width="128" height="107"/>
         <image name="wineglass" catalog="system" width="95" height="128"/>
         <image name="wineglass.fill" catalog="system" width="95" height="128"/>
         <image name="xmark.circle.fill" catalog="system" width="128" height="123"/>
