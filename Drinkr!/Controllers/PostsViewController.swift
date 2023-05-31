@@ -73,8 +73,10 @@ extension PostsViewController: UICollectionViewDataSource,
         
         cell.captionLabel.text = dataSource[indexPath.row].caption
         cell.postImageView.kf.setImage(with: imageUrl)
-        cell.username.text = "Test User"
-//        cell.userProfileImageView.image = UIImage
+        cell.username.text = "c.eight_rrrr"
+        cell.userProfileImageView.image = UIImage(named: "profile")
+        cell.userProfileImageView.layer.cornerRadius = cell.userProfileImageView.frame.size.width / 2
+        cell.userProfileImageView.clipsToBounds = true
         
         return cell
     }

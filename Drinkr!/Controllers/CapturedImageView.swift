@@ -8,17 +8,17 @@
 
 import UIKit
 
-class CapturedImageView : UIView {
-    //MARK:- Vars
-    var image : UIImage? {
+class CapturedImageView: UIView {
+    // MARK: - Vars
+    var image: UIImage? {
         didSet {
             guard let image = image else {return}
             imageView.image = image
         }
     }
     
-    //MARK:- View Components
-    let imageView : UIImageView = {
+    // MARK: - View Components
+    let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 8
@@ -27,7 +27,7 @@ class CapturedImageView : UIView {
         return imageView
     }()
     
-    //MARK:- Init
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: .zero)
         setupView()
@@ -37,8 +37,8 @@ class CapturedImageView : UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK:- Setup
-    func setupView(){
+    // MARK: - Setup
+    func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .white
         layer.cornerRadius = 10
@@ -52,4 +52,3 @@ class CapturedImageView : UIView {
         ])
     }
 }
-    
