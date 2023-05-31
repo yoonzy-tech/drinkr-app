@@ -111,22 +111,35 @@ extension CameraViewController {
                 image: image
             ) { imageRefNo, imageUrl in
                 
-                let data: [String: Any] = [
-                    "userId": FFSManager.shared.userUid,
-                    "caption": self.currentCaption as Any,
-                    "taggedFriends": self.taggedFriends as Any,
-                    "location": self.location as Any,
-                    "imageUrl": imageUrl,
-                    "imageRefNo": imageRefNo,
-                    "time": NSDate().timeIntervalSince1970
-                ]
+//                let data: [String: Any] = [
+//                    "userId": FFSManager.shared.userUid,
+//                    "caption": self.currentCaption as Any,
+//                    "taggedFriends": self.taggedFriends as Any,
+//                    "location": self.location as Any,
+//                    "imageUrl": imageUrl,
+//                    "imageRefNo": imageRefNo,
+//                    "time": NSDate().timeIntervalSince1970
+//                ]
+                
+                let post = DPost(
+                    userId: FFSManager.shared.userUid,
+                    caption: self.currentCaption,
+                    imageUrl: imageUrl,
+                    imageRefNo: imageRefNo,
+                    time: NSDate().timeIntervalSince1970)
                 
                 // Save the packaged data to Firestore
-                if let post = Post(data: data) {
-                    FFSManager.shared.addPost(post: post)
-                } else {
-                    print("Failed to add Post")
+//                if let post = Post(data: data) {
+//                    FFSManager.shared.addPost(post: post)
+                    
+                FirestoreManager.shared.create(in: .posts, data: post)
+                    
+                FirestoreManager.shared.fetch(in: .posts) { (dataArr: [DPost]) in
+                    print(dataArr)
                 }
+//                } else {
+//                    print("Failed to add Post")
+//                }
             }
         }
         

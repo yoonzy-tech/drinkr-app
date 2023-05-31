@@ -18,7 +18,8 @@ class FFSManager {
     
     // "id, name, email, friends" : value
     var userInfoDocId: String = ""
-    var userInfo: [String: Any] = [:]
+    
+    var userInfo: [String: Any] = testUserInfo
     
     let database = Firestore.firestore()
     
@@ -311,8 +312,18 @@ extension FFSManager {
     }
 }
 
-// MARK: - Post Related Manipulation
+// MARK: - Post
 extension FFSManager {
+    public func updatePost(updateDoc: [String: Any], docId: String) {
+        self.database.collection("posts").document(docId).updateData(updateDoc) { error in
+            if let error = error {
+                print("Error updating document: \(error)")
+            } else {
+                print("Document updated successfully")
+            }
+        }
+    }
+    
     public func uploadPostImage(image: UIImage, completion: ((String, String) -> Void)? = nil) {
         var imageData: Data?
         
