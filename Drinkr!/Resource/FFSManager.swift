@@ -314,15 +314,15 @@ extension FFSManager {
 
 // MARK: - Post
 extension FFSManager {
-    public func updatePost(updateDoc: [String: Any], docId: String) {
-        self.database.collection("posts").document(docId).updateData(updateDoc) { error in
-            if let error = error {
-                print("Error updating document: \(error)")
-            } else {
-                print("Document updated successfully")
-            }
-        }
-    }
+//    public func updatePost(updateDoc: [String: Any], docId: String) {
+//        self.database.collection("posts").document(docId).updateData(updateDoc) { error in
+//            if let error = error {
+//                print("Error updating document: \(error)")
+//            } else {
+//                print("Document updated successfully")
+//            }
+//        }
+//    }
     
     public func uploadPostImage(image: UIImage, completion: ((String, String) -> Void)? = nil) {
         var imageData: Data?
@@ -373,46 +373,6 @@ extension FFSManager {
                 }
             }
         }
-    }
-
-    public func addPost(post: Post) {
-        let collectionRef = self.database.collection("posts")
-        let fsGeneratedID = collectionRef.document().documentID
-        let docData: [String: Any] = [
-            "postId": fsGeneratedID,
-            "userId": post.userId as Any,
-            "caption": post.caption as Any,
-            "taggedFriends": post.taggedFriends as Any,
-            "location": post.location as Any,
-            "imageUrl": post.imageUrl as Any,
-            "imageRefNo": post.imageRefNo as Any,
-            "time": NSDate().timeIntervalSince1970 as Any
-        ]
-        print("🧤🧤🧤🧤🧤🧤🧤🧤 \(docData)")
-        collectionRef.addDocument(data: docData) { error in
-            if let error = error {
-                print("Error writing document: \(error)")
-            } else {
-                print("Document successfully written!")
-            }
-        }
-    }
-    
-    public func fetchPosts(completion: @escaping (([QueryDocumentSnapshot]) -> Void)) {
-        self.database.collection("posts")
-            .whereField("userId", isEqualTo: self.userUid)
-            .getDocuments(completion: { querySnapshot, error in
-            
-            if let error = error {
-                print("Error getting post data: \(error.localizedDescription)")
-                return
-            }
-            guard let documents = querySnapshot?.documents else {
-                print("No post data available")
-                return
-            }
-            completion(documents)
-        })
     }
 }
 

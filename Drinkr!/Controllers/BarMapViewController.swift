@@ -36,6 +36,7 @@ class BarMapViewController: UIViewController {
         locationManager.requestLocation()
         showNearbyBarsToUser()
     }
+    
     // Core Location Var
     let locationManager = CLLocationManager()
     var userCoordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 0, longitude: 0)
@@ -65,11 +66,6 @@ class BarMapViewController: UIViewController {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
             if let annotation = view.annotation as? MKPointAnnotation {
                 let tappedCoordinates = annotation.coordinate
-                // Use the tappedCoordinates as needed
-                print("Tapped Coordinates: \(tappedCoordinates.latitude), \(tappedCoordinates.longitude)")
-                
-                // You can also perform additional actions based on the tapped pin if needed
-                // For example, scroll to the corresponding collection view cell using the tappedCoordinates
                 let correspondingIndex = calculateCorrespondingIndex(for: tappedCoordinates)
                 scrollToCollectionViewCell(at: correspondingIndex)
             }
@@ -86,7 +82,6 @@ class BarMapViewController: UIViewController {
         return 0 // Default index if no match is found
     }
     
-    // Step 4: Scroll to Collection View Cell
     func scrollToCollectionViewCell(at index: Int) {
         let indexPath = IndexPath(item: index, section: 0)
         collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
@@ -272,7 +267,10 @@ extension BarMapViewController: UICollectionViewDataSource,
         
         return cell
     }
-    
+}
+
+// MARK: Cell Buttons Actions, Calculations
+extension BarMapViewController {
     func calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double) -> Double {
         let coordinate1 = CLLocation(latitude: lat1, longitude: lon1)
         let coordinate2 = CLLocation(latitude: lat2, longitude: lon2)
@@ -282,66 +280,71 @@ extension BarMapViewController: UICollectionViewDataSource,
         return roundedDistance
     }
     
+    // TODO: Save place to favorite
     @objc func saveToFavorite(_ sender: UIButton) {
         
     }
     
     @objc func getDirections(_ sender: UIButton) {
+        
         let index = sender.tag
+        
         guard let desLat = self.dataSource[index]["latitude"],
               let desLon = self.dataSource[index]["longitude"],
               let placeId = self.dataSource[index]["placeId"] else {
             print("Error in getting user or destination location")
             return
         }
-        let source = "\(self.userCoordinates.latitude),\(self.userCoordinates.longitude)"
-        let destination = "\(desLat),\(desLon)"
         
-        // create an actionSheet
+        let userCoordinates = "\(self.userCoordinates.latitude),\(self.userCoordinates.longitude)"
+        
+        let destinationCoordinates = "\(desLat),\(desLon)"
+        
+        // Create Action Sheet
        let actionSheetController: UIAlertController = UIAlertController(
         title: nil,
         message: "What would you like to do?",
         preferredStyle: .actionSheet)
 
-        // create an action
+        // TODO: Action 1 - Copy Address
         let firstAction: UIAlertAction = UIAlertAction(
             title: "Copy Address",
             style: .default) { _ in
                 print("Copy Address Action pressed")
             }
-
+        
+        // Action 2 - Open Direction in Apple Maps
         let secondAction: UIAlertAction = UIAlertAction(
             title: "Open in Apple Maps",
-            style: .default) { _ in
-                let directionsURLString = "http://maps.apple.com/?saddr=\(source)&daddr=\(destination)"
-                guard let directionsURL = URL(string: directionsURLString) else { return }
-                UIApplication.shared.open(directionsURL, options: [:], completionHandler: nil)
-                print("Apple Maps Action pressed")
-            }
+            style: .default)
+        { _ in
+            let directionsURLString = "http://maps.apple.com/?saddr=\(userCoordinates)&daddr=\(destinationCoordinates)"
+            guard let directionsURL = URL(string: directionsURLString) else { return }
+            UIApplication.shared.open(directionsURL, options: [:], completionHandler: nil)
+        }
         
+        // Action 3 - Open Direction in Goolge Maps
         let thirdAction: UIAlertAction = UIAlertAction(
             title: "Open in Google Maps",
-            style: .default) { _ in
-                // Create the URL with the place ID
-                let directionsURLString = "https://www.google.com/maps/search/?api=1&query=\(destination)&query_place_id=\(placeId)"
-                guard let directionsURL = URL(string: directionsURLString) else { return }
-                UIApplication.shared.open(directionsURL, options: [:], completionHandler: nil)
-
-                print("Google Maps Action pressed")
-            }
-
+            style: .default)
+        { _ in
+            let directionURLString = "https://www.google.com/maps/search/?api=1&query=\(destinationCoordinates)&query_place_id=\(placeId)"
+            guard let directionURL = URL(string: directionURLString) else { return }
+            UIApplication.shared.open(directionURL, options: [:], completionHandler: nil)
+        }
+        
+        // Default Action - Cancel
         let cancelAction: UIAlertAction = UIAlertAction(
             title: "Cancel",
             style: .cancel)
 
-        // add actions
         actionSheetController.addAction(firstAction)
         actionSheetController.addAction(secondAction)
         actionSheetController.addAction(thirdAction)
         actionSheetController.addAction(cancelAction)
 
         actionSheetController.popoverPresentationController?.sourceView = self.view
-
+        
         self.present(actionSheetController, animated: true) {
             print("option menu presented")
         }

@@ -20,22 +20,29 @@ class PostCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var moreOptionsButton: UIButton!
     
-    func updateContent(
-        profileImage: UIImage?,
-        username: String,
-        caption: String?,
-        postImageUrlString: String) {
-            
-        self.userProfileImageView.image = profileImage
-            
-        self.usernameLabel.text = username
-        self.captionUsernameLabel.text = username
-            
-        self.captionLabel.text = caption
-            
-        let imageUrl = URL(string: postImageUrlString)
+    func updateCell(post: Post) {
+        if let urlString = testUserInfo["profileImageUrl"] {
+            let url = URL(string: urlString)
+            self.userProfileImageView.kf.setImage(with: url)
+        } else {
+            print("User has no profile image")
+            self.userProfileImageView.image = UIImage(systemName: "person.fill")
+        }
+        self.usernameLabel.text = testUserInfo["name"]
+        self.captionUsernameLabel.text = testUserInfo["name"]
+        
+        self.captionLabel.text = post.caption
+        
+        let imageUrl = URL(string: post.imageUrl)
         self.postImageView.kf.setImage(with: imageUrl)
         self.userProfileImageView.layer.cornerRadius = self.userProfileImageView.frame.size.width / 2
         self.userProfileImageView.clipsToBounds = true
+        
+        if post.comments.count > 0 {
+            self.viewMoreCommentsButton.isHidden = false
+            self.viewMoreCommentsButton.setTitle("View all \(post.comments.count) comments", for: .normal)
+        } else {
+            self.viewMoreCommentsButton.isHidden = true
+        }
     }
 }

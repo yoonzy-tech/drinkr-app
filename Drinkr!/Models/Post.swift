@@ -1,37 +1,35 @@
 //
-//  Post.swift
+//  DPosts.swift
 //  Drinkr!
 //
-//  Created by Ruby Chew on 2023/5/25.
+//  Created by Ruby Chew on 2023/5/31.
 //
 
 import Foundation
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
-struct Post {
-    //    var postId: String // Firestore Generated
+struct Post: Codable {
+    @DocumentID var id: String?
     var userId: String
     var caption: String?
-    var taggedFriends: [String]?
-    var location: String?
-    var imageUrl: String
-    var imageRefNo: String
-    var time: Double
     
-    // If you need to initialize with a dictionary
-    init?(data: [String: Any]) {
-        guard let userId = data["userId"] as? String,
-              let imageUrl = data["imageUrl"] as? String,
-              let imageRefNo = data["imageRefNo"] as? String,
-              let time = data["time"] as? Double else {
-            return nil
-        }
-        
-        self.userId = userId
-        self.caption = data["caption"] as? String
-        self.taggedFriends = data["taggedFriends"] as? [String]
-        self.location = data["location"] as? String
-        self.imageUrl = imageUrl
-        self.imageRefNo = imageRefNo
-        self.time = time
-    }
+    var imageUrl: String
+    var imageRef: String
+    
+    var createdTime: Timestamp?
+    
+    var comments: [Comment] = []
+    var likes: Int = 0
+    
+    var taggedFriends: [String] = []
+    var location: String = ""
 }
+
+struct Comment: Codable {
+    var userId: String
+    var text: String
+    var createdTime: Timestamp?
+}
+
+// use that Id to fetch user data for profile image and name

@@ -10,12 +10,7 @@ import IQKeyboardManagerSwift
 
 class CommentsViewController: UIViewController {
     
-    var dataSource: [String] = [] {
-        didSet {
-            tableView.reloadData()
-        }
-    }
-    var captionContent: Post?
+    var postDataSource: Post?
     
     @IBOutlet weak var userProfileImageView: UIImageView!
     @IBOutlet weak var tableView: UITableView!
@@ -24,8 +19,20 @@ class CommentsViewController: UIViewController {
     @IBOutlet weak var textField: UITextField!
     
     @IBAction func postComment(_ sender: Any) {
+        if let text = textField.text {
+            let comment = Comment(
+                userId: testUserInfo["uid"] ?? "Unknown Uid",
+                text: text
+            )
+            postDataSource?.comments.append(comment)
+            FirestoreManager.shared.update(
+                in: .posts,
+                docId: postDataSource?.id ?? "Unknown Doc ID",
+                data: postDataSource)
+        }
+        textField.text = .none
+        tableView.reloadData()
         textField.resignFirstResponder()
-        dataSource.append(textField.text ?? "Unknown")
     }
     
     override func viewDidLoad() {
@@ -37,6 +44,13 @@ class CommentsViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func handleTap() {
+        view.endEditing(true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,34 +69,67 @@ class CommentsViewController: UIViewController {
 extension CommentsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        dataSource.count + 1
+        (postDataSource?.comments.count ?? 0) + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.row == 0 {
+            // Caption Cell
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: "CaptionTableViewCell", for: indexPath) as? CaptionTableViewCell
             else { fatalError("Unable to generate Table View Cell") }
-            // Caption Cell
-            cell.updateCell(
-                username: "c.eight_rrrrr",
-                profileImageUrlString: "",
-                caption: captionContent?.caption ?? "")
             
+            if let postDataSource = postDataSource {
+                cell.updateCell(
+                    username: "c.eight_rrrrr",
+                    profileImageUrlString: "",
+                    caption: postDataSource.caption ?? "")
+            }
             return cell
+            
         } else {
             // Comment Cell
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: "CommentTableViewCell", for: indexPath) as? CommentTableViewCell
             else { fatalError("Unable to generate Table View Cell") }
             
-            cell.updateCell(username: "richman",
-                            profileImageUrlString: "",
-                            comment: dataSource[indexPath.row - 1]
-            )
-            
+            if let postDataSource = postDataSource {
+                cell.updateCell(
+                    username: "richman",
+                    profileImageUrlString: "",
+                    comment: postDataSource.comments[indexPath.row - 1].text
+                )
+            }
             return cell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        if indexPath.row == 0 {
+            return .none
+        } else {
+            return .delete
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            // Delete local dataSource
+            postDataSource?.comments.remove(at: indexPath.row - 1)
+            // Update Firestore
+            FirestoreManager.shared.update(
+                in: .posts,
+                docId: postDataSource?.id ?? "Unknown Doc Id",
+                data: postDataSource
+            )
+            // Update local dataSource
+            FirestoreManager.shared.fetchOne(in: .posts, docId: postDataSource?.id ?? "Unknown Doc Id") { (data: Post) in
+                self.postDataSource = data
+                tableView.reloadData()
+            }
+            
         }
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 import MJRefresh
 import Kingfisher
 
@@ -14,19 +15,28 @@ enum Liked {
     case no
 }
 
+enum Role {
+    case author
+    case visitor
+}
+
 protocol PostCaptionDelegate: AnyObject {
     func didViewComments ()
 }
 
 class PostsViewController: UIViewController {
-
-    var liked: Liked = .no
-    var likeCount: Int = 0
     
-    var captionContent: Post?
+    var role: Role = .author
+
+    var postData: Post?
+    
+    var liked: Liked = .no
+    
+    var likeCount: Int = 33
     
     var dataSource: [Post] = [] {
         didSet {
+            self.dataSource.sort { ($0.createdTime ?? .init()).compare($1.createdTime ?? .init()) == .orderedDescending }
             collectionView.reloadData()
         }
     }
@@ -35,6 +45,15 @@ class PostsViewController: UIViewController {
     
     @IBAction func openCamera(_ sender: Any) {
         performSegue(withIdentifier: "openCameraSegue", sender: sender)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "openComments",
+           let destinationVC = segue.destination as? CommentsViewController,
+           let shouldActivateTextField = sender as? Bool {
+            destinationVC.shouldActivateTextField = shouldActivateTextField
+            destinationVC.postDataSource = self.postData
+        }
     }
     
     override func viewDidLoad() {
@@ -48,37 +67,21 @@ class PostsViewController: UIViewController {
         collectionView.mj_header?.setRefreshingTarget(self, refreshingAction: #selector(refreshData))
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "openComments",
-           let destinationVC = segue.destination as? CommentsViewController,
-           let shouldActivateTextField = sender as? Bool {
-            destinationVC.shouldActivateTextField = shouldActivateTextField
-            destinationVC.captionContent = self.captionContent
-        }
-    }
-    
     @objc func refreshData() {
         updateDataSource()
         collectionView.mj_header?.endRefreshing()
     }
     
     private func updateDataSource() {
-        FFSManager.shared.fetchPosts { [weak self] documents in
-            
-            self?.dataSource = documents.compactMap { document in
-                guard let post = Post(data: document.data()) else {
-                    print("Failed to convert document to A Post: \(document)")
-                    return nil
-                }
-                return post
-            }
-            
-            // Sort the array by time here (latest on top)
-            self?.dataSource = self?.dataSource.sorted { $0.time > $1.time } ?? []
+        FirestoreManager.shared.fetchAll(in: .posts) { (posts: [Post]) in
+            self.dataSource = posts
+            self.dataSource.sort { ($0.createdTime ?? .init()).compare($1.createdTime ?? .init()) == .orderedDescending }
+            self.collectionView.reloadData()
         }
     }
 }
 
+// MARK: - Collection View
 extension PostsViewController: UICollectionViewDataSource,
                                UICollectionViewDelegate,
                                UICollectionViewDelegateFlowLayout {
@@ -92,14 +95,7 @@ extension PostsViewController: UICollectionViewDataSource,
             withReuseIdentifier: "PostCollectionViewCell", for: indexPath) as? PostCollectionViewCell
         else { fatalError("Unable to generate Post  Collection View Cell") }
         
-        let username = "c.eight_rrrr"
-        
-        cell.updateContent(
-            profileImage: UIImage(named: "profile"),
-            username: username,
-            caption: dataSource[indexPath.row].caption,
-            postImageUrlString: dataSource[indexPath.row].imageUrl
-        )
+        cell.updateCell(post: dataSource[indexPath.row])
         
         cell.likeButton.tag = indexPath.row
         cell.likeButton.addTarget(self, action: #selector(likes), for: .touchUpInside)
@@ -115,30 +111,38 @@ extension PostsViewController: UICollectionViewDataSource,
         
         return cell
     }
-    
+}
+
+// MARK: - Cell Button Action
+extension PostsViewController {
     @objc func likes(_ sender: UIButton) {
+        let index = sender.tag
         liked = liked == .yes ? .no : .yes
         sender.setImage(liked == .yes ? UIImage(named: "cheers.fill") : UIImage(named: "cheers"), for: .normal)
         likeCount = liked == .yes ? likeCount + 1 : likeCount - 1
-        sender.setTitle(likeCount == 0 ? "" : " \(likeCount)", for: .normal)
+        sender.setTitle(likeCount == 0 || liked == .no ? "" : " \(likeCount)", for: .normal)
+        dataSource[index].likes = likeCount
+        FirestoreManager.shared.update(in: .posts, docId: dataSource[index].id ?? "Unknown Doc Id", data: dataSource[index])
     }
     
     @objc func makeComment(_ sender: UIButton) {
-        captionContent = dataSource[sender.tag]
+        postData = dataSource[sender.tag]
         performSegue(withIdentifier: "openComments", sender: true)
     }
     
     @objc func viewComments(_ sender: UIButton) {
-        captionContent = dataSource[sender.tag]
+        postData = dataSource[sender.tag]
         performSegue(withIdentifier: "openComments", sender: false)
     }
     
     @objc func seeMoreOptions(_ sender: UIButton) {
         
+        let selectedIndex = sender.tag
+        
         let actionSheetController: UIAlertController = UIAlertController(
             title: nil, message: nil, preferredStyle: .actionSheet)
         
-        if  true {
+        if  role == .author {
             // User Own Post: Edit, Delete
             let editAction: UIAlertAction = UIAlertAction(
                 title: "Edit this post",
@@ -148,8 +152,11 @@ extension PostsViewController: UICollectionViewDataSource,
 
             let deleteAction: UIAlertAction = UIAlertAction(
                 title: "Delete this post",
-                style: .destructive) { _ in
+                style: .destructive) { [weak self] _ in
                     print("Delete a post")
+                    FirestoreManager.shared.delete(in: .posts, docId: self?.dataSource[selectedIndex].id ?? "Unknown Doc Id") {
+                        self?.updateDataSource()
+                    }
                 }
             
             actionSheetController.addAction(editAction)

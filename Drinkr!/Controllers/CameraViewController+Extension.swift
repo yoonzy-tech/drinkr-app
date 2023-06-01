@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseFirestore
 
 // Preview Create Post Related UI Setup
 extension CameraViewController {
@@ -18,7 +19,7 @@ extension CameraViewController {
             captionButton.bottomAnchor.constraint(
                 equalTo: view.bottomAnchor, constant: -80),
             captionButton.widthAnchor.constraint(equalToConstant: 120),
-            captionButton.heightAnchor.constraint(equalToConstant: 60)
+            captionButton.heightAnchor.constraint(equalToConstant: 40)
         ])
         
         // Add "Tag Friends" button
@@ -29,7 +30,7 @@ extension CameraViewController {
             tagFriendsButton.centerYAnchor.constraint(
                 equalTo: captionButton.centerYAnchor),
             tagFriendsButton.widthAnchor.constraint(equalToConstant: 120),
-            tagFriendsButton.heightAnchor.constraint(equalToConstant: 60)
+            tagFriendsButton.heightAnchor.constraint(equalToConstant: 40)
         ])
         
         // Add Discard button
@@ -37,8 +38,8 @@ extension CameraViewController {
         NSLayoutConstraint.activate([
             discardButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             discardButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            discardButton.widthAnchor.constraint(equalToConstant: 120),
-            discardButton.heightAnchor.constraint(equalToConstant: 60)
+            discardButton.widthAnchor.constraint(equalToConstant: 50),
+            discardButton.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         // Add Publish button
@@ -49,7 +50,7 @@ extension CameraViewController {
             publishButton.centerYAnchor.constraint(
                 equalTo: captionButton.centerYAnchor),
             publishButton.widthAnchor.constraint(equalToConstant: 120),
-            publishButton.heightAnchor.constraint(equalToConstant: 60)
+            publishButton.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
     
@@ -60,7 +61,9 @@ extension CameraViewController {
             preferredStyle: .alert)
         alertController.addTextField { (textField: UITextField!) -> Void in
             textField.placeholder = "Enter Caption"
-            textField.text = self.currentCaption  // Display the existing caption
+            if let caption = textField.text {
+                self.currentCaption = caption
+            }  // Display the existing caption
         }
         
         let cancelAction = UIAlertAction(
@@ -74,9 +77,11 @@ extension CameraViewController {
             title: "Save",
             style: .default,
             handler: { _ -> Void in
-                let firstTextField = alertController.textFields![0] as UITextField
+                let textField = alertController.textFields![0] as UITextField
                 button.setTitle("Edit Caption", for: .normal)
-                self.currentCaption = firstTextField.text
+                if let caption = textField.text {
+                    self.currentCaption = caption
+                }
             })
         
         alertController.addAction(cancelAction)
@@ -84,6 +89,7 @@ extension CameraViewController {
         present(alertController, animated: true, completion: nil)
     }
     
+    // TODO: Tag Friend when posting (optional)
     @objc func tagFriends(_ button: UIButton) {
         // Implement tagging of friends here
     }
@@ -97,7 +103,6 @@ extension CameraViewController {
         self.tagFriendsButton.isHidden = true
         self.discardButton.isHidden = true
         
-        // Restart capture session
         startRunningCaptureSession()
     }
     
@@ -106,43 +111,24 @@ extension CameraViewController {
         // Save the ImageView image to DB
         // Get the URL and Ref of the image
         // Package the Post data
+        
+        // TODO: Refine Upload Function
         if let image = imageView.image {
             FFSManager.shared.uploadPostImage(
                 image: image
             ) { imageRefNo, imageUrl in
                 
-//                let data: [String: Any] = [
-//                    "userId": FFSManager.shared.userUid,
-//                    "caption": self.currentCaption as Any,
-//                    "taggedFriends": self.taggedFriends as Any,
-//                    "location": self.location as Any,
-//                    "imageUrl": imageUrl,
-//                    "imageRefNo": imageRefNo,
-//                    "time": NSDate().timeIntervalSince1970
-//                ]
-                
-                let post = DPost(
+                let post = Post(
                     userId: FFSManager.shared.userUid,
-                    caption: self.currentCaption,
+                    caption: self.currentCaption ?? "",
                     imageUrl: imageUrl,
-                    imageRefNo: imageRefNo,
-                    time: NSDate().timeIntervalSince1970)
+                    imageRef: imageRefNo,
+                    createdTime: Timestamp())
                 
                 // Save the packaged data to Firestore
-//                if let post = Post(data: data) {
-//                    FFSManager.shared.addPost(post: post)
-                    
                 FirestoreManager.shared.create(in: .posts, data: post)
-                    
-                FirestoreManager.shared.fetch(in: .posts) { (dataArr: [DPost]) in
-                    print(dataArr)
-                }
-//                } else {
-//                    print("Failed to add Post")
-//                }
             }
         }
-        
         self.navigationController?.popToRootViewController(animated: false)
     }
 }
