@@ -20,7 +20,10 @@ class BarMapViewController: UIViewController {
     }
     
     @IBOutlet weak var collectionView: UICollectionView!
-    
+        
+    @IBOutlet weak var relocationUserButton: UIButton!
+    @IBOutlet weak var refreshButton: UIButton!
+    @IBOutlet weak var userFavoriteButton: UIButton!
     // Search Controller Var
     let searchVC = UISearchController(searchResultsController: ResultsViewController())
     
@@ -43,9 +46,13 @@ class BarMapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        relocationUserButton.layer.cornerRadius = 5
+        refreshButton.layer.cornerRadius = 5
+        userFavoriteButton.layer.cornerRadius = 5
+        
         // Search Controller Setup
 //        searchVC.searchBar.backgroundColor = UIColor(red: 23/255, green: 44/255, blue: 211/255, alpha: 1.0)
-//        searchVC.searchBar.searchTextField.backgroundColor = .white
+//        searchVC.searchBar.searchTextField.backgroundColor = UIColor(hexString: "#FDFFFF")
         searchVC.searchResultsUpdater = self
         navigationItem.searchController = searchVC
         
@@ -243,6 +250,7 @@ extension BarMapViewController: UICollectionViewDataSource,
             withReuseIdentifier: "BarCardCollectionViewCell", for: indexPath) as? BarCardCollectionViewCell
         else { fatalError("Unable to generate Bar Card Collection View Cell") }
         
+        cell.layer.cornerRadius = 5
         cell.placeNameLabel.text = dataSource[indexPath.row]["name"] as? String
         cell.placeAddressLabel.text = dataSource[indexPath.row]["vicinity"] as? String
         if let rating = dataSource[indexPath.row]["rating"] as? Double {

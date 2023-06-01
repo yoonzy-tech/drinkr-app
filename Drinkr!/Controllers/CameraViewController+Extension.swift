@@ -107,28 +107,28 @@ extension CameraViewController {
     }
     
     @objc func publishImage(_ button: UIButton) {
-        // Implement publishing of the image here
-        // Save the ImageView image to DB
-        // Get the URL and Ref of the image
-        // Package the Post data
-        
-        // TODO: Refine Upload Function
-        if let image = imageView.image {
-            FFSManager.shared.uploadPostImage(
-                image: image
-            ) { imageRefNo, imageUrl in
+        if let image = imageView.image,
+           let imageData = FirestoreManager.shared.rotateImageToUp(image: image) {
+            
+            FirestoreManager.shared.uploadFile(to: .posts, imageData: imageData) { [weak self] imageRef, imageUrl in
                 
                 let post = Post(
-                    userId: FFSManager.shared.userUid,
-                    caption: self.currentCaption ?? "",
+                    userId: testUserInfo["uid"] ?? "Unknown User Uid",
+                    caption: self?.currentCaption,
                     imageUrl: imageUrl,
-                    imageRef: imageRefNo,
-                    createdTime: Timestamp())
+                    imageRef: imageRef,
+                    createdTime: Timestamp(),
+                    taggedFriends: self?.taggedFriends ?? ["No Friend Tagged"],
+                    location: self?.location ?? "No location"
+                )
                 
-                // Save the packaged data to Firestore
                 FirestoreManager.shared.create(in: .posts, data: post)
             }
+            
+        } else {
+            print("Failed to get image data")
         }
+        
         self.navigationController?.popToRootViewController(animated: false)
     }
 }

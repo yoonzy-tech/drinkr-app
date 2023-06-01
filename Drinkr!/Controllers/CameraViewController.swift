@@ -129,7 +129,7 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
             // Save the captured image to photo library
             PHPhotoLibrary.shared().performChanges({
                 PHAssetChangeRequest.creationRequestForAsset(from: image)
-            }, completionHandler: { success, error in
+            }, completionHandler: { [weak self] success, error in
                 if success {
                     print("Photo saved successfully")
                 } else if let error = error {
@@ -137,10 +137,10 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
                 }
                 
                 DispatchQueue.main.async {
-                    self.imageView.image = image
+                    self?.imageView.image = image
+                    
+                    self?.stopRunningCaptureSession()
                 }
-                
-                self.stopRunningCaptureSession()
             })
         }
     }
@@ -167,7 +167,7 @@ extension CameraViewController: PHPickerViewControllerDelegate {
                         self.publishButton.isHidden = false
                         self.tagFriendsButton.isHidden = false
                         self.discardButton.isHidden = false
-                        
+
                         self.shutterButton.isHidden = true
                         self.flashButton.isHidden = true
                         self.closeButton.isHidden = true
@@ -250,22 +250,19 @@ extension CameraViewController {
     }
     
     func stopRunningCaptureSession() {
-        DispatchQueue.global().async {
+        DispatchQueue.main.async {
             self.captureSession.stopRunning()
+            // Hide buttons when camera resumes
+            self.shutterButton.isHidden = true
+            self.flashButton.isHidden = true
+            self.closeButton.isHidden = true
+            self.imagePickerButton.isHidden = true
             
-            DispatchQueue.main.async {
-                // Hide buttons when camera resumes
-                self.shutterButton.isHidden = true
-                self.flashButton.isHidden = true
-                self.closeButton.isHidden = true
-                self.imagePickerButton.isHidden = true
-                
-                // Unhide buttons when camera resumes
-                self.captionButton.isHidden = false
-                self.publishButton.isHidden = false
-                self.tagFriendsButton.isHidden = false
-                self.discardButton.isHidden = false
-            }
+            // Unhide buttons when camera resumes
+            self.captionButton.isHidden = false
+            self.publishButton.isHidden = false
+            self.tagFriendsButton.isHidden = false
+            self.discardButton.isHidden = false
         }
     }
 }

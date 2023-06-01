@@ -26,6 +26,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         IQKeyboardManager.shared.enable = true
         
+        let newNavBarAppearance = UINavigationBarAppearance()
+        newNavBarAppearance.backgroundColor = UIColor.white
+        //UIColor(hexString: "#C4FA6F") UIColor(hexString: "#182CD4")
+        newNavBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor(hexString: "#3A3F47")]
+        newNavBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor(hexString: "#3A3F47")]
+        newNavBarAppearance.buttonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(hexString: "#182CD4")]
+       
+//        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): UIColor.white], for: .normal)
+
+        let barButtonItemAppearance = UIBarButtonItemAppearance(style: .plain)
+        barButtonItemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(hexString: "#182CD4")]
+        barButtonItemAppearance.disabled.titleTextAttributes = [.foregroundColor: UIColor.lightText]
+        barButtonItemAppearance.highlighted.titleTextAttributes = [.foregroundColor: UIColor.label]
+        barButtonItemAppearance.focused.titleTextAttributes = [.foregroundColor: UIColor.white]
+        newNavBarAppearance.buttonAppearance = barButtonItemAppearance
+        newNavBarAppearance.backButtonAppearance = barButtonItemAppearance
+        newNavBarAppearance.doneButtonAppearance = barButtonItemAppearance
+        
+        let appearance = UINavigationBar.appearance()
+        appearance.tintColor = UIColor(hexString: "#182CD4")
+        appearance.scrollEdgeAppearance = newNavBarAppearance
+        appearance.compactAppearance = newNavBarAppearance
+        appearance.standardAppearance = newNavBarAppearance
+        
         return true
     }
 

@@ -9,6 +9,7 @@ import UIKit
 import CoreML
 import Photos
 import PhotosUI
+import Lottie
 
 class ScannerViewController: UIViewController {
     

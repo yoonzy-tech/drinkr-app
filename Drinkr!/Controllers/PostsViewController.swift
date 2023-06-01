@@ -34,12 +34,9 @@ class PostsViewController: UIViewController {
     
     var likeCount: Int = 33
     
-    var dataSource: [Post] = [] {
-        didSet {
-            self.dataSource.sort { ($0.createdTime ?? .init()).compare($1.createdTime ?? .init()) == .orderedDescending }
-            collectionView.reloadData()
-        }
-    }
+    var dataSource: [Post] = []
+    
+    var tapGesture: UITapGestureRecognizer?
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -65,6 +62,36 @@ class PostsViewController: UIViewController {
         
         collectionView.mj_header = MJRefreshNormalHeader()
         collectionView.mj_header?.setRefreshingTarget(self, refreshingAction: #selector(refreshData))
+        
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap))
+        tapGesture?.numberOfTouchesRequired = 2
+    }
+    
+    @objc func didDoubleTap(_ gesture: UITapGestureRecognizer) {
+        print("Double tapped!!")
+        guard let gestureView = gesture.view else { return }
+        
+        let size = gestureView.frame.size.width / 4
+        
+        let cheers = UIImageView(image: UIImage(named: "cheers"))
+        cheers.frame = CGRect(
+            x: (gestureView.frame.size.width - size) / 2,
+            y: (gestureView.frame.size.height - size) / 2,
+            width: size,
+            height: size
+        )
+        cheers.center = gestureView.center
+        gestureView.addSubview(cheers)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+            UIView.animate(withDuration: 1, animations: {
+                cheers.alpha = 0.5
+            }, completion: { done in
+                if done {
+                    cheers.removeFromSuperview()
+                }
+            })
+        })
     }
     
     @objc func refreshData() {
@@ -73,10 +100,10 @@ class PostsViewController: UIViewController {
     }
     
     private func updateDataSource() {
-        FirestoreManager.shared.fetchAll(in: .posts) { (posts: [Post]) in
-            self.dataSource = posts
-            self.dataSource.sort { ($0.createdTime ?? .init()).compare($1.createdTime ?? .init()) == .orderedDescending }
-            self.collectionView.reloadData()
+        FirestoreManager.shared.fetchAll(in: .posts) { [weak self] (posts: [Post]) in
+            self?.dataSource = posts
+            self?.dataSource.sort { ($0.createdTime ?? .init()).compare($1.createdTime ?? .init()) == .orderedDescending }
+            self?.collectionView.reloadData()
         }
     }
 }
@@ -96,6 +123,13 @@ extension PostsViewController: UICollectionViewDataSource,
         else { fatalError("Unable to generate Post  Collection View Cell") }
         
         cell.updateCell(post: dataSource[indexPath.row])
+        cell.postImageView.clipsToBounds = true
+        cell.postImageView.isUserInteractionEnabled = true
+        if let tapGesture = tapGesture {
+            cell.postImageView.addGestureRecognizer(tapGesture)
+        } else {
+            print("Failed to add tap gesture")
+        }
         
         cell.likeButton.tag = indexPath.row
         cell.likeButton.addTarget(self, action: #selector(likes), for: .touchUpInside)
@@ -118,11 +152,15 @@ extension PostsViewController {
     @objc func likes(_ sender: UIButton) {
         let index = sender.tag
         liked = liked == .yes ? .no : .yes
-        sender.setImage(liked == .yes ? UIImage(named: "cheers.fill") : UIImage(named: "cheers"), for: .normal)
         likeCount = liked == .yes ? likeCount + 1 : likeCount - 1
-        sender.setTitle(likeCount == 0 || liked == .no ? "" : " \(likeCount)", for: .normal)
+        sender.setImage(liked == .yes ? UIImage(named: "cheers.fill") : UIImage(named: "cheers"), for: .normal)
+        sender.setTitle(liked == .no ? "" : " \(likeCount)", for: .normal)
         dataSource[index].likes = likeCount
-        FirestoreManager.shared.update(in: .posts, docId: dataSource[index].id ?? "Unknown Doc Id", data: dataSource[index])
+        FirestoreManager.shared.update(
+            in: .posts,
+            docId: dataSource[index].id ?? "Unknown Doc Id",
+            data: dataSource[index]
+        )
     }
     
     @objc func makeComment(_ sender: UIButton) {
@@ -149,14 +187,20 @@ extension PostsViewController {
                 style: .default) { _ in
                     print("Edit a post")
                 }
-
+            
             let deleteAction: UIAlertAction = UIAlertAction(
                 title: "Delete this post",
                 style: .destructive) { [weak self] _ in
                     print("Delete a post")
-                    FirestoreManager.shared.delete(in: .posts, docId: self?.dataSource[selectedIndex].id ?? "Unknown Doc Id") {
+                    FirestoreManager.shared.delete(
+                        in: .posts,
+                        docId: self?.dataSource[selectedIndex].id ?? "Unknown Doc Id") {
                         self?.updateDataSource()
                     }
+                    FirestoreManager.shared.deleteFile(
+                        to: .posts,
+                        imageRef: self?.dataSource[selectedIndex].imageRef ?? "Unknown Image Ref"
+                    )
                 }
             
             actionSheetController.addAction(editAction)

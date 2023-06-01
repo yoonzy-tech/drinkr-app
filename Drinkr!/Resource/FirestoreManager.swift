@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import UIKit
 import Firebase
 import FirebaseFirestoreSwift
+import FirebaseStorage
 
 enum Collection: String {
     case posts
@@ -17,6 +19,10 @@ enum Collection: String {
     case users
 }
 
+enum StoragePath: String {
+    case posts
+}
+
 class FirestoreManager {
     static let shared = FirestoreManager()
     
@@ -24,11 +30,13 @@ class FirestoreManager {
     
     let database = Firestore.firestore()
     
+    let storage = Storage.storage().reference()
+    
     func create<T: Codable>(in collection: Collection, data: T) {
         do {
             try database.collection(collection.rawValue).addDocument(from: data) // ignore the error here
         } catch {
-            print(error)
+            print("Error to add document: \(error.localizedDescription)")
         }
     }
     
@@ -83,6 +91,87 @@ class FirestoreManager {
                 completion?()
             }
         }
+    }
+    
+    func uploadFile(to path: StoragePath, imageData: Data, completion: ((String, String) -> Void)? = nil) {
+        
+        let imageRef = "\(testUserInfo["uid"] ?? "Unknown User Uid")\(Date().formatNowDate)"
+        
+        let path = self.storage.child(path.rawValue).child(imageRef)
+                
+        let uploadTask = path.putData(imageData, metadata: nil) { _, error in
+            if let error = error {
+                print("Failed to upload image: \(error.localizedDescription)")
+                return
+            } else {
+                path.downloadURL { url, error in
+                    if let error = error {
+                        print("Failed to get download URL: \(error.localizedDescription)")
+                        
+                    } else {
+                        if let url = url {
+                            let imageUrl = url.absoluteString
+                            print("Download URL: \(imageUrl)")
+                            
+                            completion?(imageRef, imageUrl)
+                        }
+                    }
+                }
+            }
+        }
+
+        let observer = uploadTask.observe(.progress) { snapshot in
+            // Update progress UI
+            guard let progress = snapshot.progress else {
+                print("Fail to get progress")
+                return
+            }
+            let percentComplete = 100.0 * Double(progress.completedUnitCount) / Double(progress.totalUnitCount)
+            print("Upload progress: \(percentComplete)%")
+        }
+    }
+    
+    func deleteFile(to path: StoragePath, imageRef: String) {
+        
+        let path = self.storage.child(path.rawValue).child(imageRef)
+        
+        path.delete { error in
+            if let error = error {
+                // Handle error
+                print("Error deleting image: \(error.localizedDescription)")
+                return
+            }
+            
+            // Image deleted successfully
+            print("Image deleted successfully!")
+        }
+    }
+    
+    func rotateImageToUp(image: UIImage) -> Data? {
+        
+        var imageData: Data?
+        
+        let compressionQuality: CGFloat = 0.5
+        
+        if image.imageOrientation != .up {
+            UIGraphicsBeginImageContextWithOptions(image.size, false, image.scale)
+            
+            image.draw(in: CGRect(origin: .zero, size: image.size))
+            let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()
+            
+            UIGraphicsEndImageContext()
+            
+            if let jpegData = normalizedImage?.jpegData(compressionQuality: compressionQuality) {
+                imageData = jpegData
+            }
+            
+        } else {
+            
+            if let jpegData = image.jpegData(compressionQuality: compressionQuality) {
+                imageData = jpegData
+            }
+        }
+        return imageData
     }
 }
 

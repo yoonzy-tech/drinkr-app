@@ -52,6 +52,7 @@
 		04D2C1D92A238A39001212A7 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 04D2C1D82A238A39001212A7 /* GoogleSignIn */; };
 		04D2C1DB2A238B77001212A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04D2C1DA2A238B77001212A7 /* GoogleService-Info.plist */; };
 		04D2C1DD2A238C03001212A7 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1DC2A238C03001212A7 /* SignInViewController.swift */; };
+		04E568B42A28C44300863D8B /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E568B32A28C44300863D8B /* TabBarViewController.swift */; };
 		F3EEB3BA26076AFD5FCEA003 /* Pods_Drinkr_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BB0E2B5F3435C8674393EF8 /* Pods_Drinkr_.framework */; };
 /* End PBXBuildFile section */
 
@@ -94,6 +95,7 @@
 		04D2C1D52A20BFF7001212A7 /* RecipeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTableViewCell.swift; sourceTree = "<group>"; };
 		04D2C1DA2A238B77001212A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		04D2C1DC2A238C03001212A7 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		04E568B32A28C44300863D8B /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		5BB0E2B5F3435C8674393EF8 /* Pods_Drinkr_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Drinkr_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE559A43A4F2DBB9910367AB /* Pods-Drinkr!.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drinkr!.release.xcconfig"; path = "Target Support Files/Pods-Drinkr!/Pods-Drinkr!.release.xcconfig"; sourceTree = "<group>"; };
 		C0B0CC910109A565297FE5AE /* Pods-Drinkr!.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drinkr!.debug.xcconfig"; path = "Target Support Files/Pods-Drinkr!/Pods-Drinkr!.debug.xcconfig"; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 				04946E772A273CBE00DCD2A4 /* CommentsViewController.swift */,
 				04D2C1D32A20BFC0001212A7 /* RecipesViewController.swift */,
 				04D2C1DC2A238C03001212A7 /* SignInViewController.swift */,
+				04E568B32A28C44300863D8B /* TabBarViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -428,6 +431,7 @@
 				04B9EA0F2A1A8382002A7EC4 /* ResultsViewController.swift in Sources */,
 				04D2C1D62A20BFF7001212A7 /* RecipeTableViewCell.swift in Sources */,
 				048E16542A176A520008CF2A /* AppDelegate.swift in Sources */,
+				04E568B42A28C44300863D8B /* TabBarViewController.swift in Sources */,
 				0419034F2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift in Sources */,
 				040DB3182A1CCEC9003E02A4 /* UIImage+Extension.swift in Sources */,
 				04D2C1C92A1F459F001212A7 /* Drink.swift in Sources */,
