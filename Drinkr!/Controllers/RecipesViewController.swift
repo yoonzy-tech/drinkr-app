@@ -8,14 +8,17 @@
 import UIKit
 import MJRefresh
 import Kingfisher
+import CoreLocation
 
-class RecipesViewController: UIViewController {
+class RecipesViewController: UIViewController, ResultsViewControllerDelegate {
     
     var dataSource: [Drink] = [] {
         didSet {
             tableView.reloadData()
         }
     }
+
+    let searchVC = UISearchController(searchResultsController: ResultsViewController())
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -28,6 +31,11 @@ class RecipesViewController: UIViewController {
         
         tableView.mj_header = MJRefreshNormalHeader()
         tableView.mj_header?.setRefreshingTarget(self, refreshingAction: #selector(refreshData))
+        
+        searchVC.searchResultsUpdater = self
+        navigationItem.searchController?.searchBar.placeholder = "Search cocktail name"
+        navigationItem.searchController = searchVC
+        navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     @objc func refreshData() {
@@ -49,6 +57,28 @@ class RecipesViewController: UIViewController {
     }
 }
 
+// MARK: Search Controller Delegate
+extension RecipesViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let query = searchController.searchBar.text,
+              !query.trimmingCharacters(in: .whitespaces).isEmpty,
+              let resultVC = searchController.searchResultsController as? ResultsViewController
+        else { return }
+        resultVC.delegate = self
+//        FFSManager.shared.findBars(query: query) { documents in
+//            let places = documents.compactMap { $0.data() }
+//            DispatchQueue.main.async {
+//                resultVC.update(with: places)
+//            }
+//        }
+    }
+    
+    func didTapPlace(with coordinates: CLLocationCoordinate2D, name: String) {
+        print()
+    }
+}
+
+// MARK: Table View DataSource, Delegate
 extension RecipesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

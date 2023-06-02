@@ -40,8 +40,8 @@ class CameraViewController: UIViewController {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.setImage(UIImage(systemName: "pencil"), for: .normal)
-        button.tintColor = UIColor(hexString: "#C4FA6F", alpha: 1.0)
-        button.backgroundColor = UIColor(hexString: "#4D4B50", alpha: 1.0)
+        button.tintColor = UIColor(hexString: AppColor.green2.rawValue, alpha: 1.0)
+        button.backgroundColor = UIColor(hexString: AppColor.dark2.rawValue, alpha: 1.0)
         button.layer.cornerRadius = 20
         button.addTarget(self, action: #selector(addCaption), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -57,7 +57,7 @@ class CameraViewController: UIViewController {
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.setImage(UIImage(named: "icons8-post"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
-        button.backgroundColor = UIColor(hexString: "#4D4B50", alpha: 1.0)
+        button.backgroundColor = UIColor(hexString: AppColor.dark2.rawValue, alpha: 1.0)
         button.layer.cornerRadius = 20
         button.addTarget(self, action: #selector(publishImage), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -72,8 +72,8 @@ class CameraViewController: UIViewController {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.setImage(UIImage(systemName: "person.2.fill"), for: .normal)
-        button.tintColor = UIColor(hexString: "#C4FA6F", alpha: 1.0)
-        button.backgroundColor = UIColor(hexString: "#4D4B50", alpha: 1.0)
+        button.tintColor = UIColor(hexString: AppColor.green2.rawValue, alpha: 1.0)
+        button.backgroundColor = UIColor(hexString: AppColor.dark2.rawValue, alpha: 1.0)
         button.layer.cornerRadius = 20
         button.addTarget(self, action: #selector(tagFriends), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -84,8 +84,8 @@ class CameraViewController: UIViewController {
     lazy var discardButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "icons8-bin"), for: .normal)
-        button.tintColor = UIColor(hexString: "#FA5252", alpha: 1.0)
-        button.backgroundColor = UIColor(hexString: "#4D4B50", alpha: 1.0)
+        button.tintColor = UIColor(hexString: AppColor.red.rawValue, alpha: 1.0)
+        button.backgroundColor = UIColor(hexString: AppColor.dark2.rawValue, alpha: 1.0)
         button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(discardPhoto), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false

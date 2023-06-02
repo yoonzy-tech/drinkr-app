@@ -17,4 +17,15 @@ class BarCardCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var directionButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        // Add shadow to the cell
+        layer.masksToBounds = false
+        layer.shadowColor = UIColor.darkGray.cgColor
+        layer.shadowOpacity = 0.3
+        layer.shadowOffset = CGSize(width: 0, height: 0.3)
+        layer.shadowRadius = 4
+    }
 }

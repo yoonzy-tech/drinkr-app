@@ -12,6 +12,15 @@ import Kingfisher
 
 class BarMapViewController: UIViewController {
     
+    func addShadow(_ button: UIButton) {
+        button.layer.masksToBounds = false
+        button.layer.shadowColor = UIColor.darkGray.cgColor
+        button.layer.shadowOpacity = 0.3
+        button.layer.shadowOffset = CGSize(width: 0, height: 0.5)
+        button.layer.shadowRadius = 4
+        button.layer.cornerRadius = 5
+    }
+    
     // Bar Card Collection View Var
     var dataSource: [[String: Any]] = [] {
         didSet {
@@ -20,7 +29,6 @@ class BarMapViewController: UIViewController {
     }
     
     @IBOutlet weak var collectionView: UICollectionView!
-        
     @IBOutlet weak var relocationUserButton: UIButton!
     @IBOutlet weak var refreshButton: UIButton!
     @IBOutlet weak var userFavoriteButton: UIButton!
@@ -46,9 +54,9 @@ class BarMapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        relocationUserButton.layer.cornerRadius = 5
-        refreshButton.layer.cornerRadius = 5
-        userFavoriteButton.layer.cornerRadius = 5
+        addShadow(relocationUserButton)
+        addShadow(refreshButton)
+        addShadow(userFavoriteButton)
         
         // Search Controller Setup
 //        searchVC.searchBar.backgroundColor = UIColor(red: 23/255, green: 44/255, blue: 211/255, alpha: 1.0)

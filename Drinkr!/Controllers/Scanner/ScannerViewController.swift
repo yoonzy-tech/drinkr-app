@@ -27,6 +27,8 @@ class ScannerViewController: UIViewController {
         }
     }
     
+    @IBOutlet weak var photoLibraryButton: UIButton!
+    @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var animationView: LottieAnimationView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var itemLabel: UILabel!
@@ -35,6 +37,9 @@ class ScannerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        imageView.layer.cornerRadius = 10
+        cameraButton.layer.cornerRadius = 5
+        photoLibraryButton.layer.cornerRadius = 5
         
         do {
             model = try BarHeinModel(configuration: MLModelConfiguration())
@@ -45,11 +50,14 @@ class ScannerViewController: UIViewController {
         animationView.isHidden = true
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        imageView.image = UIImage(named: "beer can")
+        itemLabel.text = ""
+        
     }
     
-    @IBAction func camera(_ sender: Any) {
+    @IBAction func openCamera(_ sender: Any) {
         if !UIImagePickerController.isSourceTypeAvailable(.camera) { return }
         
         cameraPicker.delegate = self
@@ -105,7 +113,7 @@ extension ScannerViewController: UINavigationControllerDelegate, UIImagePickerCo
                 
             // Show Scanned Item & Info on UI
             imageView.image = pickedImage
-            itemLabel.text = "Predicted object: \(prediction.classLabel)"
+            itemLabel.text = "\(prediction.classLabel)"
         }
         
     }
@@ -140,7 +148,7 @@ extension ScannerViewController: PHPickerViewControllerDelegate {
                     // Put Picked Image on ImageView
                     DispatchQueue.main.async {
                         self.imageView.image = image
-                        self.itemLabel.text = "Brand: \(prediction.classLabel)"
+                        self.itemLabel.text = "\(prediction.classLabel)"
                     }
                 }
             }

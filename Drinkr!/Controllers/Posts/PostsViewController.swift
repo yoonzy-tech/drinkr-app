@@ -4,9 +4,7 @@
 //
 //  Created by Ruby Chew on 2023/5/24.
 //
-
 // TODO: Fix Posts Data Source Query (Now just fetch all in DB)
-
 import UIKit
 import Firebase
 import MJRefresh
@@ -62,6 +60,10 @@ class PostsViewController: UIViewController {
             destinationVC.shouldActivateTextField = shouldActivateTextField
             destinationVC.postDataSource = self.postData
         }
+        
+        if segue.identifier == "editCaptionSegue", let destinationVC = segue.destination as? EditCaptionViewController {
+            destinationVC.postData = self.postData
+        }
     }
     
     override func viewDidLoad() {
@@ -69,18 +71,15 @@ class PostsViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         
-        updateDataSource()
-        
         collectionView.mj_header = MJRefreshNormalHeader()
         collectionView.mj_header?.setRefreshingTarget(self, refreshingAction: #selector(refreshData))
         
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap))
         tapGesture?.numberOfTouchesRequired = 2
         
-        IQKeyboardManager.shared.enableAutoToolbar = false
-        IQKeyboardManager.shared.keyboardDistanceFromTextField = 15
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        FirestoreManager.shared.listen(in: .posts) {
+            self.updateDataSource()
+        }
     }
     
     @objc func didDoubleTap(_ gesture: UITapGestureRecognizer) {
@@ -118,7 +117,8 @@ class PostsViewController: UIViewController {
     private func updateDataSource() {
         FirestoreManager.shared.fetchAll(in: .posts) { [weak self] (posts: [Post]) in
             self?.dataSource = posts
-            self?.dataSource.sort { ($0.createdTime ?? .init()).compare($1.createdTime ?? .init()) == .orderedDescending }
+            self?.dataSource.sort { ($0.createdTime ?? .init())
+                .compare($1.createdTime ?? .init()) == .orderedDescending }
             self?.collectionView.reloadData()
         }
     }
@@ -192,6 +192,7 @@ extension PostsViewController {
     @objc func seeMoreOptions(_ sender: UIButton) {
         
         let selectedIndex = sender.tag
+        postData = dataSource[selectedIndex]
         
         let actionSheetController: UIAlertController = UIAlertController(
             title: nil, message: nil, preferredStyle: .actionSheet)
@@ -200,15 +201,11 @@ extension PostsViewController {
             // User Own Post: Edit, Delete
             let editAction: UIAlertAction = UIAlertAction(
                 title: "Edit this post",
-                style: .default) { _ in
+                style: .default) { [weak self] _ in
                     print("Edit a post")
                     
-                    // Trigger the keyboardWillShow notification manually
-                    let keyboardFrame = CGRect(x: 0, y: UIScreen.main.bounds.height - 300, width: UIScreen.main.bounds.width, height: 300)
-                    let keyboardWillShowNotification = Notification(name: UIResponder.keyboardWillShowNotification, object: nil, userInfo: [
-                        UIResponder.keyboardFrameEndUserInfoKey: NSValue(cgRect: keyboardFrame)
-                    ])
-                    NotificationCenter.default.post(keyboardWillShowNotification)
+                    self?.performSegue(withIdentifier: "editCaptionSegue", sender: sender)
+                    
                 }
             let deleteAction: UIAlertAction = UIAlertAction(
                 title: "Delete this post",
@@ -254,57 +251,5 @@ extension PostsViewController {
         self.present(actionSheetController, animated: true) {
             print("option menu presented")
         }
-    }
-}
-
-extension PostsViewController: UITextFieldDelegate {
-    @objc func keyboardWillShow(_ notification: Notification) {
-        if !isKeyboardVisible {
-            isKeyboardVisible = true
-            let frame = IQKeyboardManager.shared.keyboardFrame
-            editView = UIView(frame: CGRect(x: 0, y: frame.maxY - 50, width: view.bounds.width, height: 50))
-            guard let editView = editView else { return }
-            editView.backgroundColor = .white
-            doneButton = UIButton(type: .system)
-            doneButton.setTitle("Done", for: .normal)
-            doneButton.setTitleColor(.systemBlue, for: .normal)
-            doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
-            
-            doneButton.translatesAutoresizingMaskIntoConstraints = false
-            captionEditTextField.translatesAutoresizingMaskIntoConstraints = false
-            
-            view.addSubview(editView)
-            editView.addSubview(doneButton)
-            editView.addSubview(captionEditTextField)
-            
-            NSLayoutConstraint.activate([
-                captionEditTextField.centerYAnchor.constraint(equalTo: editView.centerYAnchor),
-                captionEditTextField.topAnchor.constraint(equalTo: editView.topAnchor, constant: 15),
-                captionEditTextField.leadingAnchor.constraint(equalTo: editView.leadingAnchor, constant: 8),
-                doneButton.widthAnchor.constraint(equalToConstant: 50),
-                doneButton.centerYAnchor.constraint(equalTo: editView.centerYAnchor),
-                doneButton.trailingAnchor.constraint(equalTo: editView.trailingAnchor, constant: -8),
-                doneButton.leadingAnchor.constraint(equalTo: captionEditTextField.trailingAnchor, constant: 4)
-            ])
-            captionEditTextField.backgroundColor = .white
-            captionEditTextField.becomeFirstResponder()
-        }
-    }
-    
-    @objc func doneButtonTapped() {
-        captionEditTextField.resignFirstResponder()
-        // Save the new caption
-    }
-    
-    @objc func keyboardWillHide(_ notification: Notification) {
-        isKeyboardVisible = false
-        editView?.removeFromSuperview()
-        editView = nil
-    }
-    
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
     }
 }

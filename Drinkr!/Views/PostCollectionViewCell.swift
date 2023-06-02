@@ -28,10 +28,15 @@ class PostCollectionViewCell: UICollectionViewCell {
             print("User has no profile image")
             self.userProfileImageView.image = UIImage(systemName: "person.fill")
         }
+        
         self.usernameLabel.text = testUserInfo["name"]
         self.captionUsernameLabel.text = testUserInfo["name"]
         
-        self.captionLabel.text = post.caption
+        if post.caption?.count == 0 {
+            self.captionLabel.text = "is drinking"
+        } else {
+            self.captionLabel.text = post.caption
+        }
         
         let imageUrl = URL(string: post.imageUrl)
         self.postImageView.kf.setImage(with: imageUrl)

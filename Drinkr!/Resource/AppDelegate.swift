@@ -23,20 +23,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GMSPlacesClient.provideAPIKey(GMSPlacesAPIKey)
         
         FirebaseApp.configure()
-        
+        //UIColor(hexString: "#C4FA6F") UIColor(hexString: "#182CD4")
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.shouldShowToolbarPlaceholder = false
+        
         let newNavBarAppearance = UINavigationBarAppearance()
         newNavBarAppearance.backgroundColor = UIColor.white
-        //UIColor(hexString: "#C4FA6F") UIColor(hexString: "#182CD4")
-        newNavBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor(hexString: "#3A3F47")]
-        newNavBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor(hexString: "#3A3F47")]
-        newNavBarAppearance.buttonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(hexString: "#182CD4")]
+        newNavBarAppearance.shadowColor = .clear
+        newNavBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor(hexString: AppColor.dark.rawValue)]
+        newNavBarAppearance.titleTextAttributes = [.foregroundColor: UIColor(hexString: AppColor.dark.rawValue)]
+        newNavBarAppearance.buttonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(hexString: AppColor.blue2.rawValue)]
        
 //        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): UIColor.white], for: .normal)
 
         let barButtonItemAppearance = UIBarButtonItemAppearance(style: .plain)
-        barButtonItemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(hexString: "#182CD4")]
+        barButtonItemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(hexString: AppColor.blue2.rawValue)]
         barButtonItemAppearance.disabled.titleTextAttributes = [.foregroundColor: UIColor.lightText]
         barButtonItemAppearance.highlighted.titleTextAttributes = [.foregroundColor: UIColor.label]
         barButtonItemAppearance.focused.titleTextAttributes = [.foregroundColor: UIColor.white]
@@ -45,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         newNavBarAppearance.doneButtonAppearance = barButtonItemAppearance
         
         let appearance = UINavigationBar.appearance()
-        appearance.tintColor = UIColor(hexString: "#182CD4")
+        appearance.tintColor = UIColor(hexString: AppColor.blue2.rawValue)
         appearance.scrollEdgeAppearance = newNavBarAppearance
         appearance.compactAppearance = newNavBarAppearance
         appearance.standardAppearance = newNavBarAppearance

@@ -17,29 +17,3 @@ struct DScanHistory: Codable {
     var imageRef: String
     var createdTime: Timestamp?
 }
-
-
-struct ScanHistory {
-    var userId: String
-    var brandName: String
-    var imageUrl: String
-    var imageRefNo: String
-    var time: Double
-    
-    // If you need to initialize with a dictionary
-    init?(data: [String: Any]) {
-        guard let userId = data["userId"] as? String,
-              let brandName = data["brandName"] as? String,
-              let imageUrl = data["imageUrl"] as? String,
-              let imageRefNo = data["imageRefNo"] as? String,
-              let time = data["time"] as? Double else {
-            return nil
-        }
-        
-        self.userId = userId
-        self.brandName = brandName
-        self.imageUrl = imageUrl
-        self.imageRefNo = imageRefNo
-        self.time = time
-    }
-}

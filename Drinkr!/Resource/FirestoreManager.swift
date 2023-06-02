@@ -42,7 +42,6 @@ class FirestoreManager {
         }
     }
     
-    
     // MARK: Update
     func update<T: Codable>(in collection: Collection, docId: String, data: T, completion: (([T]) -> Void)? = nil) {
         do {
@@ -60,6 +59,29 @@ class FirestoreManager {
             } else {
                 print("Document deleted successfully.")
                 completion?()
+            }
+        }
+    }
+    
+    func listen(in collection: Collection, completion: (() -> Void)? = nil) {
+        database.collection(collection.rawValue).addSnapshotListener { snapshot, error in
+            guard let snapshot else {
+                print("Failed to get listener snapshot")
+                return
+            }
+            
+            snapshot.documentChanges.forEach { documentChange in
+                switch documentChange.type {
+                case .added:
+                    print("Add")
+                case .modified:
+                    print("Modified")
+                case .removed:
+                    print("removed")
+                }
+            }
+            if completion != nil {
+                completion!()
             }
         }
     }
@@ -129,7 +151,7 @@ extension FirestoreManager {
         let imageRef = "\(testUserInfo["uid"] ?? "Unknown User Uid")\(Date().formatNowDate)"
         
         let path = self.storage.child(path.rawValue).child(imageRef)
-                
+        
         let uploadTask = path.putData(imageData, metadata: nil) { _, error in
             if let error = error {
                 print("Failed to upload image: \(error.localizedDescription)")
@@ -150,7 +172,7 @@ extension FirestoreManager {
                 }
             }
         }
-
+        
         uploadTask.observe(.progress) { snapshot in
             // Update progress UI
             guard let progress = snapshot.progress else {

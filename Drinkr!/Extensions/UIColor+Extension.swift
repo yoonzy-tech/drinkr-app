@@ -8,6 +8,18 @@
 import Foundation
 import UIKit
 
+enum AppColor: String {
+    case green = "#B6EF1B"
+    case green2 = "#C4FA6F"
+    case blue = "#024BD1"
+    case blue2 = "#182CD4"
+    case light = "#EEEEEE"
+    case dark = "#3A3F47"
+    case dark2 = "#4D4B50"
+    case red = "#FA5252"
+}
+
+
 extension UIColor {
     convenience init(hexString: String, alpha: CGFloat = 1.0) {
         let hexString: String = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)

@@ -8,20 +8,37 @@
 import UIKit
 
 class RecipeTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var drinkImageView: UIImageView!
     
     @IBOutlet weak var drinkNameLabel: UILabel!
     
+    @IBOutlet weak var detailsLabel: UILabel!
+    
+    let cellInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        // Add shadow to the cell's contentView
+        contentView.layer.masksToBounds = false
+        contentView.layer.shadowColor = UIColor.lightGray.cgColor
+        contentView.layer.shadowOpacity = 0.2
+        contentView.layer.shadowOffset = CGSize(width: 0, height: 0.2)
+        contentView.layer.shadowRadius = 4
+        contentView.layer.cornerRadius = 10
+        
+        drinkImageView.layer.cornerRadius = 5
+     
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
-
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        // Apply insets to the cell's content view
+        contentView.frame = contentView.frame.inset(by: cellInsets)
+    }
 }

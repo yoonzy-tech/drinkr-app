@@ -14,9 +14,9 @@ class TabBarViewController: UITabBarController {
 
         // Do any additional setup after loading the view.
         let tabBarAppearance = UITabBarAppearance()
-        tabBarAppearance.backgroundColor = UIColor(hexString: "#182CD4")
-        tabBarAppearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(hexString: "#EEEEEE")]
-        tabBarAppearance.stackedLayoutAppearance.normal.iconColor = UIColor(hexString: "#EEEEEE")
+        tabBarAppearance.backgroundColor = UIColor(hexString: AppColor.blue2.rawValue)
+        tabBarAppearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(hexString: AppColor.light.rawValue)]
+        tabBarAppearance.stackedLayoutAppearance.normal.iconColor = UIColor(hexString: AppColor.light.rawValue)
         self.tabBar.standardAppearance = tabBarAppearance
         self.tabBar.scrollEdgeAppearance = tabBarAppearance
     }
