@@ -10,8 +10,9 @@ import MJRefresh
 
 class ScanHistoryViewController: UIViewController {
     
-    var dataSource: [ScanHistory] = [] {
+    var dataSource: [DScanHistory] = [] {
         didSet {
+            self.dataSource = self.dataSource.sorted { ($0.createdTime ?? .init()).compare($1.createdTime ?? .init()) == .orderedDescending }
             tableView.reloadData()
         }
     }
@@ -35,18 +36,8 @@ class ScanHistoryViewController: UIViewController {
     }
     
     private func updateDataSource() {
-        FFSManager.shared.fetchScanHistories { [weak self] documents in
-            
-            self?.dataSource = documents.compactMap { document in
-                guard let scanHistory = ScanHistory(data: document.data()) else {
-                    print("Failed to convert document to Scan History: \(document)") // print any documents that can't be converted
-                    return nil
-                }
-                return scanHistory
-            }
-            
-            // Sort the array by time here (latest on top)
-            self?.dataSource = self?.dataSource.sorted { $0.time > $1.time } ?? []
+        FirestoreManager.shared.fetchAllByUserUid(in: .scanHistories, userUid: testUserInfo["uid"] ?? "Unknown User Uid") { (scanHistories: [DScanHistory]) in
+            self.dataSource = scanHistories
         }
     }
 }
@@ -69,5 +60,23 @@ extension ScanHistoryViewController: UITableViewDataSource, UITableViewDelegate 
         )
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Update Firestore
+            FirestoreManager.shared.delete(in: .scanHistories, docId: dataSource[indexPath.row].id ?? "Unknown Doc Id")
+            // Update Loacal Data Sourvce
+            FirestoreManager.shared.fetchAllByUserUid(
+                in: .scanHistories,
+                userUid: testUserInfo["uid"] ?? "Unknown User Uid"
+            ) { (scanHistories: [DScanHistory]) in
+                self.dataSource = scanHistories
+            }
+        }
     }
 }

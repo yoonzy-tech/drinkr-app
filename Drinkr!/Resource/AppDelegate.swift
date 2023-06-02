@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         
         IQKeyboardManager.shared.enable = true
-        
+        IQKeyboardManager.shared.shouldShowToolbarPlaceholder = false
         let newNavBarAppearance = UINavigationBarAppearance()
         newNavBarAppearance.backgroundColor = UIColor.white
         //UIColor(hexString: "#C4FA6F") UIColor(hexString: "#182CD4")

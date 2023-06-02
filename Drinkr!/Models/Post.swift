@@ -11,7 +11,7 @@ import FirebaseFirestoreSwift
 
 struct Post: Codable {
     @DocumentID var id: String?
-    var userId: String
+    var userUid: String
     var caption: String?
     
     var imageUrl: String
@@ -27,7 +27,7 @@ struct Post: Codable {
 }
 
 struct Comment: Codable {
-    var userId: String
+    var userUid: String
     var text: String
     var createdTime: Timestamp?
 }

@@ -9,10 +9,25 @@ import UIKit
 import CoreML
 import Photos
 import PhotosUI
+import FirebaseFirestore
 import Lottie
 
 class ScannerViewController: UIViewController {
     
+    func startAnimation() {
+        // Lottie Animation
+        animationView.isHidden = false
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
+        animationView.animationSpeed = 1
+        animationView.play()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.animationView.stop()
+            self.animationView.isHidden = true
+        }
+    }
+    
+    @IBOutlet weak var animationView: LottieAnimationView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var itemLabel: UILabel!
     let cameraPicker = UIImagePickerController()
@@ -26,6 +41,8 @@ class ScannerViewController: UIViewController {
         } catch {
             print("Failed to load model: \(error)")
         }
+        
+        animationView.isHidden = true
     }
     
     override func didReceiveMemoryWarning() {
@@ -62,7 +79,8 @@ extension ScannerViewController: UINavigationControllerDelegate, UIImagePickerCo
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         
-        if let pickedImage = info[.originalImage] as? UIImage {
+        if let pickedImage = info[.originalImage] as? UIImage,
+           let imageData = FirestoreManager.shared.rotateImageToUp(image: pickedImage) {
             // Save the image to Photo Library
             if picker.sourceType == .camera {
                 PHPhotoLibrary.shared().performChanges({
@@ -78,15 +96,18 @@ extension ScannerViewController: UINavigationControllerDelegate, UIImagePickerCo
             // Get Model Prediction
             guard let pixelBuffer = pickedImage.pixelBuffer(width: 299, height: 299),
                   let prediction = try? model?.prediction(image: pixelBuffer) else { return }
-            // Store Scan History to DB
-            FFSManager.shared.uploadScanImage(
-                image: pickedImage,
-                brand: prediction.classLabel)
+            
+            self.uploadCreateScanHistory(imageData: imageData, brandName: prediction.classLabel)
+            
+            self.startAnimation()
+            
+            cameraPicker.dismiss(animated: true)
+                
             // Show Scanned Item & Info on UI
             imageView.image = pickedImage
             itemLabel.text = "Predicted object: \(prediction.classLabel)"
         }
-        cameraPicker.dismiss(animated: true, completion: nil)
+        
     }
 }
 
@@ -98,28 +119,46 @@ extension ScannerViewController: PHPickerViewControllerDelegate {
         
         let itemProviders = results.map(\.itemProvider)
         if let itemProvider = itemProviders.first, itemProvider.canLoadObject(ofClass: UIImage.self) {
+            
+            DispatchQueue.main.async {
+                self.startAnimation()
+            }
+            
             itemProvider.loadObject(ofClass: UIImage.self) { (object, error) in
                 if let error = error {
                     print("PHPicker loading error: \(error)")
                 }
-                if let image = object as? UIImage {
+                if let image = object as? UIImage,
+                   let imageData = FirestoreManager.shared.rotateImageToUp(image: image) {
+                    
                     // Get Model Prediction
                     guard let pixelBuffer = image.pixelBuffer(width: 299, height: 299),
                           let prediction = try? self.model?.prediction(image: pixelBuffer) else { return }
-                    // Store Scan History to DB
-                    FFSManager.shared.uploadScanImage(
-                        image: image,
-                        brand: prediction.classLabel)
                     
+                    self.uploadCreateScanHistory(imageData: imageData, brandName: prediction.classLabel)
+
                     // Put Picked Image on ImageView
                     DispatchQueue.main.async {
-                        // MARK: - TODO # Add Awaiting Animation / Popup
-                        // Perform UI related operations here
                         self.imageView.image = image
-                        self.itemLabel.text = "Predicted object: \(prediction.classLabel)"
+                        self.itemLabel.text = "Brand: \(prediction.classLabel)"
                     }
                 }
             }
+        }
+    }
+    
+    func uploadCreateScanHistory(imageData: Data, brandName: String) {
+        // Store Scan History to DB
+        FirestoreManager.shared.uploadFile(to: .scanHistories, imageData: imageData) { imageRef, imageUrl in
+            let scanHistory = DScanHistory(
+                userUid: testUserInfo["uid"] ?? "Unknown User Uid",
+                brandName: brandName,
+                imageUrl: imageUrl,
+                imageRef: imageRef,
+                createdTime: Timestamp()
+            )
+            
+            FirestoreManager.shared.create(in: .scanHistories, data: scanHistory)
         }
     }
 }

@@ -113,7 +113,7 @@ extension CameraViewController {
             FirestoreManager.shared.uploadFile(to: .posts, imageData: imageData) { [weak self] imageRef, imageUrl in
                 
                 let post = Post(
-                    userId: testUserInfo["uid"] ?? "Unknown User Uid",
+                    userUid: testUserInfo["uid"] ?? "Unknown User Uid",
                     caption: self?.currentCaption,
                     imageUrl: imageUrl,
                     imageRef: imageRef,

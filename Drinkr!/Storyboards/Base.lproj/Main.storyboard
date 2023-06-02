@@ -401,14 +401,25 @@
                                     <segue destination="FtQ-QI-X1O" kind="show" id="Lb0-qS-Xzw"/>
                                 </connections>
                             </button>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z2s-qz-vND" customClass="LottieAnimationView" customModule="Lottie">
+                                <rect key="frame" x="0.0" y="103" width="430" height="746"/>
+                                <color key="backgroundColor" red="0.81124943490000001" green="0.97244054079999998" blue="0.50891458990000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="animationName" value="beer loading"/>
+                                </userDefinedRuntimeAttributes>
+                            </containerView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="3b5-OU-pTu"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="z2s-qz-vND" firstAttribute="leading" secondItem="3b5-OU-pTu" secondAttribute="leading" id="2yV-fc-T0s"/>
                             <constraint firstItem="M12-NU-UHn" firstAttribute="leading" secondItem="3b5-OU-pTu" secondAttribute="leading" constant="50" id="5Bc-Ia-WKq"/>
                             <constraint firstItem="Mfy-fi-aka" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="3b5-OU-pTu" secondAttribute="leading" symbolic="YES" id="64a-8r-LLI"/>
                             <constraint firstItem="3b5-OU-pTu" firstAttribute="bottom" secondItem="Mfy-fi-aka" secondAttribute="bottom" constant="30" id="Ay4-88-Xkg"/>
+                            <constraint firstItem="z2s-qz-vND" firstAttribute="bottom" secondItem="3b5-OU-pTu" secondAttribute="bottom" id="JDJ-XB-p2F"/>
+                            <constraint firstItem="z2s-qz-vND" firstAttribute="top" secondItem="3b5-OU-pTu" secondAttribute="top" id="Phv-5f-pHV"/>
                             <constraint firstItem="gBD-wX-dA0" firstAttribute="top" secondItem="M12-NU-UHn" secondAttribute="bottom" constant="60" id="QoK-sD-ucu"/>
+                            <constraint firstItem="z2s-qz-vND" firstAttribute="trailing" secondItem="3b5-OU-pTu" secondAttribute="trailing" id="S0g-rL-9kD"/>
                             <constraint firstItem="3b5-OU-pTu" firstAttribute="trailing" secondItem="M12-NU-UHn" secondAttribute="trailing" constant="50" id="VKf-yW-5Om"/>
                             <constraint firstItem="M12-NU-UHn" firstAttribute="top" secondItem="3b5-OU-pTu" secondAttribute="top" constant="55" id="W3F-Rd-a83"/>
                             <constraint firstItem="M12-NU-UHn" firstAttribute="centerX" secondItem="2jL-rx-zOM" secondAttribute="centerX" id="fLf-d9-Sb0"/>
@@ -430,13 +441,14 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="animationView" destination="z2s-qz-vND" id="z3c-Pc-Egy"/>
                         <outlet property="imageView" destination="M12-NU-UHn" id="EXe-Cl-rA0"/>
                         <outlet property="itemLabel" destination="gBD-wX-dA0" id="3ui-bb-87s"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8n3-8S-XL8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2887.7862595419847" y="674.64788732394368"/>
+            <point key="canvasLocation" x="2886.9767441860463" y="674.03433476394855"/>
         </scene>
         <!--History-->
         <scene sceneID="lxr-gK-hHT">
@@ -504,7 +516,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HDM-oh-hht" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3771.7557251908397" y="674.64788732394368"/>
+            <point key="canvasLocation" x="4920" y="256"/>
         </scene>
         <!--Posts-->
         <scene sceneID="eAY-zZ-0BG">

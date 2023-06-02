@@ -20,7 +20,8 @@ enum Collection: String {
 }
 
 enum StoragePath: String {
-    case posts
+    case posts = "Posts"
+    case scanHistories = "ScanHistories"
 }
 
 class FirestoreManager {
@@ -28,10 +29,11 @@ class FirestoreManager {
     
     private init() {}
     
-    let database = Firestore.firestore()
+    private let database = Firestore.firestore()
     
-    let storage = Storage.storage().reference()
+    private let storage = Storage.storage().reference()
     
+    // MARK: Create, Write
     func create<T: Codable>(in collection: Collection, data: T) {
         do {
             try database.collection(collection.rawValue).addDocument(from: data) // ignore the error here
@@ -40,6 +42,31 @@ class FirestoreManager {
         }
     }
     
+    
+    // MARK: Update
+    func update<T: Codable>(in collection: Collection, docId: String, data: T, completion: (([T]) -> Void)? = nil) {
+        do {
+            try database.collection(collection.rawValue).document(docId).setData(from: data)
+        } catch {
+            print(error)
+        }
+    }
+    
+    // MARK: Delete
+    func delete(in collection: Collection, docId: String, completion: (() -> Void)? = nil) {
+        database.collection(collection.rawValue).document(docId).delete { error in
+            if let error = error {
+                print("Error deleting document: \(error.localizedDescription)")
+            } else {
+                print("Document deleted successfully.")
+                completion?()
+            }
+        }
+    }
+}
+
+// MARK: Fetch Functions
+extension FirestoreManager {
     func fetchAll<T: Codable>(in collection: Collection, completion: (([T]) -> Void)? = nil) {
         database.collection(collection.rawValue).getDocuments { querySnapshot, error in // ignore the error here
             if let error = error {
@@ -60,7 +87,7 @@ class FirestoreManager {
         }
     }
     
-    func fetchOne<T: Codable>(in collection: Collection, docId: String, completion: ((T) -> Void)? = nil) {
+    func fetchByDocId<T: Codable>(in collection: Collection, docId: String, completion: ((T) -> Void)? = nil) {
         database.collection(collection.rawValue).document(docId).getDocument { documentSnapshot, error in
             if let error = error {
                 print("Error getting documents: \(error)")
@@ -74,25 +101,29 @@ class FirestoreManager {
         }
     }
     
-    func update<T: Codable>(in collection: Collection, docId: String, data: T, completion: (([T]) -> Void)? = nil) {
-        do {
-            try database.collection(collection.rawValue).document(docId).setData(from: data)
-        } catch {
-            print(error)
-        }
-    }
-    
-    func delete(in collection: Collection, docId: String, completion: (() -> Void)? = nil) {
-        database.collection(collection.rawValue).document(docId).delete { error in
+    func fetchAllByUserUid<T: Codable>(in collection: Collection, userUid: String, completion: (([T]) -> Void)? = nil) {
+        database.collection(collection.rawValue).whereField("userUid", isEqualTo: userUid).getDocuments { querySnapshot, error in
             if let error = error {
-                print("Error deleting document: \(error.localizedDescription)")
+                print("Error getting documents: \(error)")
             } else {
-                print("Document deleted successfully.")
-                completion?()
+                guard let documents = querySnapshot?.documents else {
+                    print("No documents found")
+                    return
+                }
+                
+                var dataArr = [T]()
+                
+                dataArr = documents.compactMap { (queryDocumentSnapshot) -> T? in
+                    return try? queryDocumentSnapshot.data(as: T.self)
+                }
+                completion?(dataArr)
             }
         }
     }
-    
+}
+
+// MARK: File Storage Upload & Delete
+extension FirestoreManager {
     func uploadFile(to path: StoragePath, imageData: Data, completion: ((String, String) -> Void)? = nil) {
         
         let imageRef = "\(testUserInfo["uid"] ?? "Unknown User Uid")\(Date().formatNowDate)"
@@ -120,7 +151,7 @@ class FirestoreManager {
             }
         }
 
-        let observer = uploadTask.observe(.progress) { snapshot in
+        uploadTask.observe(.progress) { snapshot in
             // Update progress UI
             guard let progress = snapshot.progress else {
                 print("Fail to get progress")
@@ -147,6 +178,7 @@ class FirestoreManager {
         }
     }
     
+    // MARK: Rotate Image Orientation
     func rotateImageToUp(image: UIImage) -> Data? {
         
         var imageData: Data?

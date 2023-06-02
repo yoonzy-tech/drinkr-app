@@ -53,6 +53,7 @@
 		04D2C1DB2A238B77001212A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04D2C1DA2A238B77001212A7 /* GoogleService-Info.plist */; };
 		04D2C1DD2A238C03001212A7 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1DC2A238C03001212A7 /* SignInViewController.swift */; };
 		04E568B42A28C44300863D8B /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E568B32A28C44300863D8B /* TabBarViewController.swift */; };
+		04E568B72A290EB500863D8B /* beer loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 04E568B62A290EB500863D8B /* beer loading.json */; };
 		F3EEB3BA26076AFD5FCEA003 /* Pods_Drinkr_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BB0E2B5F3435C8674393EF8 /* Pods_Drinkr_.framework */; };
 /* End PBXBuildFile section */
 
@@ -96,6 +97,7 @@
 		04D2C1DA2A238B77001212A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		04D2C1DC2A238C03001212A7 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		04E568B32A28C44300863D8B /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		04E568B62A290EB500863D8B /* beer loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "beer loading.json"; sourceTree = "<group>"; };
 		5BB0E2B5F3435C8674393EF8 /* Pods_Drinkr_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Drinkr_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE559A43A4F2DBB9910367AB /* Pods-Drinkr!.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drinkr!.release.xcconfig"; path = "Target Support Files/Pods-Drinkr!/Pods-Drinkr!.release.xcconfig"; sourceTree = "<group>"; };
 		C0B0CC910109A565297FE5AE /* Pods-Drinkr!.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drinkr!.debug.xcconfig"; path = "Target Support Files/Pods-Drinkr!/Pods-Drinkr!.debug.xcconfig"; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 		048E16522A176A520008CF2A /* Drinkr! */ = {
 			isa = PBXGroup;
 			children = (
+				04E568B52A290E9500863D8B /* Animations */,
 				04D2C1CA2A1F5490001212A7 /* Extensions */,
 				040DB31B2A1CD8EE003E02A4 /* Resource */,
 				048E166B2A1773C30008CF2A /* Models */,
@@ -231,6 +234,14 @@
 				044362AB2A28AD56007C89F6 /* UIColor+Extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		04E568B52A290E9500863D8B /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				04E568B62A290EB500863D8B /* beer loading.json */,
+			);
+			path = Animations;
 			sourceTree = "<group>";
 		};
 		6887EAF4B283BDF906F2ECA3 /* Frameworks */ = {
@@ -330,6 +341,7 @@
 			files = (
 				048E16602A176A540008CF2A /* LaunchScreen.storyboard in Resources */,
 				04D2C1DB2A238B77001212A7 /* GoogleService-Info.plist in Resources */,
+				04E568B72A290EB500863D8B /* beer loading.json in Resources */,
 				048E165D2A176A540008CF2A /* Assets.xcassets in Resources */,
 				048E165B2A176A520008CF2A /* Main.storyboard in Resources */,
 			);

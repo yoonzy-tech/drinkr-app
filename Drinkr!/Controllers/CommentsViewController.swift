@@ -7,6 +7,7 @@
 
 import UIKit
 import IQKeyboardManagerSwift
+import FirebaseFirestoreSwift
 
 class CommentsViewController: UIViewController {
     
@@ -21,7 +22,7 @@ class CommentsViewController: UIViewController {
     @IBAction func postComment(_ sender: Any) {
         if let text = textField.text {
             let comment = Comment(
-                userId: testUserInfo["uid"] ?? "Unknown Uid",
+                userUid: testUserInfo["uid"] ?? "Unknown Uid",
                 text: text
             )
             postDataSource?.comments.append(comment)
@@ -125,7 +126,7 @@ extension CommentsViewController: UITableViewDataSource, UITableViewDelegate {
                 data: postDataSource
             )
             // Update local dataSource
-            FirestoreManager.shared.fetchOne(in: .posts, docId: postDataSource?.id ?? "Unknown Doc Id") { (data: Post) in
+            FirestoreManager.shared.fetchByDocId(in: .posts, docId: postDataSource?.id ?? "Unknown Doc Id") { (data: Post) in
                 self.postDataSource = data
                 tableView.reloadData()
             }
@@ -133,3 +134,6 @@ extension CommentsViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 }
+
+
+
