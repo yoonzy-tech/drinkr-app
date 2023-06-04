@@ -183,33 +183,4 @@ extension FFSManager {
     }
 }
 
-// MARK: - Cocktails
-extension FFSManager {
-    public func addCocktails(drinkList: [Drink]) {
-        for drink in drinkList {
-            self.database.collection("latest_cocktails").addDocument(data: drink.toDictionary()) { error in
-                if let error = error {
-                    print("Error writing document: \(error)")
-                } else {
-                    print("Document successfully written!")
-                }
-            }
-        }
-    }
-    
-    public func fetchCocktails(completion: @escaping (([QueryDocumentSnapshot]) -> Void)) {
-        self.database.collection("latest_cocktails")
-            .getDocuments(completion: { querySnapshot, error in
-            
-            if let error = error {
-                print("Error getting post data: \(error.localizedDescription)")
-                return
-            }
-            guard let documents = querySnapshot?.documents else {
-                print("No post data available")
-                return
-            }
-            completion(documents)
-        })
-    }
-}
+

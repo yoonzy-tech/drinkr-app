@@ -53,8 +53,7 @@ class ScannerViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         imageView.image = UIImage(named: "beer can")
-        itemLabel.text = ""
-        
+        itemLabel.text = "Take a photo or choose from library to scan"
     }
     
     @IBAction func openCamera(_ sender: Any) {
@@ -158,7 +157,7 @@ extension ScannerViewController: PHPickerViewControllerDelegate {
     func uploadCreateScanHistory(imageData: Data, brandName: String) {
         // Store Scan History to DB
         FirestoreManager.shared.uploadFile(to: .scanHistories, imageData: imageData) { imageRef, imageUrl in
-            let scanHistory = DScanHistory(
+            let scanHistory = ScanHistory(
                 userUid: testUserInfo["uid"] ?? "Unknown User Uid",
                 brandName: brandName,
                 imageUrl: imageUrl,

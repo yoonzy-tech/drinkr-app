@@ -17,6 +17,7 @@ enum AppColor: String {
     case dark = "#3A3F47"
     case dark2 = "#4D4B50"
     case red = "#FA5252"
+    case beige = "#DEDEE3"
 }
 
 

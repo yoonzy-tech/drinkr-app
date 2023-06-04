@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-struct DScanHistory: Codable {
+struct ScanHistory: Codable {
     @DocumentID var id: String?
     var userUid: String
     var brandName: String

@@ -10,7 +10,7 @@ import MJRefresh
 import Kingfisher
 import CoreLocation
 
-class RecipesViewController: UIViewController, ResultsViewControllerDelegate {
+class RecipesViewController: UIViewController {
     
     var dataSource: [Drink] = [] {
         didSet {
@@ -18,9 +18,15 @@ class RecipesViewController: UIViewController, ResultsViewControllerDelegate {
         }
     }
 
-    let searchVC = UISearchController(searchResultsController: ResultsViewController())
+    let searchVC = UISearchController(searchResultsController: CocktailSearchResultsViewController())
     
     @IBOutlet weak var tableView: UITableView!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.title = "Cocktails"
+        searchVC.searchBar.text = nil
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +39,9 @@ class RecipesViewController: UIViewController, ResultsViewControllerDelegate {
         tableView.mj_header?.setRefreshingTarget(self, refreshingAction: #selector(refreshData))
         
         searchVC.searchResultsUpdater = self
+        searchVC.obscuresBackgroundDuringPresentation = true
+        definesPresentationContext = true
+        
         navigationItem.searchController?.searchBar.placeholder = "Search cocktail name"
         navigationItem.searchController = searchVC
         navigationItem.hidesSearchBarWhenScrolling = false
@@ -44,37 +53,41 @@ class RecipesViewController: UIViewController, ResultsViewControllerDelegate {
     }
     
     private func updateDataSource() {
-        FFSManager.shared.fetchCocktails(completion: { [weak self] documents in
-            
-            self?.dataSource = documents.compactMap { document in
-                guard let drink = Drink(data: document.data()) else {
-                    print("Failed to convert document to Drink: \(document)")
-                    return nil
-                }
-                return drink
-            }
-        })
+        FirestoreManager.shared.fetchAll(in: .cocktails) { (drinks: [Drink]) in
+            self.dataSource = drinks
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationItem.title = nil
     }
 }
 
 // MARK: Search Controller Delegate
-extension RecipesViewController: UISearchResultsUpdating {
+extension RecipesViewController: UISearchResultsUpdating, CocktailsResultsViewControllerDelegate {
+
     func updateSearchResults(for searchController: UISearchController) {
         guard let query = searchController.searchBar.text,
               !query.trimmingCharacters(in: .whitespaces).isEmpty,
-              let resultVC = searchController.searchResultsController as? ResultsViewController
+              let resultVC = searchController.searchResultsController as? CocktailSearchResultsViewController
         else { return }
         resultVC.delegate = self
-//        FFSManager.shared.findBars(query: query) { documents in
-//            let places = documents.compactMap { $0.data() }
-//            DispatchQueue.main.async {
-//                resultVC.update(with: places)
-//            }
-//        }
+        
+        FirestoreManager.shared.search(in: .cocktails, query: query, key: "strDrink") { (drinks: [Drink]) in
+            resultVC.update(with: drinks)
+        }
     }
     
-    func didTapPlace(with coordinates: CLLocationCoordinate2D, name: String) {
-        print()
+    func didTapDrink(with drinkDetails: Drink, drinkName: String) {
+        searchVC.searchBar.resignFirstResponder()
+        // Create an instance of the destination view controller
+        guard let destinationViewController = self.storyboard?.instantiateViewController(withIdentifier: "DrinkDetailsViewController") as? DrinkDetailsViewController else { return }
+        destinationViewController.title = drinkName
+        destinationViewController.drinkDetails = drinkDetails
+        // Push the destination view controller onto the navigation stack
+        self.navigationController?.pushViewController(destinationViewController, animated: true)
+        
     }
 }
 
@@ -95,6 +108,22 @@ extension RecipesViewController: UITableViewDataSource, UITableViewDelegate {
         cell.drinkImageView.kf.setImage(with: imageUrl)
         cell.drinkNameLabel.text = dataSource[indexPath.row].strDrink
         
+        if let str1 =  dataSource[indexPath.row].strIngredient1,
+           let str2 = dataSource[indexPath.row].strIngredient2,
+           let str3 = dataSource[indexPath.row].strIngredient3 {
+            cell.detailsLabel.text = "\(str1), \(str2), \(str3)"
+        }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        // Create an instance of the destination view controller
+        guard let destinationViewController = storyboard?.instantiateViewController(withIdentifier: "DrinkDetailsViewController") as? DrinkDetailsViewController else { return }
+        destinationViewController.title = dataSource[indexPath.row].strDrink
+        destinationViewController.drinkDetails = dataSource[indexPath.row]
+        // Push the destination view controller onto the navigation stack
+        navigationController?.pushViewController(destinationViewController, animated: true)
     }
 }

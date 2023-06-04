@@ -7,10 +7,11 @@
 
 import UIKit
 import MJRefresh
+import FirebaseFirestore
 
 class ScanHistoryViewController: UIViewController {
     
-    var dataSource: [DScanHistory] = [] {
+    var dataSource: [ScanHistory] = [] {
         didSet {
             self.dataSource = self.dataSource.sorted { ($0.createdTime ?? .init()).compare($1.createdTime ?? .init()) == .orderedDescending }
             tableView.reloadData()
@@ -36,7 +37,7 @@ class ScanHistoryViewController: UIViewController {
     }
     
     private func updateDataSource() {
-        FirestoreManager.shared.fetchAllByUserUid(in: .scanHistories, userUid: testUserInfo["uid"] ?? "Unknown User Uid") { (scanHistories: [DScanHistory]) in
+        FirestoreManager.shared.fetchAllByUserUid(in: .scanHistories, userUid: testUserInfo["uid"] ?? "Unknown User Uid") { (scanHistories: [ScanHistory]) in
             self.dataSource = scanHistories
         }
     }
@@ -56,7 +57,8 @@ extension ScanHistoryViewController: UITableViewDataSource, UITableViewDelegate 
         
         cell.updateCell(
             label: dataSource[indexPath.row].brandName,
-            image: dataSource[indexPath.row].imageUrl
+            image: dataSource[indexPath.row].imageUrl,
+            time: dataSource[indexPath.row].createdTime ?? Timestamp()
         )
         
         return cell
@@ -74,7 +76,7 @@ extension ScanHistoryViewController: UITableViewDataSource, UITableViewDelegate 
             FirestoreManager.shared.fetchAllByUserUid(
                 in: .scanHistories,
                 userUid: testUserInfo["uid"] ?? "Unknown User Uid"
-            ) { (scanHistories: [DScanHistory]) in
+            ) { (scanHistories: [ScanHistory]) in
                 self.dataSource = scanHistories
             }
         }

@@ -142,6 +142,29 @@ extension FirestoreManager {
             }
         }
     }
+    
+    func search<T: Codable>(in collection: Collection, query: String, key field: String, completion: (([T]) -> Void)? = nil) {
+        database.collection(collection.rawValue)
+            .whereField(field, isGreaterThan: query)
+            .whereField(field, isLessThanOrEqualTo: query + "\u{f8ff}")
+            .getDocuments { querySnapshot, error in
+                if let error = error {
+                    print("Error getting documents: \(error)")
+                } else {
+                    guard let documents = querySnapshot?.documents else {
+                        print("No documents found")
+                        return
+                    }
+                    
+                    var dataArr = [T]()
+                    
+                    dataArr = documents.compactMap { (queryDocumentSnapshot) -> T? in
+                        return try? queryDocumentSnapshot.data(as: T.self)
+                    }
+                    completion?(dataArr)
+                }
+            }
+    }
 }
 
 // MARK: File Storage Upload & Delete

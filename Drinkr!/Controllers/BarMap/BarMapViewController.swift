@@ -62,8 +62,9 @@ class BarMapViewController: UIViewController {
 //        searchVC.searchBar.backgroundColor = UIColor(red: 23/255, green: 44/255, blue: 211/255, alpha: 1.0)
 //        searchVC.searchBar.searchTextField.backgroundColor = UIColor(hexString: "#FDFFFF")
         searchVC.searchResultsUpdater = self
+        searchVC.obscuresBackgroundDuringPresentation = true
+        definesPresentationContext = true
         navigationItem.searchController = searchVC
-        
         // Core Location Setup, Permission
         locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
