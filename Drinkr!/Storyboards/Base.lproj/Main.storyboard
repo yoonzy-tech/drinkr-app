@@ -86,10 +86,10 @@
                                 <standardMapConfiguration key="preferredConfiguration"/>
                             </mapView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Sjl-Kq-f3H">
-                                <rect key="frame" x="0.0" y="619" width="393" height="150"/>
+                                <rect key="frame" x="0.0" y="609" width="393" height="160"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="BoT-0F-D7z"/>
+                                    <constraint firstAttribute="height" constant="160" id="BoT-0F-D7z"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="bJS-qc-SgJ">
                                     <size key="itemSize" width="385" height="137"/>
@@ -99,7 +99,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="BarCardCollectionViewCell" id="Awb-xe-B6B" customClass="BarCardCollectionViewCell" customModule="Drinkr_" customModuleProvider="target">
-                                        <rect key="frame" x="10" y="6.666666666666667" width="385" height="137"/>
+                                        <rect key="frame" x="10" y="11.666666666666666" width="385" height="137"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="5KK-3c-BCb">
                                             <rect key="frame" x="0.0" y="0.0" width="385" height="137"/>
@@ -381,13 +381,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z2s-qz-vND" customClass="LottieAnimationView" customModule="Lottie">
-                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="animationName" value="beer loading"/>
-                                </userDefinedRuntimeAttributes>
-                            </containerView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="M12-NU-UHn">
                                 <rect key="frame" x="20" y="119" width="353" height="454"/>
                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -437,6 +430,13 @@
                                     <action selector="openCamera:" destination="JHF-np-lfz" eventType="touchUpInside" id="rAg-cV-fYc"/>
                                 </connections>
                             </button>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z2s-qz-vND" customClass="LottieAnimationView" customModule="Lottie">
+                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="animationName" value="beer loading"/>
+                                </userDefinedRuntimeAttributes>
+                            </containerView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="3b5-OU-pTu"/>
                         <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
