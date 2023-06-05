@@ -76,6 +76,7 @@
 		040DB3192A1CD8A3003E02A4 /* BarHeinModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = BarHeinModel.mlmodel; sourceTree = "<group>"; };
 		0419034C2A1DB59B009BD42A /* ScanHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScanHistoryViewController.swift; path = "Drinkr!/Controllers/Scanner/ScanHistoryViewController.swift"; sourceTree = SOURCE_ROOT; };
 		0419034E2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScanHistoryTableViewCell.swift; path = "Drinkr!/Views/ScanHistoryTableViewCell.swift"; sourceTree = SOURCE_ROOT; };
+		0429F2D82A2E18FF00F255CF /* Drinkr!.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Drinkr!.entitlements"; sourceTree = "<group>"; };
 		044362AB2A28AD56007C89F6 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		0475FF422A1E46FC00DBA6E0 /* PostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsViewController.swift; sourceTree = "<group>"; };
 		047AF2A72A1DEB2B00FB9ADD /* ScanHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanHistory.swift; sourceTree = "<group>"; };
@@ -194,6 +195,7 @@
 		048E16522A176A520008CF2A /* Drinkr! */ = {
 			isa = PBXGroup;
 			children = (
+				0429F2D82A2E18FF00F255CF /* Drinkr!.entitlements */,
 				04E568B52A290E9500863D8B /* Animations */,
 				04D2C1CA2A1F5490001212A7 /* Extensions */,
 				040DB31B2A1CD8EE003E02A4 /* Resource */,
@@ -684,6 +686,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Drinkr!/Drinkr!.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7WDBV2M4JT;
@@ -716,6 +719,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Drinkr!/Drinkr!.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7WDBV2M4JT;
