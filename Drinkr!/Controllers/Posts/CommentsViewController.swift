@@ -26,7 +26,7 @@ class CommentsViewController: UIViewController {
                 text: text
             )
             postDataSource?.comments.append(comment)
-            FirestoreManager.shared.update(
+            FirebaseManager.shared.update(
                 in: .posts,
                 docId: postDataSource?.id ?? "Unknown Doc ID",
                 data: postDataSource)
@@ -54,8 +54,8 @@ class CommentsViewController: UIViewController {
         view.endEditing(true)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         if shouldActivateTextField {
             IQKeyboardManager.shared.enableAutoToolbar = false
             textField.becomeFirstResponder()
@@ -120,13 +120,13 @@ extension CommentsViewController: UITableViewDataSource, UITableViewDelegate {
             // Delete local dataSource
             postDataSource?.comments.remove(at: indexPath.row - 1)
             // Update Firestore
-            FirestoreManager.shared.update(
+            FirebaseManager.shared.update(
                 in: .posts,
                 docId: postDataSource?.id ?? "Unknown Doc Id",
                 data: postDataSource
             )
             // Update local dataSource
-            FirestoreManager.shared.fetchByDocId(in: .posts, docId: postDataSource?.id ?? "Unknown Doc Id") { (data: Post) in
+            FirebaseManager.shared.fetchByDocId(in: .posts, docId: postDataSource?.id ?? "Unknown Doc Id") { (data: Post) in
                 self.postDataSource = data
                 tableView.reloadData()
             }
@@ -134,6 +134,3 @@ extension CommentsViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 }
-
-
-

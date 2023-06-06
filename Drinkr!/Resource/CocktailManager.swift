@@ -32,7 +32,7 @@ class CocktailManager {
                 case .success(let result):
                     cocktails = result.drinks
                     for cocktail in cocktails {
-                        FirestoreManager.shared.create(in: .cocktails, data: cocktail)
+                        FirebaseManager.shared.create(in: .cocktails, data: cocktail)
                     }
                 case .failure:
                     print(response.error!)
@@ -57,7 +57,7 @@ class CocktailManager {
                     case .success(let result):
                         cocktails = result.drinks
                         for cocktail in cocktails {
-                            FirestoreManager.shared.create(in: .cocktails, data: cocktail)
+                            FirebaseManager.shared.create(in: .cocktails, data: cocktail)
                         }
                     case .failure:
                         print(response.error!)

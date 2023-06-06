@@ -24,10 +24,12 @@ enum StoragePath: String {
     case scanHistories = "ScanHistories"
 }
 
-class FirestoreManager {
-    static let shared = FirestoreManager()
+class FirebaseManager {
+    static let shared = FirebaseManager()
     
     private init() {}
+    
+    var userData: User?
     
     private let database = Firestore.firestore()
     
@@ -65,6 +67,10 @@ class FirestoreManager {
     
     func listen(in collection: Collection, completion: (() -> Void)? = nil) {
         database.collection(collection.rawValue).addSnapshotListener { snapshot, error in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
             guard let snapshot else {
                 print("Failed to get listener snapshot")
                 return
@@ -88,7 +94,7 @@ class FirestoreManager {
 }
 
 // MARK: Fetch Functions
-extension FirestoreManager {
+extension FirebaseManager {
     func fetchAll<T: Codable>(in collection: Collection, completion: (([T]) -> Void)? = nil) {
         database.collection(collection.rawValue).getDocuments { querySnapshot, error in // ignore the error here
             if let error = error {
@@ -124,7 +130,9 @@ extension FirestoreManager {
     }
     
     func fetchAllByUserUid<T: Codable>(in collection: Collection, userUid: String, completion: (([T]) -> Void)? = nil) {
-        database.collection(collection.rawValue).whereField("userUid", isEqualTo: userUid).getDocuments { querySnapshot, error in
+        database.collection(collection.rawValue)
+            .whereField("userUid", isEqualTo: userUid)
+            .getDocuments { querySnapshot, error in
             if let error = error {
                 print("Error getting documents: \(error)")
             } else {
@@ -168,7 +176,7 @@ extension FirestoreManager {
 }
 
 // MARK: File Storage Upload & Delete
-extension FirestoreManager {
+extension FirebaseManager {
     func uploadFile(to path: StoragePath, imageData: Data, completion: ((String, String) -> Void)? = nil) {
         
         let imageRef = "\(testUserInfo["uid"] ?? "Unknown User Uid")\(Date().formatNowDate)"
@@ -255,3 +263,63 @@ extension FirestoreManager {
 // FirestoreManager.shared.fetch(in: .posts) { (posts: [DPost]) in
 //    print(posts)
 // }
+
+// MARK: User
+extension FirebaseManager {
+    func checkUserAccountExist(uid: String, completion: @escaping (Bool, Error?) -> Void) {
+        database.collection(Collection.users.rawValue)
+            .whereField("uid", isEqualTo: uid).limit(to: 1)
+            .getDocuments { querySnapshot, error in
+                if let error = error {
+                    completion(false, error)
+                    return
+                }
+                
+                guard let querySnapshot = querySnapshot else {
+                    completion(false, nil)
+                    return
+                }
+                completion(!querySnapshot.isEmpty, nil)
+            }
+    }
+    
+    func firebaseSignIn(credential: AuthCredential, username: String, completion: (() -> Void)? = nil) {
+        Auth.auth().signIn(with: credential) { (authResult, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            guard let user = authResult?.user else { return }
+            let email = user.email ?? ""
+            let displayName = username
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            completion?()
+            // Check if has this user info in firebase
+            FirebaseManager.shared.checkUserAccountExist(uid: uid) { [weak self] exists, error in
+                if let error = error {
+                    print("Error: \(error)")
+                    return
+                }
+                if exists {
+                    print("User exists in Firestore.")
+                    // Display user info on UI
+                    
+                    completion?()
+                } else {
+                    print("User does not exist in Firestore.")
+                    // Store user info to firebase
+                    self?.userData = User(uid: uid,
+                                    name: displayName,
+                                    email: email,
+                                    profileImageUrl: nil,
+                                    createdTime: Timestamp()
+                    )
+                    print(user)
+                    FirebaseManager.shared.create(in: .users, data: self?.userData)
+                    completion?()
+                }
+            }
+        }
+    }
+}

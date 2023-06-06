@@ -37,7 +37,7 @@ class ScanHistoryViewController: UIViewController {
     }
     
     private func updateDataSource() {
-        FirestoreManager.shared.fetchAllByUserUid(in: .scanHistories, userUid: testUserInfo["uid"] ?? "Unknown User Uid") { (scanHistories: [ScanHistory]) in
+        FirebaseManager.shared.fetchAllByUserUid(in: .scanHistories, userUid: testUserInfo["uid"] ?? "Unknown User Uid") { (scanHistories: [ScanHistory]) in
             self.dataSource = scanHistories
         }
     }
@@ -71,9 +71,9 @@ extension ScanHistoryViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Update Firestore
-            FirestoreManager.shared.delete(in: .scanHistories, docId: dataSource[indexPath.row].id ?? "Unknown Doc Id")
+            FirebaseManager.shared.delete(in: .scanHistories, docId: dataSource[indexPath.row].id ?? "Unknown Doc Id")
             // Update Loacal Data Sourvce
-            FirestoreManager.shared.fetchAllByUserUid(
+            FirebaseManager.shared.fetchAllByUserUid(
                 in: .scanHistories,
                 userUid: testUserInfo["uid"] ?? "Unknown User Uid"
             ) { (scanHistories: [ScanHistory]) in

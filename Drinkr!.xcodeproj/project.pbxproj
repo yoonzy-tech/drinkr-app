@@ -15,8 +15,11 @@
 		0419034D2A1DB59B009BD42A /* ScanHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0419034C2A1DB59B009BD42A /* ScanHistoryViewController.swift */; };
 		0419034F2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0419034E2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift */; };
 		044362AC2A28AD56007C89F6 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044362AB2A28AD56007C89F6 /* UIColor+Extension.swift */; };
+		0450E77B2A2F72FB00B3EFF8 /* fill drink.json in Resources */ = {isa = PBXBuildFile; fileRef = 0450E77A2A2F72FB00B3EFF8 /* fill drink.json */; };
 		0475FF432A1E46FC00DBA6E0 /* PostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0475FF422A1E46FC00DBA6E0 /* PostsViewController.swift */; };
 		047AF2A82A1DEB2B00FB9ADD /* ScanHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047AF2A72A1DEB2B00FB9ADD /* ScanHistory.swift */; };
+		047E42522A2F8A88008D4E5A /* beer filling.json in Resources */ = {isa = PBXBuildFile; fileRef = 047E42512A2F8A88008D4E5A /* beer filling.json */; };
+		047E42562A2F8F8A008D4E5A /* pouring.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 047E42552A2F8F8A008D4E5A /* pouring.mp3 */; };
 		0480D8FB2A27B89D00FB440F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 0480D8FA2A27B89D00FB440F /* FirebaseAuth */; };
 		0480D8FD2A27B89D00FB440F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 0480D8FC2A27B89D00FB440F /* FirebaseFirestore */; };
 		0480D8FF2A27B89D00FB440F /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 0480D8FE2A27B89D00FB440F /* FirebaseFirestoreCombine-Community */; };
@@ -39,8 +42,11 @@
 		04946E782A273CBE00DCD2A4 /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04946E772A273CBE00DCD2A4 /* CommentsViewController.swift */; };
 		04946E7A2A2751C700DCD2A4 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04946E792A2751C700DCD2A4 /* CommentTableViewCell.swift */; };
 		04946E7C2A2757F400DCD2A4 /* CaptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04946E7B2A2757F400DCD2A4 /* CaptionTableViewCell.swift */; };
-		04946E7E2A27829100DCD2A4 /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04946E7D2A27829100DCD2A4 /* FirestoreManager.swift */; };
+		04946E7E2A27829100DCD2A4 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04946E7D2A27829100DCD2A4 /* FirebaseManager.swift */; };
 		04946E802A27850F00DCD2A4 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04946E7F2A27850F00DCD2A4 /* Post.swift */; };
+		04AE141E2A2EE20B00CA4FCD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AE141D2A2EE20B00CA4FCD /* User.swift */; };
+		04AE14212A2F177F00CA4FCD /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AE14202A2F177F00CA4FCD /* ProfileViewController.swift */; };
+		04AE14232A2F207900CA4FCD /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AE14222A2F207900CA4FCD /* KeychainManager.swift */; };
 		04B9EA092A1A81BA002A7EC4 /* GooglePlacesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9EA082A1A81BA002A7EC4 /* GooglePlacesManager.swift */; };
 		04B9EA0B2A1A8235002A7EC4 /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9EA0A2A1A8235002A7EC4 /* ApiKeys.swift */; };
 		04B9EA0D2A1A8248002A7EC4 /* PlacesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9EA0C2A1A8248002A7EC4 /* PlacesResponse.swift */; };
@@ -78,8 +84,11 @@
 		0419034E2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScanHistoryTableViewCell.swift; path = "Drinkr!/Views/ScanHistoryTableViewCell.swift"; sourceTree = SOURCE_ROOT; };
 		0429F2D82A2E18FF00F255CF /* Drinkr!.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Drinkr!.entitlements"; sourceTree = "<group>"; };
 		044362AB2A28AD56007C89F6 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		0450E77A2A2F72FB00B3EFF8 /* fill drink.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "fill drink.json"; sourceTree = "<group>"; };
 		0475FF422A1E46FC00DBA6E0 /* PostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsViewController.swift; sourceTree = "<group>"; };
 		047AF2A72A1DEB2B00FB9ADD /* ScanHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanHistory.swift; sourceTree = "<group>"; };
+		047E42512A2F8A88008D4E5A /* beer filling.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "beer filling.json"; sourceTree = "<group>"; };
+		047E42552A2F8F8A008D4E5A /* pouring.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pouring.mp3; sourceTree = "<group>"; };
 		048C8A362A2CF45D001F001E /* DescrtiptionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescrtiptionTableViewCell.swift; sourceTree = "<group>"; };
 		048C8A372A2CF45D001F001E /* DescrtiptionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DescrtiptionTableViewCell.xib; sourceTree = "<group>"; };
 		048C8A3A2A2D0122001F001E /* CocktailSearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocktailSearchResultsViewController.swift; sourceTree = "<group>"; };
@@ -96,8 +105,11 @@
 		04946E772A273CBE00DCD2A4 /* CommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		04946E792A2751C700DCD2A4 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		04946E7B2A2757F400DCD2A4 /* CaptionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionTableViewCell.swift; sourceTree = "<group>"; };
-		04946E7D2A27829100DCD2A4 /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
+		04946E7D2A27829100DCD2A4 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		04946E7F2A27850F00DCD2A4 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		04AE141D2A2EE20B00CA4FCD /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		04AE14202A2F177F00CA4FCD /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		04AE14222A2F207900CA4FCD /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		04B9EA082A1A81BA002A7EC4 /* GooglePlacesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GooglePlacesManager.swift; sourceTree = "<group>"; };
 		04B9EA0A2A1A8235002A7EC4 /* ApiKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 		04B9EA0C2A1A8248002A7EC4 /* PlacesResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesResponse.swift; sourceTree = "<group>"; };
@@ -154,9 +166,10 @@
 				048E16552A176A520008CF2A /* SceneDelegate.swift */,
 				04B9EA082A1A81BA002A7EC4 /* GooglePlacesManager.swift */,
 				04B9EA102A1A83F5002A7EC4 /* FFSManager.swift */,
-				04946E7D2A27829100DCD2A4 /* FirestoreManager.swift */,
+				04946E7D2A27829100DCD2A4 /* FirebaseManager.swift */,
 				04B9EA0A2A1A8235002A7EC4 /* ApiKeys.swift */,
 				04D2C1C62A1F4441001212A7 /* CocktailManager.swift */,
+				04AE14222A2F207900CA4FCD /* KeychainManager.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -218,6 +231,7 @@
 				047AF2A72A1DEB2B00FB9ADD /* ScanHistory.swift */,
 				04946E7F2A27850F00DCD2A4 /* Post.swift */,
 				04E856492A2C5D1F0041F1DE /* DrinksResponse.swift */,
+				04AE141D2A2EE20B00CA4FCD /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -227,12 +241,11 @@
 			children = (
 				04E568B32A28C44300863D8B /* TabBarViewController.swift */,
 				04D2C1DC2A238C03001212A7 /* SignInViewController.swift */,
+				04AE14202A2F177F00CA4FCD /* ProfileViewController.swift */,
 				04E568BA2A2A165500863D8B /* BarMap */,
-				04E568BB2A2A166E00863D8B /* Scanner */,
 				04E568BC2A2A168400863D8B /* Posts */,
-				04D2C1D32A20BFC0001212A7 /* RecipesViewController.swift */,
-				04E856472A2C59240041F1DE /* DrinkDetailsViewController.swift */,
-				048C8A3A2A2D0122001F001E /* CocktailSearchResultsViewController.swift */,
+				04E568BB2A2A166E00863D8B /* Scanner */,
+				04AE141F2A2F175B00CA4FCD /* Cocktails */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -244,6 +257,16 @@
 				048E165E2A176A540008CF2A /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		04AE141F2A2F175B00CA4FCD /* Cocktails */ = {
+			isa = PBXGroup;
+			children = (
+				04D2C1D32A20BFC0001212A7 /* RecipesViewController.swift */,
+				04E856472A2C59240041F1DE /* DrinkDetailsViewController.swift */,
+				048C8A3A2A2D0122001F001E /* CocktailSearchResultsViewController.swift */,
+			);
+			path = Cocktails;
 			sourceTree = "<group>";
 		};
 		04D2C1CA2A1F5490001212A7 /* Extensions */ = {
@@ -259,6 +282,9 @@
 		04E568B52A290E9500863D8B /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				047E42552A2F8F8A008D4E5A /* pouring.mp3 */,
+				047E42512A2F8A88008D4E5A /* beer filling.json */,
+				0450E77A2A2F72FB00B3EFF8 /* fill drink.json */,
 				04E568B62A290EB500863D8B /* beer loading.json */,
 			);
 			path = Animations;
@@ -277,8 +303,6 @@
 		04E568BB2A2A166E00863D8B /* Scanner */ = {
 			isa = PBXGroup;
 			children = (
-				040DB2C02A1B8D44003E02A4 /* CameraViewController.swift */,
-				040DB3082A1C8B82003E02A4 /* CameraViewController+Extension.swift */,
 				040DB30A2A1C99C1003E02A4 /* ScannerViewController.swift */,
 				0419034C2A1DB59B009BD42A /* ScanHistoryViewController.swift */,
 			);
@@ -291,6 +315,8 @@
 				0475FF422A1E46FC00DBA6E0 /* PostsViewController.swift */,
 				04E568B82A29DAB900863D8B /* EditCaptionViewController.swift */,
 				04946E772A273CBE00DCD2A4 /* CommentsViewController.swift */,
+				040DB2C02A1B8D44003E02A4 /* CameraViewController.swift */,
+				040DB3082A1C8B82003E02A4 /* CameraViewController+Extension.swift */,
 			);
 			path = Posts;
 			sourceTree = "<group>";
@@ -407,12 +433,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				048E16602A176A540008CF2A /* LaunchScreen.storyboard in Resources */,
+				047E42522A2F8A88008D4E5A /* beer filling.json in Resources */,
 				04D2C1DB2A238B77001212A7 /* GoogleService-Info.plist in Resources */,
 				04E8564E2A2C7F9B0041F1DE /* DetailsTableViewCell.xib in Resources */,
 				04E568B72A290EB500863D8B /* beer loading.json in Resources */,
 				048E165D2A176A540008CF2A /* Assets.xcassets in Resources */,
 				04E856572A2C84090041F1DE /* ImageTableViewCell.xib in Resources */,
+				0450E77B2A2F72FB00B3EFF8 /* fill drink.json in Resources */,
 				048E165B2A176A520008CF2A /* Main.storyboard in Resources */,
+				047E42562A2F8F8A008D4E5A /* pouring.mp3 in Resources */,
 				04E8565B2A2C88B30041F1DE /* SectionHeaderView.xib in Resources */,
 				048C8A392A2CF45D001F001E /* DescrtiptionTableViewCell.xib in Resources */,
 			);
@@ -519,15 +548,18 @@
 				04D2C1D62A20BFF7001212A7 /* RecipeTableViewCell.swift in Sources */,
 				048E16542A176A520008CF2A /* AppDelegate.swift in Sources */,
 				04E568B42A28C44300863D8B /* TabBarViewController.swift in Sources */,
+				04AE14212A2F177F00CA4FCD /* ProfileViewController.swift in Sources */,
+				04AE141E2A2EE20B00CA4FCD /* User.swift in Sources */,
 				0419034F2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift in Sources */,
 				04E8564A2A2C5D1F0041F1DE /* DrinksResponse.swift in Sources */,
 				040DB3182A1CCEC9003E02A4 /* UIImage+Extension.swift in Sources */,
 				04E856562A2C84090041F1DE /* ImageTableViewCell.swift in Sources */,
 				04E856482A2C59240041F1DE /* DrinkDetailsViewController.swift in Sources */,
 				04946E782A273CBE00DCD2A4 /* CommentsViewController.swift in Sources */,
-				04946E7E2A27829100DCD2A4 /* FirestoreManager.swift in Sources */,
+				04946E7E2A27829100DCD2A4 /* FirebaseManager.swift in Sources */,
 				040DB30B2A1C99C2003E02A4 /* ScannerViewController.swift in Sources */,
 				04B9EA112A1A83F5002A7EC4 /* FFSManager.swift in Sources */,
+				04AE14232A2F207900CA4FCD /* KeychainManager.swift in Sources */,
 				048E16562A176A520008CF2A /* SceneDelegate.swift in Sources */,
 				04946E7A2A2751C700DCD2A4 /* CommentTableViewCell.swift in Sources */,
 				04E856592A2C889E0041F1DE /* SectionHeaderView.swift in Sources */,

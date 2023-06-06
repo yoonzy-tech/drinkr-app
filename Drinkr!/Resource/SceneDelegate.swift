@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 // swiftlint:disable line_length
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -17,6 +18,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        print(Auth.auth().currentUser?.email)
+        // if user is logged in before
+        if Auth.auth().currentUser != nil {
+          // User is signed in.
+            let mainTabBarController = storyboard.instantiateViewController(identifier: "TabBarViewController")
+            window?.rootViewController = mainTabBarController
+        } else {
+          // No user is signed in.
+            let loginNavController = storyboard.instantiateViewController(identifier: "SignInViewController")
+            window?.rootViewController = loginNavController
+        }
+    }
+    
+    func changeRootViewController(_ vc: UIViewController, animated: Bool = true) {
+        guard let window = self.window else {
+            return
+        }
+        
+        // change the root view controller to your specific view controller
+        window.rootViewController = vc
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

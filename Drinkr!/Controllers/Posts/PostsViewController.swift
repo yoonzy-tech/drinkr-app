@@ -6,10 +6,12 @@
 //
 // TODO: Fix Posts Data Source Query (Now just fetch all in DB)
 import UIKit
+import AVFoundation
 import Firebase
 import MJRefresh
 import Kingfisher
 import IQKeyboardManagerSwift
+import Lottie
 
 enum Liked {
     case yes
@@ -28,7 +30,7 @@ protocol PostCaptionDelegate: AnyObject {
 class PostsViewController: UIViewController {
     
     var role: Role = .author
-
+    
     var postData: Post?
     
     var liked: Liked = .no
@@ -45,12 +47,58 @@ class PostsViewController: UIViewController {
     
     var doneButton = UIButton()
     
-    var isKeyboardVisible = false
+    var audioPlayer: AVAudioPlayer?
+    
+    var animationView: LottieAnimationView?
     
     @IBOutlet weak var collectionView: UICollectionView!
     
     @IBAction func openCamera(_ sender: Any) {
         performSegue(withIdentifier: "openCameraSegue", sender: sender)
+    }
+    
+    func startAnimation() {
+        playBeerPouringSound()
+        // Lottie Animation
+        animationView = .init(name: "beer filling")
+        animationView!.frame = view.frame
+        animationView?.backgroundColor = .white
+        animationView!.contentMode = .scaleAspectFit
+        animationView!.loopMode = .loop
+        animationView!.animationSpeed = 1
+        view.addSubview(animationView!)
+        animationView!.play()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) {
+            self.animationView?.stop()
+            self.audioPlayer?.stop()
+            self.animationView?.removeFromSuperview()
+            
+        }
+    }
+    
+    func playBeerPouringSound() {
+        let urlString = Bundle.main.path(forResource: "pouring", ofType: "mp3")
+        
+        do {
+            try AVAudioSession.sharedInstance().setMode(.default)
+            try AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
+            guard let url = urlString else {
+                return
+            }
+            audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: url))
+            
+            guard let audioPlayer = audioPlayer else {
+                return
+            }
+            audioPlayer.play()
+        } catch {
+            print("Cannot play audio effect")
+        }
+    }
+    
+    @IBAction func unwindToMain(segue: UIStoryboardSegue) {
+        print("This is the First View Controller")
+        startAnimation()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -77,7 +125,7 @@ class PostsViewController: UIViewController {
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap))
         tapGesture?.numberOfTouchesRequired = 2
         
-        FirestoreManager.shared.listen(in: .posts) {
+        FirebaseManager.shared.listen(in: .posts) {
             self.updateDataSource()
         }
     }
@@ -115,7 +163,7 @@ class PostsViewController: UIViewController {
     }
     
     private func updateDataSource() {
-        FirestoreManager.shared.fetchAll(in: .posts) { [weak self] (posts: [Post]) in
+        FirebaseManager.shared.fetchAll(in: .posts) { [weak self] (posts: [Post]) in
             self?.dataSource = posts
             self?.dataSource.sort { ($0.createdTime ?? .init())
                 .compare($1.createdTime ?? .init()) == .orderedDescending }
@@ -172,7 +220,7 @@ extension PostsViewController {
         sender.setImage(liked == .yes ? UIImage(named: "cheers.fill") : UIImage(named: "cheers"), for: .normal)
         sender.setTitle(liked == .no ? "" : " \(likeCount)", for: .normal)
         dataSource[index].likes = likeCount
-        FirestoreManager.shared.update(
+        FirebaseManager.shared.update(
             in: .posts,
             docId: dataSource[index].id ?? "Unknown Doc Id",
             data: dataSource[index]
@@ -211,12 +259,12 @@ extension PostsViewController {
                 title: "Delete this post",
                 style: .destructive) { [weak self] _ in
                     print("Delete a post")
-                    FirestoreManager.shared.delete(
+                    FirebaseManager.shared.delete(
                         in: .posts,
                         docId: self?.dataSource[selectedIndex].id ?? "Unknown Doc Id") {
                             self?.updateDataSource()
                         }
-                    FirestoreManager.shared.deleteFile(
+                    FirebaseManager.shared.deleteFile(
                         to: .posts,
                         imageRef: self?.dataSource[selectedIndex].imageRef ?? "Unknown Image Ref"
                     )

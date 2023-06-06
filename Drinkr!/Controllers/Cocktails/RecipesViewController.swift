@@ -53,7 +53,7 @@ class RecipesViewController: UIViewController {
     }
     
     private func updateDataSource() {
-        FirestoreManager.shared.fetchAll(in: .cocktails) { (drinks: [Drink]) in
+        FirebaseManager.shared.fetchAll(in: .cocktails) { (drinks: [Drink]) in
             self.dataSource = drinks
         }
     }
@@ -74,7 +74,7 @@ extension RecipesViewController: UISearchResultsUpdating, CocktailsResultsViewCo
         else { return }
         resultVC.delegate = self
         
-        FirestoreManager.shared.search(in: .cocktails, query: query, key: "strDrink") { (drinks: [Drink]) in
+        FirebaseManager.shared.search(in: .cocktails, query: query, key: "strDrink") { (drinks: [Drink]) in
             resultVC.update(with: drinks)
         }
     }

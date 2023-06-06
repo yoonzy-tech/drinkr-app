@@ -108,9 +108,9 @@ extension CameraViewController {
     
     @objc func publishImage(_ button: UIButton) {
         if let image = imageView.image,
-           let imageData = FirestoreManager.shared.rotateImageToUp(image: image) {
+           let imageData = FirebaseManager.shared.rotateImageToUp(image: image) {
             
-            FirestoreManager.shared.uploadFile(to: .posts, imageData: imageData) { [weak self] imageRef, imageUrl in
+            FirebaseManager.shared.uploadFile(to: .posts, imageData: imageData) { [weak self] imageRef, imageUrl in
                 
                 let post = Post(
                     userUid: testUserInfo["uid"] ?? "Unknown User Uid",
@@ -122,13 +122,13 @@ extension CameraViewController {
                     location: self?.location ?? "No location"
                 )
                 
-                FirestoreManager.shared.create(in: .posts, data: post)
+                FirebaseManager.shared.create(in: .posts, data: post)
             }
             
         } else {
             print("Failed to get image data")
         }
         
-        self.navigationController?.popToRootViewController(animated: false)
+        performSegue(withIdentifier: "backToPosts", sender: nil)
     }
 }

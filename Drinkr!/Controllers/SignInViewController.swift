@@ -14,20 +14,23 @@ import CryptoKit
 
 class SignInViewController: UIViewController {
     
-    private let appleSignInButton = ASAuthorizationAppleIDButton()
+    private let appleSignInButton = ASAuthorizationAppleIDButton(type: .signUp, style: .white)
     
     fileprivate var currentNonce: String?
     
     @IBOutlet weak var appleSignInView: UIView!
-
+    
+    @IBOutlet weak var googleSignInButton: UIButton!
+    
     @IBAction func didTapGoogleSignIn(_ sender: Any) {
         signInGoogle()
     }
     
     var userGoogleToken: String = ""
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        googleSignInButton.layer.cornerRadius = 6
         view.addSubview(appleSignInButton)
         appleSignInButton.addTarget(self, action: #selector(signInApple), for: .touchUpInside)
     }
@@ -74,22 +77,28 @@ class SignInViewController: UIViewController {
     }
     
     private func sha256(_ input: String) -> String {
-      let inputData = Data(input.utf8)
-      let hashedData = SHA256.hash(data: inputData)
-      let hashString = hashedData.compactMap {
-        String(format: "%02x", $0)
-      }.joined()
-
-      return hashString
+        let inputData = Data(input.utf8)
+        let hashedData = SHA256.hash(data: inputData)
+        let hashString = hashedData.compactMap {
+            String(format: "%02x", $0)
+        }.joined()
+        
+        return hashString
     }
 }
 
 // MARK: Apple Sign In
-extension SignInViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+extension SignInViewController: ASAuthorizationControllerDelegate,
+                                ASAuthorizationControllerPresentationContextProviding {
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            guard let firstName = appleIDCredential.fullName?.givenName,
+                  let lastName = appleIDCredential.fullName?.familyName else {
+                print("Unable to get user name")
+                return
+            }
             
             guard let nonce = currentNonce else {
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
@@ -102,38 +111,19 @@ extension SignInViewController: ASAuthorizationControllerDelegate, ASAuthorizati
                 print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
                 return
             }
+
+            let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
             
-            // Initialize a Firebase credential, including the user's full name.
-            let credential = OAuthProvider.appleCredential(
-                withIDToken: idTokenString,
-                rawNonce: nonce,
-                fullName: appleIDCredential.fullName
-            )
-            // Sign in with Firebase.
-            Auth.auth().signIn(with: credential) { (authResult, error) in
-                if let error = error {
-                    print(error.localizedDescription)
-                    return
-                }
-                
-                // User is signed in to Firebase with Apple.
-                let firstName = appleIDCredential.fullName?.givenName
-                let lastName = appleIDCredential.fullName?.familyName
-                let email = appleIDCredential.email
-                let uid = authResult?.user.uid
-                print(firstName as Any, lastName as Any, email as Any)
-                
-                // Store it in firebase, check if user exist in firebase
+            FirebaseManager.shared.firebaseSignIn(credential: credential, username: "\(firstName) \(lastName)") {
+                self.presentAppHomeVC()
             }
         }
     }
-
-      func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        // Handle error.
-        print("Sign in with Apple errored: \(error)")
-      }
     
-    // Tells which window should present apple sign in (iPad has multi window)
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print("Sign in with Apple errored: \(error)")
+    }
+    
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return view.window!
     }
@@ -143,8 +133,6 @@ extension SignInViewController: ASAuthorizationControllerDelegate, ASAuthorizati
 extension SignInViewController {
     func signInGoogle() {
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-        print("🧤 ➡️ Firebase Client ID: \(clientID)")
-        
         let config = GIDConfiguration(clientID: clientID)
         GIDSignIn.sharedInstance.configuration = config
         GIDSignIn.sharedInstance.signIn(withPresenting: self) { result, error in
@@ -155,13 +143,13 @@ extension SignInViewController {
                 withIDToken: idToken,
                 accessToken: user.accessToken.tokenString
             )
-  
+            
             Auth.auth().signIn(with: credential) { result, error in
                 guard error == nil else {
                     print("Unable to sign with Google")
                     return
                 }
-                // Fetch Account Info
+                
                 guard let result = result else { return }
                 
                 let userUid = result.user.uid
@@ -181,28 +169,34 @@ extension SignInViewController {
                     return
                 }
                 
-                FFSManager.shared.checkUserExistsInFirestore(uid: userUid) { exists, error in
+                FirebaseManager.shared.checkUserAccountExist(uid: userUid) { [weak self] exists, error in
                     if let error = error {
                         print("Error: \(error)")
                         return
                     }
                     if exists {
                         print("User exists in Firestore.")
-                        FFSManager.shared.fetchAccountInfo(uid: userUid)
                     } else {
                         print("User does not exist in Firestore.")
-                        // TODO: # Request User Sign In
-                        FFSManager.shared.addUserInfo(
-                            uid: userUid,
-                            name: name,
-                            email: email,
-                            profileImageUrl: profileImageUrl
-                        )
+                        let user = User(uid: userUid,
+                                        name: name,
+                                        email: email,
+                                        profileImageUrl: profileImageUrl)
+                        FirebaseManager.shared.create(in: .users, data: user)
                     }
+                    
+                    self?.presentAppHomeVC()
                 }
-                // If has this UID in DB, then fetch data
-                // If no, then save this user data
             }
         }
+    }
+}
+
+
+extension SignInViewController {
+    func presentAppHomeVC() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let mainTabBarController = storyboard.instantiateViewController(identifier: "TabBarViewController")
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mainTabBarController)
     }
 }

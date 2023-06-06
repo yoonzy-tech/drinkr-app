@@ -87,7 +87,7 @@ extension ScannerViewController: UINavigationControllerDelegate, UIImagePickerCo
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         
         if let pickedImage = info[.originalImage] as? UIImage,
-           let imageData = FirestoreManager.shared.rotateImageToUp(image: pickedImage) {
+           let imageData = FirebaseManager.shared.rotateImageToUp(image: pickedImage) {
             // Save the image to Photo Library
             if picker.sourceType == .camera {
                 PHPhotoLibrary.shared().performChanges({
@@ -136,7 +136,7 @@ extension ScannerViewController: PHPickerViewControllerDelegate {
                     print("PHPicker loading error: \(error)")
                 }
                 if let image = object as? UIImage,
-                   let imageData = FirestoreManager.shared.rotateImageToUp(image: image) {
+                   let imageData = FirebaseManager.shared.rotateImageToUp(image: image) {
                     
                     // Get Model Prediction
                     guard let pixelBuffer = image.pixelBuffer(width: 299, height: 299),
@@ -156,7 +156,7 @@ extension ScannerViewController: PHPickerViewControllerDelegate {
     
     func uploadCreateScanHistory(imageData: Data, brandName: String) {
         // Store Scan History to DB
-        FirestoreManager.shared.uploadFile(to: .scanHistories, imageData: imageData) { imageRef, imageUrl in
+        FirebaseManager.shared.uploadFile(to: .scanHistories, imageData: imageData) { imageRef, imageUrl in
             let scanHistory = ScanHistory(
                 userUid: testUserInfo["uid"] ?? "Unknown User Uid",
                 brandName: brandName,
@@ -165,7 +165,7 @@ extension ScannerViewController: PHPickerViewControllerDelegate {
                 createdTime: Timestamp()
             )
             
-            FirestoreManager.shared.create(in: .scanHistories, data: scanHistory)
+            FirebaseManager.shared.create(in: .scanHistories, data: scanHistory)
         }
     }
 }

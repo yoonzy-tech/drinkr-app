@@ -23,6 +23,10 @@ class EditCaptionViewController: UIViewController {
             imageView.kf.setImage(with: URL(string: postData.imageUrl))
             textView.text = postData.caption
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         textView.becomeFirstResponder()
     }
 }
@@ -36,7 +40,7 @@ extension EditCaptionViewController: UITextViewDelegate {
             
             postData?.caption = newCaption
             
-            FirestoreManager.shared.update(in: .posts, docId: postData?.id ?? "Unknown Doc Id", data: postData)
+            FirebaseManager.shared.update(in: .posts, docId: postData?.id ?? "Unknown Doc Id", data: postData)
         }
         
         navigationController?.popViewController(animated: true)
