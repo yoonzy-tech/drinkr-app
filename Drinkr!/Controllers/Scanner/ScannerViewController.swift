@@ -157,14 +157,14 @@ extension ScannerViewController: PHPickerViewControllerDelegate {
     func uploadCreateScanHistory(imageData: Data, brandName: String) {
         // Store Scan History to DB
         FirebaseManager.shared.uploadFile(to: .scanHistories, imageData: imageData) { imageRef, imageUrl in
+            guard let userUid = FirebaseManager.shared.userUid else { return }
             let scanHistory = ScanHistory(
-                userUid: testUserInfo["uid"] ?? "Unknown User Uid",
+                userUid: userUid,
                 brandName: brandName,
                 imageUrl: imageUrl,
                 imageRef: imageRef,
                 createdTime: Timestamp()
             )
-            
             FirebaseManager.shared.create(in: .scanHistories, data: scanHistory)
         }
     }

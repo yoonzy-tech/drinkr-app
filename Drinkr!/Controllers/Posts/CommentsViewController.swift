@@ -10,21 +10,20 @@ import IQKeyboardManagerSwift
 import FirebaseFirestoreSwift
 
 class CommentsViewController: UIViewController {
-    
-    var postDataSource: Post?
-    
+
     @IBOutlet weak var userProfileImageView: UIImageView!
     @IBOutlet weak var tableView: UITableView!
-    
-    var shouldActivateTextField: Bool = false
     @IBOutlet weak var textField: UITextField!
     
+    var postDataSource: Post?
+    var shouldActivateTextField: Bool = false
+    
+    let userUid = FirebaseManager.shared.userUid
+    
     @IBAction func postComment(_ sender: Any) {
-        if let text = textField.text {
-            let comment = Comment(
-                userUid: testUserInfo["uid"] ?? "Unknown Uid",
-                text: text
-            )
+        if let text = textField.text,
+           let uid = userUid {
+            let comment = Comment(userUid: uid, text: text)
             postDataSource?.comments.append(comment)
             FirebaseManager.shared.update(
                 in: .posts,
@@ -48,6 +47,24 @@ class CommentsViewController: UIViewController {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         view.addGestureRecognizer(tapGesture)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didEnterBackground),
+                                               name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didEnterForeground),
+                                               name: UIApplication.didBecomeActiveNotification, object: nil)
+    }
+    
+    @objc func didEnterForeground() {
+        if shouldActivateTextField {
+            IQKeyboardManager.shared.enableAutoToolbar = false
+            textField.becomeFirstResponder()
+        }
+    }
+    
+    @objc func didEnterBackground() {
+        textField.resignFirstResponder()
     }
     
     @objc func handleTap() {

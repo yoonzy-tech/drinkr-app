@@ -10,91 +10,179 @@ import FirebaseAuth
 import Kingfisher
 
 class ProfileViewController: UIViewController {
-
-    @IBOutlet weak var postsCountLabel: UILabel!
-    @IBOutlet weak var imageView: UIImageView!
     
-    var userData: User?
+    var userData: User? {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    
+    var postDataSource: [Post] = [] {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    
+    @IBOutlet weak var collectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageView.layer.cornerRadius = imageView.frame.size.width / 2
-        imageView.clipsToBounds = true
-        
-        if let uid = Auth.auth().currentUser?.uid, !uid.isEmpty {
-            FirebaseManager.shared.fetchAllByUserUid(in: .users, userUid: uid) { (userData: [User]) in
-                print(userData.first)
-                self.title = userData.first?.name ?? "Ruby"
-                guard let profileImageUrl = userData.first?.profileImageUrl else {
-                    print("User has no profile image")
-                    return
-                }
-                self.imageView.kf.setImage(with: URL(string: profileImageUrl))
-                
-            }
-        }
-        
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        retrieveUserData()
     }
     
+    func retrieveUserData() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        print(uid)
+        FirebaseManager.shared.fetchAllByUserUid(in: .posts, userUid: uid) { (posts: [Post]) in
+            self.postDataSource = posts
+            self.postDataSource.sort { ($0.createdTime ?? .init())
+                .compare($1.createdTime ?? .init()) == .orderedDescending }
+        }
+        FirebaseManager.shared.fetchAccountInfo(uid: uid) { userData in
+            self.userData = userData
+            self.navigationItem.title = self.userData?.name
+        }
+    }
+}
+
+// MARK: Posts Collection View
+extension ProfileViewController: UICollectionViewDataSource,
+                                 UICollectionViewDelegate,
+                                 UICollectionViewDelegateFlowLayout {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if section == 0 {
+            return 1
+        } else {
+            return postDataSource.count
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if indexPath.section == 0 {
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "UserInfoCollectionViewCell", for: indexPath) as? UserInfoCollectionViewCell
+            else { fatalError("Unable to generate User Info Collection View Cell") }
+            
+            cell.prepareCell(postCount: postDataSource.count)
+            
+            if let urlString = userData?.profileImageUrl, let url = URL(string: urlString) {
+                cell.profileImageView.kf.setImage(with: url)
+            } else {
+                cell.profileImageView.image = UIImage(named: "icons8-edvard-munch")
+            }
+            
+            return cell
+            
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "PostImageCollectionViewCell", for: indexPath) as? PostImageCollectionViewCell
+            else { fatalError("Unable to generate Post Image Collection View Cell") }
+            
+            let urlString = postDataSource[indexPath.row].imageUrl
+            cell.imageView.kf.setImage(with: URL(string: urlString))
+            return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let screen = UIScreen.main.bounds
+        let screenWidth = screen.size.width
+        if indexPath.section == 0 {
+            return CGSize(width: screenWidth, height: 280)
+        } else {
+            return CGSize(width: (screenWidth / 3.0) - 1, height: (screenWidth / 3.0) - 1)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 1 {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let postsVC = storyboard.instantiateViewController(identifier: "PostsViewController") as PostsViewController
+            
+            DispatchQueue.main.async {
+                postsVC.dataSource = self.postDataSource
+                postsVC.postIndex = indexPath.row
+                self.navigationController?.pushViewController(postsVC, animated: true)
+            }
+        }
+    }
+}
+
+// MARK: More Options Action Sheet
+extension ProfileViewController {
     @IBAction func signOut(_ sender: Any) {
         
         let actionSheetController: UIAlertController = UIAlertController(
             title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let deleteAccountAction: UIAlertAction = UIAlertAction(
-            title: "Delete Account",
-            style: .default) { [weak self] _ in
-                print("Delete account")
-                self?.deleteAccount()
-            }
-        
-        let blockUserAction: UIAlertAction = UIAlertAction(
-            title: "Block User",
-            style: .destructive) { [weak self] _ in
-                print("Block user")
-                
-            }
-        
         let signOutAction: UIAlertAction = UIAlertAction(
-            title: "Sign Out",
-            style: .destructive) { [weak self] _ in
-                print("Sign Out")
+            title: "Log Out",
+            style: .default) { _ in
+                print("Log Out")
                 let firebaseAuth = Auth.auth()
                 do {
                   try firebaseAuth.signOut()
                 } catch let signOutError as NSError {
                   print("Error signing out: %@", signOutError)
                 }
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let loginNavController = storyboard.instantiateViewController(identifier: "SignInViewController")
-                (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(loginNavController)
+                self.changeRootVCToSignIn()
             }
         
-        let cancelAction: UIAlertAction = UIAlertAction(
-            title: "Cancel",
-            style: .cancel)
-        actionSheetController.addAction(deleteAccountAction)
-        actionSheetController.addAction(blockUserAction)
-        actionSheetController.addAction(signOutAction)
-        actionSheetController.addAction(cancelAction)
+        let deleteAccountAction: UIAlertAction = UIAlertAction(
+            title: "Delete Account",
+            style: .destructive) { [weak self] _ in
+                print("Delete account")
+                self?.deleteAccount()
+            }
         
+        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel)
+        actionSheetController.addAction(signOutAction)
+        actionSheetController.addAction(deleteAccountAction)
+        actionSheetController.addAction(cancelAction)
         actionSheetController.popoverPresentationController?.sourceView = self.view
-        self.present(actionSheetController, animated: true) {
-            print("option menu presented")
-        }
+        self.present(actionSheetController, animated: true)
     }
     
     func deleteAccount() {
-        let user = Auth.auth().currentUser
-        user?.delete { error in
-          if let error = error {
-            // An error happened.
-          } else {
-              // Account deleted.
-              FirebaseManager.shared.delete(
-                in: .users,
-                docId: "")
-          }
+        let alertController = UIAlertController(
+            title: "🚨 Alert",
+            message: "Are you sure to delete your account?",
+            preferredStyle: .alert
+        )
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { (_) in
+            print("OK button clicked")
+            // Perform the desired action here
+            // Account deleted.
+            if let docId = self.userData?.id {
+                FirebaseManager.shared.delete(in: .users, docId: docId)
+            }
+            self.changeRootVCToSignIn()
         }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
+            print("Cancel button clicked")
+            // Perform an alternate action or simply dismiss the alert
+        }
+        
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        
+        // Present the alert controller
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func changeRootVCToSignIn() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let loginNavController = storyboard.instantiateViewController(identifier: "SignInViewController")
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?
+            .changeRootViewController(loginNavController)
     }
 }

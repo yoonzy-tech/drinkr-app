@@ -11,7 +11,7 @@ protocol CocktailsResultsViewControllerDelegate: AnyObject {
     func didTapDrink(with drinkDetails: Drink, drinkName: String)
 }
 
-class CocktailSearchResultsViewController: UIViewController {
+class CocktailResultsViewController: UIViewController {
 
     weak var delegate: CocktailsResultsViewControllerDelegate?
     
@@ -43,7 +43,7 @@ class CocktailSearchResultsViewController: UIViewController {
     }
 }
 
-extension CocktailSearchResultsViewController: UITableViewDataSource, UITableViewDelegate {
+extension CocktailResultsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return drinks.count

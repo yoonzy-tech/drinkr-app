@@ -11,81 +11,13 @@ import FirebaseFirestore
 import FirebaseStorage
 
 class FFSManager {
-    
     static let shared = FFSManager()
     
-    var userUid: String = "12345678"
-    
-    // "id, name, email, friends" : value
-    var userInfoDocId: String = ""
-    
-    var userInfo: [String: Any] = testUserInfo
+    private init() {}
     
     let database = Firestore.firestore()
     
-    // Create a storage reference from our storage service
     let storageRef = Storage.storage().reference()
-    
-    private init() {}
-}
-
-// MARK: - User
-extension FFSManager {
-    
-    func checkUserExistsInFirestore(uid: String, completion: @escaping (Bool, Error?) -> Void) {
-        self.database.collection("users")
-            .whereField("uid", isEqualTo: uid)
-            .limit(to: 1)
-            .getDocuments { (snapshot, error) in
-            if let error = error {
-                completion(false, error)
-                return
-            }
-
-            guard let snapshot = snapshot else {
-                completion(false, nil)
-                return
-            }
-            completion(!snapshot.isEmpty, nil)
-        }
-    }
-
-    func fetchAccountInfo(uid: String, completion: (([String: Any]) -> Void)? = nil) {
-        self.database.collection("users")
-            .whereField("uid", isEqualTo: uid)
-            .getDocuments { querySnapshot, error in
-                
-                if let error = error {
-                    print("Error getting document: \(error)")
-                } else {
-                    // Only 1 document is looped here (UID is unique)
-                    for document in querySnapshot!.documents {
-                        self.userInfoDocId = document.documentID
-                        self.userInfo = document.data()
-                        print("👉 User Info ~ DocID(key): \(document.documentID), userInfo(value): \(document.data())")
-                    }
-                    self.userUid = uid
-                    completion?(self.userInfo)
-                }
-            }
-    }
-    
-    func addUserInfo(uid: String, name: String, email: String, profileImageUrl: String) {
-        let docData: [String: Any] = [
-            "uid": uid as Any,
-            "name": name as Any,
-            "email": email as Any,
-            "profileImageUrl": profileImageUrl as Any
-        ]
-        print("🧤Adding User Info: \(docData)")
-        self.database.collection("users").addDocument(data: docData) { error in
-            if let error = error {
-                print("Error writing document: \(error)")
-            } else {
-                print("Document successfully written!")
-            }
-        }
-    }
 }
 
 // MARK: - Bar
@@ -182,5 +114,3 @@ extension FFSManager {
         }
     }
 }
-
-

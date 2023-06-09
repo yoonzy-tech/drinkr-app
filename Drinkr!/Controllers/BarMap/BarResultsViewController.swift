@@ -8,13 +8,13 @@
 import UIKit
 import CoreLocation
 
-protocol ResultsViewControllerDelegate: AnyObject {
+protocol BarResultsViewControllerDelegate: AnyObject {
     func didTapPlace(with coordinates: CLLocationCoordinate2D, name: String)
 }
 
-class ResultsViewController: UIViewController {
+class BarResultsViewController: UIViewController {
         
-    weak var delegate: ResultsViewControllerDelegate?
+    weak var delegate: BarResultsViewControllerDelegate?
     
     private let tableView: UITableView = {
         let table = UITableView()
@@ -44,7 +44,7 @@ class ResultsViewController: UIViewController {
     }
 }
 
-extension ResultsViewController: UITableViewDataSource, UITableViewDelegate {
+extension BarResultsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return places.count

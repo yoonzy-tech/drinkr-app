@@ -12,8 +12,14 @@ import FirebaseFirestoreSwift
 struct User: Codable {
     @DocumentID var id: String?
     var uid: String
-    var name: String
-    var email: String
-    var profileImageUrl: String?
+    var name: String = ""
+    var email: String = ""
+    var profileImageUrl: String = ""
     var createdTime: Timestamp?
+    var isActive: Bool = true
+    
+    var friends: [String] = []
+    var cocktailsFavorite: [String] = []
+    var placeFavorite: [String] =  []
+    var posts: [String] = []
 }

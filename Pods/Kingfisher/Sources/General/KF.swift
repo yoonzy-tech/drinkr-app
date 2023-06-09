@@ -146,8 +146,8 @@ extension KF.Builder {
     /// - Returns: A task represents the image downloading, if initialized.
     ///            This value is `nil` if the image is being loaded from cache.
     @discardableResult
-    public func set(to imageView: KFCrossPlatformImageView) -> DownloadTask? {
-        imageView.kf.setImage(
+    public func set(to barImageView: KFCrossPlatformImageView) -> DownloadTask? {
+        barImageView.kf.setImage(
             with: source,
             placeholder: placeholder,
             parsedOptions: options,

@@ -18,12 +18,13 @@ class RecipesViewController: UIViewController {
         }
     }
 
-    let searchVC = UISearchController(searchResultsController: CocktailSearchResultsViewController())
+    let searchVC = UISearchController(searchResultsController: CocktailResultsViewController())
     
     @IBOutlet weak var tableView: UITableView!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = false
         navigationItem.title = "Cocktails"
         searchVC.searchBar.text = nil
     }
@@ -60,6 +61,7 @@ class RecipesViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        navigationController?.isNavigationBarHidden = true
         navigationItem.title = nil
     }
 }
@@ -70,11 +72,11 @@ extension RecipesViewController: UISearchResultsUpdating, CocktailsResultsViewCo
     func updateSearchResults(for searchController: UISearchController) {
         guard let query = searchController.searchBar.text,
               !query.trimmingCharacters(in: .whitespaces).isEmpty,
-              let resultVC = searchController.searchResultsController as? CocktailSearchResultsViewController
+              let resultVC = searchController.searchResultsController as? CocktailResultsViewController
         else { return }
         resultVC.delegate = self
         
-        FirebaseManager.shared.search(in: .cocktails, query: query, key: "strDrink") { (drinks: [Drink]) in
+        FirebaseManager.shared.search(in: .cocktails, value: query, key: "strDrink") { (drinks: [Drink]) in
             resultVC.update(with: drinks)
         }
     }
@@ -120,7 +122,7 @@ extension RecipesViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         // Create an instance of the destination view controller
-        guard let destinationViewController = storyboard?.instantiateViewController(withIdentifier: "DrinkDetailsViewController") as? DrinkDetailsViewController else { return }
+       guard let destinationViewController = storyboard?.instantiateViewController(withIdentifier: "DrinkDetailsViewController") as? DrinkDetailsViewController else { return }
         destinationViewController.title = dataSource[indexPath.row].strDrink
         destinationViewController.drinkDetails = dataSource[indexPath.row]
         // Push the destination view controller onto the navigation stack

@@ -23,7 +23,13 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var googleSignInButton: UIButton!
     
     @IBAction func didTapGoogleSignIn(_ sender: Any) {
-        signInGoogle()
+        FirebaseManager.shared.signInGoogle(self) { credential in
+            guard let credential = credential else { return }
+            FirebaseManager.shared.signInFirebase(
+                credential: credential, name: "") { _ in
+                self.presentAppHomeVC()
+            }
+        }
     }
     
     var userGoogleToken: String = ""
@@ -94,29 +100,18 @@ extension SignInViewController: ASAuthorizationControllerDelegate,
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            guard let firstName = appleIDCredential.fullName?.givenName,
-                  let lastName = appleIDCredential.fullName?.familyName else {
-                print("Unable to get user name")
-                return
-            }
             
-            guard let nonce = currentNonce else {
-                fatalError("Invalid state: A login callback was received, but no login request was sent.")
-            }
-            guard let appleIDToken = appleIDCredential.identityToken else {
-                print("Unable to fetch identity token")
-                return
-            }
-            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-                print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
-                return
-            }
-
-            let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
+            FirebaseManager.shared.signInApple(
+                nonce: currentNonce,
+                appleIDCredential: appleIDCredential) { credential, username in
+                    guard let credential = credential else { return }
+                    FirebaseManager.shared.signInFirebase(credential: credential, name: username) { _ in
+                        self.presentAppHomeVC()
+                    }
+                }
             
-            FirebaseManager.shared.firebaseSignIn(credential: credential, username: "\(firstName) \(lastName)") {
-                self.presentAppHomeVC()
-            }
+        } else {
+            print("Error in Apple Login")
         }
     }
     
@@ -129,74 +124,11 @@ extension SignInViewController: ASAuthorizationControllerDelegate,
     }
 }
 
-// MARK: Google Sign In
-extension SignInViewController {
-    func signInGoogle() {
-        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-        let config = GIDConfiguration(clientID: clientID)
-        GIDSignIn.sharedInstance.configuration = config
-        GIDSignIn.sharedInstance.signIn(withPresenting: self) { result, error in
-            guard error == nil else { return }
-            guard let user = result?.user,
-                  let idToken = user.idToken?.tokenString else { return }
-            let credential = GoogleAuthProvider.credential(
-                withIDToken: idToken,
-                accessToken: user.accessToken.tokenString
-            )
-            
-            Auth.auth().signIn(with: credential) { result, error in
-                guard error == nil else {
-                    print("Unable to sign with Google")
-                    return
-                }
-                
-                guard let result = result else { return }
-                
-                let userUid = result.user.uid
-                
-                guard let name = result.user.displayName else {
-                    print("User has no display name")
-                    return
-                }
-                
-                guard let email = result.user.email else {
-                    print("User has no email")
-                    return
-                }
-                
-                guard let profileImageUrl = result.user.photoURL?.absoluteString else {
-                    print("User has no profile image")
-                    return
-                }
-                
-                FirebaseManager.shared.checkUserAccountExist(uid: userUid) { [weak self] exists, error in
-                    if let error = error {
-                        print("Error: \(error)")
-                        return
-                    }
-                    if exists {
-                        print("User exists in Firestore.")
-                    } else {
-                        print("User does not exist in Firestore.")
-                        let user = User(uid: userUid,
-                                        name: name,
-                                        email: email,
-                                        profileImageUrl: profileImageUrl)
-                        FirebaseManager.shared.create(in: .users, data: user)
-                    }
-                    
-                    self?.presentAppHomeVC()
-                }
-            }
-        }
-    }
-}
-
-
 extension SignInViewController {
     func presentAppHomeVC() {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let mainTabBarController = storyboard.instantiateViewController(identifier: "TabBarViewController")
-        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.changeRootViewController(mainTabBarController)
+        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?
+            .changeRootViewController(mainTabBarController)
     }
 }

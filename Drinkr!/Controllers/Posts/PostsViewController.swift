@@ -15,7 +15,7 @@ import Lottie
 
 enum Liked {
     case yes
-    case no
+    case none
 }
 
 enum Role {
@@ -29,13 +29,7 @@ protocol PostCaptionDelegate: AnyObject {
 
 class PostsViewController: UIViewController {
     
-    var role: Role = .author
-    
     var postData: Post?
-    
-    var liked: Liked = .no
-    
-    var likeCount: Int = 33
     
     var dataSource: [Post] = []
     
@@ -51,6 +45,8 @@ class PostsViewController: UIViewController {
     
     var animationView: LottieAnimationView?
     
+    var postIndex: Int?
+    
     @IBOutlet weak var collectionView: UICollectionView!
     
     @IBAction func openCamera(_ sender: Any) {
@@ -62,7 +58,7 @@ class PostsViewController: UIViewController {
         // Lottie Animation
         animationView = .init(name: "beer filling")
         animationView!.frame = view.frame
-        animationView?.backgroundColor = .white
+        animationView?.backgroundColor = UIColor(hexString: AppColor.blue2.rawValue)
         animationView!.contentMode = .scaleAspectFit
         animationView!.loopMode = .loop
         animationView!.animationSpeed = 1
@@ -96,8 +92,7 @@ class PostsViewController: UIViewController {
         }
     }
     
-    @IBAction func unwindToMain(segue: UIStoryboardSegue) {
-        print("This is the First View Controller")
+    @IBAction func unwindToPosts(segue: UIStoryboardSegue) {
         startAnimation()
     }
     
@@ -118,15 +113,29 @@ class PostsViewController: UIViewController {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.delegate = self
-        
+        collectionView.reloadData()
         collectionView.mj_header = MJRefreshNormalHeader()
         collectionView.mj_header?.setRefreshingTarget(self, refreshingAction: #selector(refreshData))
         
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap))
         tapGesture?.numberOfTouchesRequired = 2
-        
-        FirebaseManager.shared.listen(in: .posts) {
-            self.updateDataSource()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if (navigationController?.viewControllers.first(where: { $0 is ProfileViewController })) != nil {
+            collectionView.reloadData()
+        } else {
+            FirebaseManager.shared.listen(in: .posts) {
+                self.updateDataSource()
+            }
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if let index = postIndex {
+            collectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .top, animated: true)
         }
     }
     
@@ -198,6 +207,11 @@ extension PostsViewController: UICollectionViewDataSource,
         cell.likeButton.tag = indexPath.row
         cell.likeButton.addTarget(self, action: #selector(likes), for: .touchUpInside)
         
+        if let userUid = FirebaseManager.shared.userUid {
+            let bool = dataSource[indexPath.row].likes.contains(userUid)
+            cell.likeButton.setImage(bool ? UIImage(named: "cheers.fill") : UIImage(named: "cheers"), for: .normal)
+        }
+        
         cell.commentButton.tag = indexPath.row
         cell.commentButton.addTarget(self, action: #selector(makeComment), for: .touchUpInside)
         
@@ -214,17 +228,21 @@ extension PostsViewController: UICollectionViewDataSource,
 // MARK: - Cell Button Action
 extension PostsViewController {
     @objc func likes(_ sender: UIButton) {
+        // Get user uid
+        guard let userUid = FirebaseManager.shared.userUid else { return }
+        // Get this post data
         let index = sender.tag
-        liked = liked == .yes ? .no : .yes
-        likeCount = liked == .yes ? likeCount + 1 : likeCount - 1
-        sender.setImage(liked == .yes ? UIImage(named: "cheers.fill") : UIImage(named: "cheers"), for: .normal)
-        sender.setTitle(liked == .no ? "" : " \(likeCount)", for: .normal)
-        dataSource[index].likes = likeCount
-        FirebaseManager.shared.update(
-            in: .posts,
-            docId: dataSource[index].id ?? "Unknown Doc Id",
-            data: dataSource[index]
-        )
+        var post = dataSource[index]
+        // Get the bool of the like status
+        let hasLiked = post.likes.contains(userUid) // the user has liked this post
+        !hasLiked ? (post.likes.append(userUid)) : (post.likes.removeAll { $0 == userUid })
+        // Lastly update post data in DB
+        guard let postDocId = post.id else {
+            print("Cannot find the data of this post to update likes")
+            return
+        }
+        FirebaseManager.shared.update(in: .posts, docId: postDocId, data: post)
+//        sender.setImage(hasLiked ? UIImage(named: "cheers.fill") : UIImage(named: "cheers"), for: .normal)
     }
     
     @objc func makeComment(_ sender: UIButton) {
@@ -238,64 +256,48 @@ extension PostsViewController {
     }
     
     @objc func seeMoreOptions(_ sender: UIButton) {
-        
-        let selectedIndex = sender.tag
-        postData = dataSource[selectedIndex]
-        
+        postData = dataSource[sender.tag]
         let actionSheetController: UIAlertController = UIAlertController(
             title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        if  role == .author {
-            // User Own Post: Edit, Delete
+        let isAuthor = FirebaseManager.shared.userUid == postData?.userUid
+        if  isAuthor {
             let editAction: UIAlertAction = UIAlertAction(
-                title: "Edit this post",
-                style: .default) { [weak self] _ in
-                    print("Edit a post")
-                    
+                title: "Edit", style: .default) { [weak self] _ in
                     self?.performSegue(withIdentifier: "editCaptionSegue", sender: sender)
-                    
                 }
             let deleteAction: UIAlertAction = UIAlertAction(
-                title: "Delete this post",
-                style: .destructive) { [weak self] _ in
-                    print("Delete a post")
+                title: "Delete", style: .destructive) { [weak self] _ in
                     FirebaseManager.shared.delete(
-                        in: .posts,
-                        docId: self?.dataSource[selectedIndex].id ?? "Unknown Doc Id") {
-                            self?.updateDataSource()
-                        }
+                        in: .posts, docId: self?.dataSource[sender.tag].id ?? "Unknown Doc Id") {
+                        self?.updateDataSource()
+                    }
                     FirebaseManager.shared.deleteFile(
-                        to: .posts,
-                        imageRef: self?.dataSource[selectedIndex].imageRef ?? "Unknown Image Ref"
+                        to: .posts, imageRef: self?.dataSource[sender.tag].imageRef ?? "Unknown Image Ref"
                     )
                 }
-            
             actionSheetController.addAction(editAction)
             actionSheetController.addAction(deleteAction)
-           
         } else {
-            // Others Post: Report, Share
+            // TODO: Others Post: Report, Share
             let shareAction: UIAlertAction = UIAlertAction(
-                title: "Share this post",
-                style: .default) { _ in
+                title: "Share", style: .default) { _ in
                     print("Share a post")
                 }
             let reportAction: UIAlertAction = UIAlertAction(
-                title: "Report this post",
-                style: .destructive) { _ in
+                title: "Report post", style: .destructive) { _ in
                     print("Report a post")
                 }
-            
+            let blockUserAction: UIAlertAction = UIAlertAction(
+                title: "Block user", style: .destructive) { _ in
+                    print("Block user")
+                }
             actionSheetController.addAction(shareAction)
             actionSheetController.addAction(reportAction)
+            actionSheetController.addAction(blockUserAction)
         }
-        
-        let cancelAction: UIAlertAction = UIAlertAction(
-            title: "Cancel",
-            style: .cancel)
+        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel)
         actionSheetController.addAction(cancelAction)
-        
-         actionSheetController.popoverPresentationController?.sourceView = self.view
+        actionSheetController.popoverPresentationController?.sourceView = self.view
         self.present(actionSheetController, animated: true) {
             print("option menu presented")
         }

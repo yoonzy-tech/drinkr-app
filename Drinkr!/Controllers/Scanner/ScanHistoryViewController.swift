@@ -13,7 +13,8 @@ class ScanHistoryViewController: UIViewController {
     
     var dataSource: [ScanHistory] = [] {
         didSet {
-            self.dataSource = self.dataSource.sorted { ($0.createdTime ?? .init()).compare($1.createdTime ?? .init()) == .orderedDescending }
+            self.dataSource = self.dataSource.sorted { ($0.createdTime ?? .init())
+                .compare($1.createdTime ?? .init()) == .orderedDescending }
             tableView.reloadData()
         }
     }
@@ -37,7 +38,10 @@ class ScanHistoryViewController: UIViewController {
     }
     
     private func updateDataSource() {
-        FirebaseManager.shared.fetchAllByUserUid(in: .scanHistories, userUid: testUserInfo["uid"] ?? "Unknown User Uid") { (scanHistories: [ScanHistory]) in
+        guard let userUid = FirebaseManager.shared.userUid else { return }
+        FirebaseManager.shared.fetchAllByUserUid(
+            in: .scanHistories,
+            userUid: userUid) { (scanHistories: [ScanHistory]) in
             self.dataSource = scanHistories
         }
     }
@@ -69,13 +73,14 @@ extension ScanHistoryViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard let userUid = FirebaseManager.shared.userUid else { return }
         if editingStyle == .delete {
             // Update Firestore
             FirebaseManager.shared.delete(in: .scanHistories, docId: dataSource[indexPath.row].id ?? "Unknown Doc Id")
             // Update Loacal Data Sourvce
             FirebaseManager.shared.fetchAllByUserUid(
                 in: .scanHistories,
-                userUid: testUserInfo["uid"] ?? "Unknown User Uid"
+                userUid: userUid
             ) { (scanHistories: [ScanHistory]) in
                 self.dataSource = scanHistories
             }

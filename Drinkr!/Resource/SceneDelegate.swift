@@ -21,10 +21,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        print(Auth.auth().currentUser?.email)
         // if user is logged in before
         if Auth.auth().currentUser != nil {
-          // User is signed in.
+          // User is signed in. Read data in Keychain
+            guard let currentUser = Auth.auth().currentUser else { return }
+            FirebaseManager.shared.userUid = currentUser.uid
+            FirebaseManager.shared.fetchAccountInfo(uid: currentUser.uid)
             let mainTabBarController = storyboard.instantiateViewController(identifier: "TabBarViewController")
             window?.rootViewController = mainTabBarController
         } else {
@@ -34,13 +36,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
     
-    func changeRootViewController(_ vc: UIViewController, animated: Bool = true) {
-        guard let window = self.window else {
-            return
-        }
-        
+    func changeRootViewController(_ viewController: UIViewController, animated: Bool = true) {
+        guard let window = self.window else { return }
         // change the root view controller to your specific view controller
-        window.rootViewController = vc
+        window.rootViewController = viewController
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -70,5 +69,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
 }

@@ -63,7 +63,7 @@ extension CameraViewController {
             textField.placeholder = "Enter Caption"
             if let caption = textField.text {
                 self.currentCaption = caption
-            }  // Display the existing caption
+            }
         }
         
         let cancelAction = UIAlertAction(
@@ -89,7 +89,7 @@ extension CameraViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    // TODO: Tag Friend when posting (optional)
+    // TODO: Location / Tag Friend when posting (optional)
     @objc func tagFriends(_ button: UIButton) {
         // Implement tagging of friends here
     }
@@ -108,12 +108,13 @@ extension CameraViewController {
     
     @objc func publishImage(_ button: UIButton) {
         if let image = imageView.image,
-           let imageData = FirebaseManager.shared.rotateImageToUp(image: image) {
+           let imageData = FirebaseManager.shared.rotateImageToUp(image: image),
+            let userUid = FirebaseManager.shared.userUid {
             
             FirebaseManager.shared.uploadFile(to: .posts, imageData: imageData) { [weak self] imageRef, imageUrl in
                 
                 let post = Post(
-                    userUid: testUserInfo["uid"] ?? "Unknown User Uid",
+                    userUid: userUid,
                     caption: self?.currentCaption,
                     imageUrl: imageUrl,
                     imageRef: imageRef,
@@ -123,6 +124,7 @@ extension CameraViewController {
                 )
                 
                 FirebaseManager.shared.create(in: .posts, data: post)
+                self?.currentCaption = ""
             }
             
         } else {

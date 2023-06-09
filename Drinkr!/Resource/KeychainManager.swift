@@ -14,17 +14,12 @@ class KeychainManager {
         case unknown(OSStatus)
     }
     
-    static let shared = KeychainManager()
-    
-    private init() {}
-    
     static func save(service: String, account: String, password: Data) throws {
-        // service, account, password, class, date
         let query: [String: AnyObject] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service as AnyObject,
             kSecAttrAccount as String: account as AnyObject,
-            kSecValueData as String: password as AnyObject,
+            kSecValueData as String: password as AnyObject
         ]
         
         let status = SecItemAdd(query as CFDictionary, nil)
@@ -40,13 +35,12 @@ class KeychainManager {
     }
     
     static func get(service: String, account: String) -> Data? {
-        // service, account, password, class, date
         let query: [String: AnyObject] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service as AnyObject,
             kSecAttrAccount as String: account as AnyObject,
             kSecReturnData as String: kCFBooleanTrue,
-            kSecMatchLimit as String: kSecMatchLimitOne,
+            kSecMatchLimit as String: kSecMatchLimitOne
         ]
         
         var result: AnyObject?
@@ -56,4 +50,36 @@ class KeychainManager {
         
         return result as? Data
     }
+    
+    static func getUid(service: String, account: String) -> String {
+        guard let data = KeychainManager.get(service: service, account: account) else {
+            return "Fail to read UID in Keychain"
+        }
+        
+        let uid = String(decoding: data, as: UTF8.self)
+        print("Read UID: \(uid)")
+        FirebaseManager.shared.fetchAccountInfo(uid: uid) { userData in
+            FirebaseManager.shared.userData = userData
+        }
+        return uid
+    }
 }
+
+/*
+ 
+let userUid = KeychainManager.getUid(service: currentUser.providerID, account: currentUser.email ?? "Unknown user email")
+
+let provider = user.providerID
+do {
+  try KeychainManager.save(
+    service: provider,
+    account: email,
+    password: uid.data(using: .utf8) ?? Data()
+ )
+  print("Service: \(provider), Account: \(email), UID: \(uid)")
+  completion?(user)
+} catch {
+    print(error)
+}
+ 
+ */

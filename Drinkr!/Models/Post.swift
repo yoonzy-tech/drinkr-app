@@ -20,7 +20,7 @@ struct Post: Codable {
     var createdTime: Timestamp?
     
     var comments: [Comment] = []
-    var likes: Int = 0
+    var likes: [String] = []
     
     var taggedFriends: [String] = []
     var location: String = ""
@@ -31,5 +31,3 @@ struct Comment: Codable {
     var text: String
     var createdTime: Timestamp?
 }
-
-// use that Id to fetch user data for profile image and name

@@ -14,10 +14,30 @@ class DrinkDetailsViewController: UIViewController {
     
     var detailColumns: [String] = ["Glass", "Ingredients"]
     
+    var saved: Bool = false
+    
+    var user = FirebaseManager.shared.userData
+    
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBAction func saveToFavorite(_ sender: Any) {
+        saved = !saved
+        saveButton.image = saved ? UIImage(systemName: "star.fill") : UIImage(systemName: "star")
+        
+        if let drinkId = drinkDetails?.idDrink, let docId = user?.id {
+            if saved {
+                user?.cocktailsFavorite.append(drinkId)
+            } else {
+                user?.cocktailsFavorite.removeAll { $0 == drinkId }
+            }
+            FirebaseManager.shared.update(in: .users, docId: docId, data: user)
+        }
+        
+    }
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(user as Any)
         navigationController?.navigationBar.prefersLargeTitles = false
         tableView.dataSource = self
         tableView.delegate = self
@@ -45,10 +65,24 @@ class DrinkDetailsViewController: UIViewController {
             view.layer.shadowOffset = CGSize(width: 0, height: 0.8)
             view.layer.shadowRadius = 4
         }
+        if let drinkId = drinkDetails?.idDrink, let saved = (user?.cocktailsFavorite.contains(drinkId)) {
+            self.saved = saved
+            saveButton.image = saved ? UIImage(systemName: "star.fill") : UIImage(systemName: "star")
+        }
+        
+        FirebaseManager.shared.listenUserInfo {
+            FirebaseManager.shared.fetchAccountInfo(uid: self.user?.uid ?? "User no uid")
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        navigationController?.isNavigationBarHidden = false
         navigationController?.navigationBar.prefersLargeTitles = true
     }
 }

@@ -23,33 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GMSPlacesClient.provideAPIKey(GMSPlacesAPIKey)
         
         FirebaseApp.configure()
-        //UIColor(hexString: "#C4FA6F") UIColor(hexString: "#182CD4")
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.shouldShowToolbarPlaceholder = false
         
-        let newNavBarAppearance = UINavigationBarAppearance()
-        newNavBarAppearance.backgroundColor = UIColor.white
-        newNavBarAppearance.shadowColor = .clear
-        newNavBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor(hexString: AppColor.dark.rawValue)]
-        newNavBarAppearance.titleTextAttributes = [.foregroundColor: UIColor(hexString: AppColor.dark.rawValue)]
-        newNavBarAppearance.buttonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(hexString: AppColor.blue2.rawValue)]
-       
-//        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes([NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): UIColor.white], for: .normal)
-
-        let barButtonItemAppearance = UIBarButtonItemAppearance(style: .plain)
-        barButtonItemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(hexString: AppColor.blue2.rawValue)]
-        barButtonItemAppearance.disabled.titleTextAttributes = [.foregroundColor: UIColor.lightText]
-        barButtonItemAppearance.highlighted.titleTextAttributes = [.foregroundColor: UIColor.label]
-        barButtonItemAppearance.focused.titleTextAttributes = [.foregroundColor: UIColor.white]
-        newNavBarAppearance.buttonAppearance = barButtonItemAppearance
-        newNavBarAppearance.backButtonAppearance = barButtonItemAppearance
-        newNavBarAppearance.doneButtonAppearance = barButtonItemAppearance
-        
-        let appearance = UINavigationBar.appearance()
-        appearance.tintColor = UIColor(hexString: AppColor.blue2.rawValue)
-        appearance.scrollEdgeAppearance = newNavBarAppearance
-        appearance.compactAppearance = newNavBarAppearance
-        appearance.standardAppearance = newNavBarAppearance
+        customNavigationBarStyle()
         
         return true
     }
@@ -68,11 +45,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
-    // MARK: Google Sign In
+    // MARK: Open Google Map App from URL
     
     func application(_ app: UIApplication,
                      open url: URL,
                      options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
       return GIDSignIn.sharedInstance.handle(url)
+    }
+    
+    func customNavigationBarStyle() {
+        let newNavBarAppearance = UINavigationBarAppearance()
+        newNavBarAppearance.backgroundColor = UIColor.white
+        newNavBarAppearance.shadowColor = .clear
+        newNavBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor(hexString: AppColor.dark.rawValue)]
+        newNavBarAppearance.titleTextAttributes = [.foregroundColor: UIColor(hexString: AppColor.dark.rawValue)]
+        newNavBarAppearance.buttonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(hexString: AppColor.blue2.rawValue)]
+
+        let barButtonItemAppearance = UIBarButtonItemAppearance(style: .plain)
+        barButtonItemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(hexString: AppColor.blue2.rawValue)]
+        barButtonItemAppearance.disabled.titleTextAttributes = [.foregroundColor: UIColor.lightText]
+        barButtonItemAppearance.highlighted.titleTextAttributes = [.foregroundColor: UIColor.label]
+        barButtonItemAppearance.focused.titleTextAttributes = [.foregroundColor: UIColor.white]
+        newNavBarAppearance.buttonAppearance = barButtonItemAppearance
+        newNavBarAppearance.backButtonAppearance = barButtonItemAppearance
+        newNavBarAppearance.doneButtonAppearance = barButtonItemAppearance
+        
+        let appearance = UINavigationBar.appearance()
+        appearance.tintColor = UIColor(hexString: AppColor.blue2.rawValue)
+        appearance.scrollEdgeAppearance = newNavBarAppearance
+        appearance.compactAppearance = newNavBarAppearance
+        appearance.standardAppearance = newNavBarAppearance
     }
 }

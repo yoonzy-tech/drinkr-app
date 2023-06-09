@@ -80,14 +80,20 @@ struct Drink: Codable {
         case strCreativeCommonsConfirmed, dateModified
     }
     
-    mutating func getIngredients() -> String {
+    func getIngredients() -> String {
         var ingredients: String = ""
+        
+        let codingKeys = Drink.CodingKeys.self
+        
         let mirror = Mirror(reflecting: self)
         
         for child in mirror.children {
-            if let label = child.label, label.starts(with: "strIngredient"),
+            if let label = child.label,
+               let codingKey = codingKeys.init(rawValue: label),
+               codingKey.rawValue.starts(with: "strIngredient"),
                let ingredient = child.value as? String, !ingredient.isEmpty {
-                ingredients += "\(ingredient)\n"
+                
+                ingredients += "\(ingredient), "
             }
         }
         
@@ -95,7 +101,7 @@ struct Drink: Codable {
         
         return String(ingredients[ingredients.startIndex...endIndex])
     }
-    
+
     mutating func getMeasureIngredients() -> String {
         var ingredients: String = ""
         
