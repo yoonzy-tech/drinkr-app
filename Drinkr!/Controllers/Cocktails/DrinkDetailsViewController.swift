@@ -65,10 +65,6 @@ class DrinkDetailsViewController: UIViewController {
             view.layer.shadowOffset = CGSize(width: 0, height: 0.8)
             view.layer.shadowRadius = 4
         }
-        if let drinkId = drinkDetails?.idDrink, let saved = (user?.cocktailsFavorite.contains(drinkId)) {
-            self.saved = saved
-            saveButton.image = saved ? UIImage(systemName: "star.fill") : UIImage(systemName: "star")
-        }
         
         FirebaseManager.shared.listenUserInfo {
             FirebaseManager.shared.fetchAccountInfo(uid: self.user?.uid ?? "User no uid")
@@ -78,6 +74,10 @@ class DrinkDetailsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = false
+        if let drinkId = drinkDetails?.idDrink, let saved = (user?.cocktailsFavorite.contains(drinkId)) {
+            self.saved = saved
+            saveButton.image = saved ? UIImage(systemName: "star.fill") : UIImage(systemName: "star")
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -131,7 +131,7 @@ extension DrinkDetailsViewController: UITableViewDataSource, UITableViewDelegate
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: "ImageTableViewCell", for: indexPath) as? ImageTableViewCell
             else { fatalError("Unable to generate Table View Cell") }
-            cell.drinkImageView.kf.setImage(with: URL(string: drinkDetails?.strImageSource ?? ""))
+            cell.drinkImageView.kf.setImage(with: URL(string: drinkDetails?.strDrinkThumb ?? ""))
             return cell
         } else if indexPath.section == 1 {
             guard let cell = tableView.dequeueReusableCell(

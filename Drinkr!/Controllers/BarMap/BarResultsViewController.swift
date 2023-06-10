@@ -22,7 +22,7 @@ class BarResultsViewController: UIViewController {
         return table
     }()
     
-    private var places: [[String: Any]] = []
+    private var places: [Place] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +37,7 @@ class BarResultsViewController: UIViewController {
         tableView.frame = view.bounds
     }
     
-    public func update(with places: [[String: Any]]) {
+    public func update(with places: [Place]) {
         self.tableView.isHidden = false
         self.places = places
         tableView.reloadData()
@@ -52,7 +52,7 @@ extension BarResultsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = places[indexPath.row]["name"] as? String
+        cell.textLabel?.text = places[indexPath.row].name
         
         return cell
     }
@@ -60,9 +60,9 @@ extension BarResultsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         tableView.isHidden = true
-        if let placelatitude = places[indexPath.row]["latitude"] as? Double,
-           let placelongitude = places[indexPath.row]["longitude"] as? Double,
-           let placeName = places[indexPath.row]["name"] as? String {
+        if let placelatitude = places[indexPath.row].geometry?.location.lat,
+           let placelongitude = places[indexPath.row].geometry?.location.lng,
+           let placeName = places[indexPath.row].name {
             self.delegate?.didTapPlace(with: CLLocationCoordinate2D(latitude: placelatitude, longitude: placelongitude), name: placeName)
         } else {
             print("fail to get lat and long ")

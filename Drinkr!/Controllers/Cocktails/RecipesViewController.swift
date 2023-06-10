@@ -54,7 +54,7 @@ class RecipesViewController: UIViewController {
     }
     
     private func updateDataSource() {
-        FirebaseManager.shared.fetchAll(in: .cocktails) { (drinks: [Drink]) in
+        FirebaseManager.shared.fetchAll(in: .cocktailDB) { (drinks: [Drink]) in
             self.dataSource = drinks
         }
     }
@@ -76,7 +76,7 @@ extension RecipesViewController: UISearchResultsUpdating, CocktailsResultsViewCo
         else { return }
         resultVC.delegate = self
         
-        FirebaseManager.shared.search(in: .cocktails, value: query, key: "strDrink") { (drinks: [Drink]) in
+        FirebaseManager.shared.search(in: .cocktailDB, value: query, key: "strDrink") { (drinks: [Drink]) in
             resultVC.update(with: drinks)
         }
     }
@@ -105,16 +105,13 @@ extension RecipesViewController: UITableViewDataSource, UITableViewDelegate {
             withIdentifier: "RecipeTableViewCell", for: indexPath) as? RecipeTableViewCell
         else { fatalError("Unable to generate Table View Cell") }
         
-        let imageUrl = URL(string: dataSource[indexPath.row].strImageSource ?? "")
+        let imageUrl = URL(string: dataSource[indexPath.row].strDrinkThumb ?? "")
         
         cell.drinkImageView.kf.setImage(with: imageUrl)
         cell.drinkNameLabel.text = dataSource[indexPath.row].strDrink
         
-        if let str1 =  dataSource[indexPath.row].strIngredient1,
-           let str2 = dataSource[indexPath.row].strIngredient2,
-           let str3 = dataSource[indexPath.row].strIngredient3 {
-            cell.detailsLabel.text = "\(str1), \(str2), \(str3)"
-        }
+        cell.detailsLabel.text = dataSource[indexPath.row].getIngredients()
+
         return cell
     }
     

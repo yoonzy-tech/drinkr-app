@@ -9,6 +9,7 @@ import UIKit
 import MapKit
 import CoreLocation
 import Kingfisher
+import FirebaseAuth
 
 class BarMapViewController: UIViewController {
 
@@ -18,7 +19,7 @@ class BarMapViewController: UIViewController {
         }
     }
     
-    var barsDataSource: [[String: Any]] = [] {
+    var dataSource: [Place] = [] {
         didSet {
             collectionView.reloadData()
         }
@@ -68,23 +69,30 @@ class BarMapViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        collectionView.reloadData()
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("Error getting Uid")
+            return
+        }
+        FirebaseManager.shared.fetchAccountInfo(uid: uid) { user in
+            self.user = user
+        }
     }
+    
 }
 
 // MARK: - Map Pins
 extension BarMapViewController: MKMapViewDelegate {
     private func showNearbyBarsToUser() {
-        guard let uid = FirebaseManager.shared.userUid else {
+        guard let uid = Auth.auth().currentUser?.uid else {
             print("Error getting Uid")
             return
         }
-        // Fetch User Data before getting the bars data
+        
         FirebaseManager.shared.fetchAccountInfo(uid: uid) { user in
             self.user = user
-            self.mapView.showsUserLocation = true
-            self.generateMapPins(with: self.userCoordinates)
         }
+        self.mapView.showsUserLocation = true
+        self.generateMapPins(with: self.userCoordinates)
     }
     
     private func generateMapPins(with userLocation: CLLocationCoordinate2D) {
@@ -92,23 +100,19 @@ extension BarMapViewController: MKMapViewDelegate {
         let annotations = mapView.annotations
         mapView.removeAnnotations(annotations)
         
-        // Fetch Nearby Bars Locations
-        FFSManager.shared.fetchBars { [weak self] places in
-            // Add a map pin
+        FirebaseManager.shared.fetchAll(in: .googlePlaces) { [weak self] (places: [Place]) in
+            self?.dataSource = places
             for place in places {
-                guard let placeInfo = place.placeInfo as? [String: Any],
-                      let latitude = placeInfo["latitude"] as? CLLocationDegrees,
-                      let longitude = placeInfo["longitude"] as? CLLocationDegrees
-                else { return }
-                self?.barsDataSource.append(placeInfo)
-                
                 let pin = MKPointAnnotation()
-                pin.coordinate = CLLocationCoordinate2D(
-                    latitude: latitude,
-                    longitude: longitude)
-                pin.title = placeInfo["name"] as? String
-                pin.subtitle = String(placeInfo["rating"] as? Double ?? 0)
-                
+                if let lat = place.geometry?.location.lat,
+                   let long = place.geometry?.location.lng {
+                    pin.coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(lat),
+                                                            longitude: CLLocationDegrees(long))
+                    pin.title = place.name
+                    pin.subtitle = place.rating != nil ? "\(place.rating!)" : "No ratings"
+                } else {
+                    print("🚨 Invalid Place Coordinate or Rating, Unable to Generate Pin: \(place.name!)")
+                }
                 self?.mapView.addAnnotation(pin)
             }
             // Bar Card Collection View
@@ -119,26 +123,22 @@ extension BarMapViewController: MKMapViewDelegate {
     }
     
     private func zoomInUserLocation() {
-        self.mapView.setRegion(MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: userCoordinates.latitude, longitude: userCoordinates.longitude),
-            span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-        ), animated: true)
+        self.mapView.setRegion(MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: userCoordinates.latitude,
+                                                                                 longitude: userCoordinates.longitude),
+                                                  span: MKCoordinateSpan(latitudeDelta: 0.035,
+                                                                         longitudeDelta: 0.035)
+                                                ), animated: true)
     }
     
     private func calculateCorrespondingIndex(for coordinates: CLLocationCoordinate2D) -> Int {
         // Iterate through annotations or overlays and find the matching coordinates
-        for (index, annotation) in barsDataSource.enumerated() {
-            if annotation["latitude"] as? Double == coordinates.latitude &&
-                annotation["longitude"] as? Double == coordinates.longitude {
+        for (index, annotation) in dataSource.enumerated() {
+            if annotation.geometry?.location.lat as? Double == coordinates.latitude &&
+                annotation.geometry?.location.lng as? Double == coordinates.longitude {
                 return index
             }
         }
         return 0 // Default index if no match is found
-    }
-    
-    private func scrollToCollectionViewCell(at index: Int) {
-        let indexPath = IndexPath(item: index, section: 0)
-        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
     }
     
     private func findMapPin(withCoordinates coordinates: CLLocationCoordinate2D) -> MKPointAnnotation? {
@@ -164,24 +164,152 @@ extension BarMapViewController: MKMapViewDelegate {
         guard !(annotation is MKUserLocation) else {
             return nil
         }
-        
+
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "custom")
         if annotationView == nil {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "custom")
-            annotationView?.canShowCallout = true
+            annotationView?.canShowCallout = true // When the pin is selected the call out will display
         } else {
             annotationView?.annotation = annotation
         }
-        annotationView?.image = UIImage(named: "beer jar")
+        
+        let beerImage =  UIImage(named: "beer jar")
+        annotationView?.image = beerImage
+        annotationView?.image = beerImage?.resizableImage(withCapInsets: .zero, resizingMode: .stretch)
+
+        // Adjust the initial size of the pin image
+        let initialPinSize = CGSize(width: 40, height: 40)
+        annotationView?.bounds.size = initialPinSize
+        
         return annotationView
     }
     
+    // When selected enlarge the image and scroll to the corresponding card
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        let enlargedPinSize = CGSize(width: 60, height: 60)
+        view.bounds.size = enlargedPinSize
         if let annotation = view.annotation as? MKPointAnnotation {
-            animateAnnotation(annotation, view: view)
             let tappedCoordinates = annotation.coordinate
             let correspondingIndex = calculateCorrespondingIndex(for: tappedCoordinates)
-            scrollToCollectionViewCell(at: correspondingIndex)
+            let indexPath = IndexPath(row: correspondingIndex, section: 0)
+            if correspondingIndex != collectionView.indexPathsForVisibleItems.first?.row {
+                collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredHorizontally)
+            }
+        }
+    }
+    
+    // Resume the pin size
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        let originalPinSize = CGSize(width: 40, height: 40)
+        view.bounds.size = originalPinSize
+    }
+    
+    private func scrollToCollectionViewCell(at index: Int) {
+        // Finish scrolling, then Animate
+        let indexPath = IndexPath(item: index, section: 0)
+        print("IndexPath For the button: \(indexPath)")
+        if index != collectionView.indexPathsForVisibleItems.first?.row {
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredHorizontally)
+        }
+    }
+}
+// MARK: - Bar Place Card Collection View
+extension BarMapViewController: UICollectionViewDataSource,
+                                UICollectionViewDelegate,
+                                UICollectionViewDelegateFlowLayout,
+                                UIScrollViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return dataSource.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "BarCardCollectionViewCell", for: indexPath) as? BarCardCollectionViewCell
+        else { fatalError("Unable to generate Bar Card Collection View Cell") }
+        
+        cell.placeNameLabel.text = dataSource[indexPath.row].name
+        cell.placeAddressLabel.text = dataSource[indexPath.row].vicinity
+        if let rating = dataSource[indexPath.row].rating {
+            cell.placeRatingOpenHourLabel.text = rating > 0 ? "\(rating) Stars" : "No ratings"
+        }
+        if let barLatitude = dataSource[indexPath.row].geometry?.location.lat,
+           let barLongitude = dataSource[indexPath.row].geometry?.location.lng {
+            let distance = calculateDistance(
+                lat1: userCoordinates.latitude,
+                lon1: userCoordinates.longitude,
+                lat2: barLatitude,
+                lon2: barLongitude
+            )
+            cell.placeDistanceLabel.text = "\(distance) km away"
+        }
+        
+        if let photoRef = dataSource[indexPath.row].photos?.first?.photoReference,
+            let height = dataSource[indexPath.row].photos?.first?.height,
+            let width = dataSource[indexPath.row].photos?.first?.width {
+            let string = "https://maps.googleapis.com/maps/api/place/photo?photo_reference=\(photoRef)&maxwidth=\(width)&maxheight=\(height)&key=\(GMSPlacesAPIKey)"
+            cell.imageView.kf.setImage(with: URL(string: string))
+            cell.imageView.layer.cornerRadius = 8
+        }
+        
+        cell.directionButton.tag = indexPath.row
+        cell.directionButton.addTarget(self, action: #selector(getDirections), for: .touchUpInside)
+        cell.saveButton.tag = indexPath.row
+        cell.saveButton.addTarget(self, action: #selector(saveToFavorite), for: .touchUpInside)
+        if let placeId = dataSource[indexPath.row].placeID,
+           let bool = user?.placeFavorite.contains(placeId) {
+            cell.saveButton.imageView?.image = bool ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
+        }
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let screen = UIScreen.main.bounds
+        let screenWidth = screen.size.width
+        return CGSize(width: screenWidth - 20, height: 145)
+    }
+    
+    // Enlarge the map pin of this bar card
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row != 0 {
+            if let barLatitude = dataSource[indexPath.row].geometry?.location.lat,
+               let barLongitude = dataSource[indexPath.row].geometry?.location.lng,
+               let annotation = findMapPin(withCoordinates:
+                                            CLLocationCoordinate2D(latitude: barLatitude,
+                                                                   longitude: barLongitude)) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.mapView.setCenter(CLLocationCoordinate2D(latitude: barLatitude,
+                                                                  longitude: barLongitude),
+                                           animated: true)
+                    self.mapView.selectAnnotation(annotation, animated: true)
+                }
+            }
+        }
+    }
+    
+    // When end display the card resume the image size to small
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+            if let barLatitude = dataSource[indexPath.row].geometry?.location.lat,
+               let barLongitude = dataSource[indexPath.row].geometry?.location.lng,
+               let annotation = findMapPin(withCoordinates: CLLocationCoordinate2D(latitude: barLatitude,
+                                                                                   longitude: barLongitude)) {
+                self.mapView.deselectAnnotation(annotation, animated: true)
+            }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            if let barLatitude = dataSource[indexPath.row].geometry?.location.lat,
+               let barLongitude = dataSource[indexPath.row].geometry?.location.lng,
+               let annotation = findMapPin(withCoordinates: CLLocationCoordinate2D(latitude: barLatitude,
+                                                                                   longitude: barLongitude)) {
+                self.mapView.selectAnnotation(annotation, animated: true)
+                self.mapView.setCenter(CLLocationCoordinate2D(latitude: barLatitude,
+                                                              longitude: barLongitude),
+                                       animated: true)
+            } else {
+                return
+            }
         }
     }
 }
@@ -222,8 +350,6 @@ extension BarMapViewController: CLLocationManagerDelegate {
         print("LocationManager didFailWithError \(error.localizedDescription)")
         
         if let error = error as? CLError, error.code == .denied {
-            // Location updates are not authorized.
-            // To prevent forever looping of `didFailWithError` callback
             locationManager.stopMonitoringSignificantLocationChanges()
             return
         }
@@ -238,11 +364,8 @@ extension BarMapViewController: UISearchResultsUpdating, BarResultsViewControlle
               let resultVC = searchController.searchResultsController as? BarResultsViewController
         else { return }
         resultVC.delegate = self
-        FFSManager.shared.findBars(query: query) { documents in
-            let places = documents.compactMap { $0.data() }
-            DispatchQueue.main.async {
-                resultVC.update(with: places)
-            }
+        FirebaseManager.shared.search(in: .googlePlaces, value: query, key: "name") { (places: [Place]) in
+            resultVC.update(with: places)
         }
     }
     
@@ -252,7 +375,8 @@ extension BarMapViewController: UISearchResultsUpdating, BarResultsViewControlle
         searchVC.dismiss(animated: true)
         self.mapView.setRegion(MKCoordinateRegion(
             center: coordinates,
-            span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+            span: MKCoordinateSpan(
+                latitudeDelta: 0.01, longitudeDelta: 0.01)
         ), animated: true)
         let correspondingIndex = calculateCorrespondingIndex(for: coordinates)
         scrollToCollectionViewCell(at: correspondingIndex)
@@ -261,81 +385,6 @@ extension BarMapViewController: UISearchResultsUpdating, BarResultsViewControlle
                 self.mapView.selectAnnotation(annotation, animated: true)
             }
         }
-    }
-}
-
-// MARK: - Bar Place Card Collection View
-extension BarMapViewController: UICollectionViewDataSource,
-                                UICollectionViewDelegate,
-                                UICollectionViewDelegateFlowLayout,
-                                UIScrollViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return barsDataSource.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: "BarCardCollectionViewCell", for: indexPath) as? BarCardCollectionViewCell
-        else { fatalError("Unable to generate Bar Card Collection View Cell") }
-        
-        cell.placeNameLabel.text = barsDataSource[indexPath.row]["name"] as? String
-        cell.placeAddressLabel.text = barsDataSource[indexPath.row]["vicinity"] as? String
-        if let rating = barsDataSource[indexPath.row]["rating"] as? Double {
-            cell.placeRatingOpenHourLabel.text = rating > 0 ? "\(rating) Stars" : "No ratings"
-        }
-        if let barLatitude = barsDataSource[indexPath.row]["latitude"] as? Double,
-           let barLongitude = barsDataSource[indexPath.row]["longitude"] as? Double {
-            let distance = calculateDistance(
-                lat1: userCoordinates.latitude,
-                lon1: userCoordinates.longitude,
-                lat2: barLatitude,
-                lon2: barLongitude
-            )
-            cell.placeDistanceLabel.text = "\(distance) km away"
-        }
-        cell.directionButton.tag = indexPath.row
-        cell.directionButton.addTarget(self, action: #selector(getDirections), for: .touchUpInside)
-        cell.saveButton.tag = indexPath.row
-        cell.saveButton.addTarget(self, action: #selector(saveToFavorite), for: .touchUpInside)
-        if let placeId = barsDataSource[indexPath.row]["placeId"] as? String,
-           let bool = user?.placeFavorite.contains(placeId) {
-            cell.saveButton.imageView?.image = bool ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
-        }
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let screen = UIScreen.main.bounds
-        let screenWidth = screen.size.width
-        return CGSize(width: screenWidth - 20, height: 145)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
-        let visibleCellIndexs = collectionView.indexPathsForVisibleItems
-        let cellIsPresenting = visibleCellIndexs.contains { $0 == indexPath }
-        
-        print("Visible Cells Indexes: \(visibleCellIndexs)")
-        print("Current Tapped Cell IndexPath: \(indexPath)")
-        
-        
-        if let barLatitude = barsDataSource[indexPath.row]["latitude"] as? Double,
-           let barLongitude = barsDataSource[indexPath.row]["longitude"] as? Double,
-           let annotation = findMapPin(withCoordinates:
-                                        CLLocationCoordinate2D(latitude: barLatitude, longitude: barLongitude)),
-           let annotationView = mapView.view(for: annotation) {
-            self.mapView.setRegion(MKCoordinateRegion(
-                center: annotation.coordinate,
-                span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-            ), animated: true)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                self.animateAnnotation(annotation, view: annotationView)
-                self.mapView.selectAnnotation(annotation, animated: true)
-            }
-        }
-//        // TODO: Cannot find pin on tap
-        print("Cannot find pin")
     }
 }
 
@@ -353,7 +402,7 @@ extension BarMapViewController {
     @objc func saveToFavorite(_ sender: UIButton) {
         let indexPath = IndexPath(item: sender.tag, section: 0)
         
-        guard let placeId = barsDataSource[sender.tag]["placeId"] as? String else {
+        guard let placeId = dataSource[sender.tag].placeID else {
             print("Failed downcasting")
             return
         }
@@ -379,9 +428,9 @@ extension BarMapViewController {
     
     @objc func getDirections(_ sender: UIButton) {
         let index = sender.tag
-        guard let desLat = self.barsDataSource[index]["latitude"],
-              let desLon = self.barsDataSource[index]["longitude"],
-              let placeId = self.barsDataSource[index]["placeId"] else {
+        guard let desLat = self.dataSource[index].geometry?.location.lat,
+              let desLon = self.dataSource[index].geometry?.location.lng,
+              let placeId = self.dataSource[index].placeID else {
             print("Error in getting user or destination location")
             return
         }
@@ -394,7 +443,7 @@ extension BarMapViewController {
         let firstAction: UIAlertAction = UIAlertAction(
             title: "Copy Address", style: .default) { _ in
                 print("Copy Address Action pressed")
-                UIPasteboard.general.string = self.barsDataSource[index]["vicinity"] as? String
+                UIPasteboard.general.string = self.dataSource[index].vicinity
             }
         let secondAction: UIAlertAction = UIAlertAction(
             title: "Open in Apple Maps", style: .default) { _ in
@@ -439,7 +488,6 @@ extension BarMapViewController {
     private func animateAnnotation(_ annotation: MKPointAnnotation, view: MKAnnotationView) {
         let duration: TimeInterval = 0.4
         let bounceHeight: CGFloat = 15.0
-        
         let originalCoordinate = annotation.coordinate
         let finalCoordinate = CLLocationCoordinate2D(
             latitude: originalCoordinate.latitude + 0.00001,

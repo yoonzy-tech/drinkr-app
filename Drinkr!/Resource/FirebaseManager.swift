@@ -18,7 +18,8 @@ import AuthenticationServices
 enum Collection: String {
     case posts
     case scanHistories
-    case places
+    case googlePlaces
+    case cocktailDB
     case cocktails
     case users
 }
@@ -204,6 +205,22 @@ extension FirebaseManager {
                 }
             }
     }
+    
+    func checkDuplicates(in collection: Collection, field: String, value: String, completion: ((Bool, Error?)-> Void)? = nil) {
+        database.collection(collection.rawValue).whereField(field, isEqualTo: value).limit(to: 1).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                completion?(false, error)
+                return
+            }
+            
+            guard let querySnapshot = querySnapshot else {
+                completion?(false, error)
+                return
+            }
+            
+            completion?(!querySnapshot.isEmpty, nil)
+        }
+    }
 }
 
 // MARK: File Storage Upload & Delete
@@ -348,7 +365,6 @@ extension FirebaseManager {
                 }
                 
                 self.userData = dataArr.first
-                print(self.userData)
                 guard let userData = dataArr.first else { return }
                 completion?(userData)
             }
@@ -434,10 +450,13 @@ extension FirebaseManager {
             displayName = "\(firstName) \(lastName)"
             print(displayName)
         }
-        
-        let credential = OAuthProvider.credential(withProviderID: "apple.com", idToken: idTokenString, rawNonce: nonce)
-        
-        completion?(credential, displayName)
+        let credential = OAuthProvider.appleCredential(
+            withIDToken: idTokenString,
+            rawNonce: nonce,
+            fullName: appleIDCredential.fullName
+        )
+        // only the first time will get the name, try change profile name
+        completion?(credential, Auth.auth().currentUser?.displayName ?? "Unknown Name from Firebase")
     }
     
     func signInGoogle(_ viewController: UIViewController, completion: ((AuthCredential?) -> Void)? = nil) {
@@ -461,7 +480,6 @@ extension FirebaseManager {
         
     }
 }
-
 
 /*
 

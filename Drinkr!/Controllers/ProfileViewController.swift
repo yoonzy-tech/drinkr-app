@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseAuth
 import Kingfisher
+import MJRefresh
 
 class ProfileViewController: UIViewController {
     
@@ -29,7 +30,15 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.delegate = self
+        
+        collectionView.mj_header = MJRefreshNormalHeader()
+        collectionView.mj_header?.setRefreshingTarget(self, refreshingAction: #selector(refreshData))
         retrieveUserData()
+    }
+    
+    @objc func refreshData() {
+        retrieveUserData()
+        collectionView.mj_header?.endRefreshing()
     }
     
     func retrieveUserData() {
@@ -43,6 +52,7 @@ class ProfileViewController: UIViewController {
         FirebaseManager.shared.fetchAccountInfo(uid: uid) { userData in
             self.userData = userData
             self.navigationItem.title = self.userData?.name
+            self.navigationItem.title = Auth.auth().currentUser?.displayName
         }
     }
 }

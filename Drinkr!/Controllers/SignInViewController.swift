@@ -107,9 +107,9 @@ extension SignInViewController: ASAuthorizationControllerDelegate,
                     guard let credential = credential else { return }
                     FirebaseManager.shared.signInFirebase(credential: credential, name: username) { _ in
                         self.presentAppHomeVC()
+                        print("🔥 Apple User Name: \(Auth.auth().currentUser?.displayName as Any)")
                     }
                 }
-            
         } else {
             print("Error in Apple Login")
         }

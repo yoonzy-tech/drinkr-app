@@ -23,42 +23,43 @@ class PostCollectionViewCell: UICollectionViewCell {
     
     func updateCell(post: Post) {
         // Fetch data of this post author
-        guard let userData = FirebaseManager.shared.userData else { return }
-        
-        // update profile image
-        if !userData.profileImageUrl.isEmpty {
-            let url = URL(string: userData.profileImageUrl)
-            self.userProfileImageView.kf.setImage(with: url)
-        } else {
-            print("User has no profile image")
-            self.userProfileImageView.image = UIImage(named: "icons8-edvard-munch")
-        }
-        
-        self.usernameLabel.text = userData.name
-        self.captionUsernameLabel.text = userData.name
-        
-        if post.caption == "" || post.caption == nil {
-            self.captionLabel.text = "is drinking"
-        } else {
-            self.captionLabel.text = post.caption
-        }
-        
-        let imageUrl = URL(string: post.imageUrl)
-        self.postImageView.kf.setImage(with: imageUrl)
-        self.userProfileImageView.layer.cornerRadius = self.userProfileImageView.frame.size.width / 2
-        self.userProfileImageView.clipsToBounds = true
-        
-        if post.comments.count > 0 {
-            self.viewMoreCommentsButton.isHidden = false
-            self.viewMoreCommentsButton.setTitle("View all \(post.comments.count) comments", for: .normal)
-        } else {
-            self.viewMoreCommentsButton.isHidden = true
-        }
-        
-        if post.likes.count > 0 {
-            self.likesCountLabel.text = "\(post.likes.count) Likes"
-        } else {
-            self.likesCountLabel.text = "Be the first to toast ~"
+        FirebaseManager.shared.fetchAccountInfo(uid: post.userUid) { userData in
+            print("\(userData) of this post")
+            // update profile image
+            if !userData.profileImageUrl.isEmpty {
+                let url = URL(string: userData.profileImageUrl)
+                self.userProfileImageView.kf.setImage(with: url)
+            } else {
+                print("User has no profile image")
+                self.userProfileImageView.image = UIImage(named: "icons8-edvard-munch")
+            }
+            
+            self.usernameLabel.text = userData.name
+            self.captionUsernameLabel.text = userData.name
+            
+            if post.caption == "" || post.caption == nil {
+                self.captionLabel.text = "is drinking"
+            } else {
+                self.captionLabel.text = post.caption
+            }
+            
+            let imageUrl = URL(string: post.imageUrl)
+            self.postImageView.kf.setImage(with: imageUrl)
+            self.userProfileImageView.layer.cornerRadius = self.userProfileImageView.frame.size.width / 2
+            self.userProfileImageView.clipsToBounds = true
+            
+            if post.comments.count > 0 {
+                self.viewMoreCommentsButton.isHidden = false
+                self.viewMoreCommentsButton.setTitle("View all \(post.comments.count) comments", for: .normal)
+            } else {
+                self.viewMoreCommentsButton.isHidden = true
+            }
+            
+            if post.likes.count > 0 {
+                self.likesCountLabel.text = "\(post.likes.count) Likes"
+            } else {
+                self.likesCountLabel.text = "Be the first to toast ~"
+            }
         }
     }
 }
