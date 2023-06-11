@@ -8,6 +8,7 @@
 import UIKit
 import Kingfisher
 import MJRefresh
+import FirebaseAuth
 
 class FavoriteCocktailsViewController: UIViewController {
 
@@ -16,7 +17,7 @@ class FavoriteCocktailsViewController: UIViewController {
     var userDocId: String = ""
     var userData: User?
     
-    var dataSource: [Drink] = [] {
+    var favDrinksDataSource: [FavDrink] = [] {
         didSet {
             tableView.reloadData()
         }
@@ -37,26 +38,16 @@ class FavoriteCocktailsViewController: UIViewController {
     }
     
     func updateUserFavoriteCocktailData() {
-        guard let uid = FirebaseManager.shared.userUid else {
+        guard let uid = Auth.auth().currentUser?.uid else {
             print("Error getting Uid")
             return
         }
         FirebaseManager.shared.fetchAccountInfo(uid: uid) { userData in
             self.userDocId = userData.id ?? "Unknown User Doc Id"
             self.userData = userData
-            let cocktailIDs = userData.cocktailsFavorite
-            var newArr: [Drink] = []
-            for cocktailID in cocktailIDs {
-                print(cocktailID)
-                FirebaseManager.shared.fetchOne(
-                    in: .cocktailDB,
-                    field: "idDrink",
-                    value: cocktailID) { (drinks: [Drink]) in
-                    guard let drinkDetail = drinks.first else { return }
-                    newArr.append(drinkDetail)
-                    self.dataSource = newArr
-                }
-            }
+            self.favDrinksDataSource = userData.favoriteCocktails
+            self.favDrinksDataSource.sort { ($0.addedTime ?? .init())
+                .compare($1.addedTime ?? .init()) == .orderedDescending }
         }
     }
 }
@@ -64,7 +55,8 @@ class FavoriteCocktailsViewController: UIViewController {
 extension FavoriteCocktailsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        dataSource.count
+//        dataSource.count
+        favDrinksDataSource.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -72,10 +64,21 @@ extension FavoriteCocktailsViewController: UITableViewDataSource, UITableViewDel
             withIdentifier: "FavoriteCocktailTableViewCell", for: indexPath) as? FavoriteCocktailTableViewCell
         else { fatalError("Unable to generate Table View Cell") }
         
-        cell.cocktailImageView.kf.setImage(with: URL(string: dataSource[indexPath.row].strDrinkThumb ?? ""))
-        cell.cocktailNameLabel.text = dataSource[indexPath.row].strDrink ?? "Unknown Drink"
-        cell.cocktailGlassLabel.text = dataSource[indexPath.row].strGlass ?? "Not specific"
-        cell.cocktailIngredientsLabel.text = dataSource[indexPath.row].getIngredients()
+        let drinkId = favDrinksDataSource[indexPath.row].idDrink
+        
+        FirebaseManager.shared.fetchOne(
+            in: .cocktailDB,
+            field: "idDrink",
+            value: drinkId) { (drinks: [Drink]) in
+                guard let drinkDetail = drinks.first else {
+                    print("Unable to get cell details")
+                    return
+                }
+                cell.cocktailImageView.kf.setImage(with: URL(string: drinkDetail.strDrinkThumb ?? ""))
+                cell.cocktailNameLabel.text = drinkDetail.strDrink ?? "Unknown Drink"
+                cell.cocktailGlassLabel.text = drinkDetail.strGlass ?? "Not specific"
+                cell.cocktailIngredientsLabel.text = drinkDetail.getIngredients()
+            }
         
         return cell
     }
@@ -83,8 +86,15 @@ extension FavoriteCocktailsViewController: UITableViewDataSource, UITableViewDel
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let destinationViewController = storyboard?.instantiateViewController(withIdentifier: "DrinkDetailsViewController")
                 as? DrinkDetailsViewController else { return }
-        destinationViewController.drinkDetails = dataSource[indexPath.row]
-        present(destinationViewController, animated: true)
+        
+        FirebaseManager.shared.fetchOne(
+            in: .cocktailDB,
+            field: "idDrink",
+            value: favDrinksDataSource[indexPath.row].idDrink) { (drinkDetails: [Drink]) in
+            guard let drinkDetail = drinkDetails.first else { return }
+            destinationViewController.drinkDetails = drinkDetail
+            self.present(destinationViewController, animated: true)
+        }
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
@@ -94,9 +104,9 @@ extension FavoriteCocktailsViewController: UITableViewDataSource, UITableViewDel
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Update Firestore, remove the place id in user info
-            userData?.cocktailsFavorite.removeAll { $0 == dataSource[indexPath.row].idDrink }
+            userData?.favoriteCocktails.removeAll { $0.idDrink == favDrinksDataSource[indexPath.row].idDrink }
             // Delete local dataSource
-            dataSource.remove(at: indexPath.row)
+            favDrinksDataSource.remove(at: indexPath.row)
             FirebaseManager.shared.update(
                 in: .users,
                 docId: userDocId,

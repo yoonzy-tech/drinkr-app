@@ -6,6 +6,18 @@
 //
 
 import Foundation
+import FirebaseFirestore
+import FirebaseFirestoreSwift
+
+struct FavPlace: Codable {
+    let placeID: String
+    let addedTime: Timestamp?
+    
+    enum CodingKeys: String, CodingKey {
+        case placeID = "place_id"
+        case addedTime
+    }
+}
 
 struct PlacesResponse: Codable {
     let htmlAttributions: [String]?

@@ -30,7 +30,6 @@ class CaptionTableViewCell: UITableViewCell {
         self.usernameLabel.text = username
         let imageUrl = URL(string: profileImageUrlString)
         self.userProfileImageView.kf.setImage(with: imageUrl)
-        self.userProfileImageView.image = UIImage(named: "profile")
         self.captionLabel.text = caption
     }
 }

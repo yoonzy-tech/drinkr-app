@@ -24,11 +24,13 @@ class PostCollectionViewCell: UICollectionViewCell {
     func updateCell(post: Post) {
         // Fetch data of this post author
         FirebaseManager.shared.fetchAccountInfo(uid: post.userUid) { userData in
-            print("\(userData) of this post")
             // update profile image
             if !userData.profileImageUrl.isEmpty {
                 let url = URL(string: userData.profileImageUrl)
+                self.userProfileImageView.layer.cornerRadius = self.userProfileImageView.frame.size.width / 2
+                self.userProfileImageView.clipsToBounds = true
                 self.userProfileImageView.kf.setImage(with: url)
+                
             } else {
                 print("User has no profile image")
                 self.userProfileImageView.image = UIImage(named: "icons8-edvard-munch")
@@ -36,7 +38,7 @@ class PostCollectionViewCell: UICollectionViewCell {
             
             self.usernameLabel.text = userData.name
             self.captionUsernameLabel.text = userData.name
-            
+
             if post.caption == "" || post.caption == nil {
                 self.captionLabel.text = "is drinking"
             } else {
@@ -45,8 +47,6 @@ class PostCollectionViewCell: UICollectionViewCell {
             
             let imageUrl = URL(string: post.imageUrl)
             self.postImageView.kf.setImage(with: imageUrl)
-            self.userProfileImageView.layer.cornerRadius = self.userProfileImageView.frame.size.width / 2
-            self.userProfileImageView.clipsToBounds = true
             
             if post.comments.count > 0 {
                 self.viewMoreCommentsButton.isHidden = false

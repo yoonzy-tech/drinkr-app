@@ -74,6 +74,26 @@ class FirebaseManager {
             }
         }
     }
+    /*
+     db.collection("cities").whereField("state", isEqualTo: "CA")
+         .addSnapshotListener { querySnapshot, error in
+             guard let snapshot = querySnapshot else {
+                 print("Error fetching snapshots: \(error!)")
+                 return
+             }
+             snapshot.documentChanges.forEach { diff in
+                 if (diff.type == .added) {
+                     print("New city: \(diff.document.data())")
+                 }
+                 if (diff.type == .modified) {
+                     print("Modified city: \(diff.document.data())")
+                 }
+                 if (diff.type == .removed) {
+                     print("Removed city: \(diff.document.data())")
+                 }
+             }
+         }
+     */
     
     func listen(in collection: Collection, completion: (() -> Void)? = nil) {
         database.collection(collection.rawValue).addSnapshotListener { snapshot, error in
@@ -86,10 +106,12 @@ class FirebaseManager {
                 return
             }
             
+            
             snapshot.documentChanges.forEach { documentChange in
                 switch documentChange.type {
                 case .added:
                     print("Add")
+                    
                 case .modified:
                     print("Modified")
                 case .removed:
@@ -206,8 +228,11 @@ extension FirebaseManager {
             }
     }
     
-    func checkDuplicates(in collection: Collection, field: String, value: String, completion: ((Bool, Error?)-> Void)? = nil) {
-        database.collection(collection.rawValue).whereField(field, isEqualTo: value).limit(to: 1).getDocuments { (querySnapshot, error) in
+    func checkDuplicates(in collection: Collection, field: String, value: String, completion: ((Bool, Error?) -> Void)? = nil) {
+        database.collection(collection.rawValue)
+            .whereField(field, isEqualTo: value)
+            .limit(to: 1)
+            .getDocuments { (querySnapshot, error) in
             if let error = error {
                 completion?(false, error)
                 return
@@ -421,7 +446,7 @@ extension FirebaseManager {
                         profileImageUrl: user.photoURL?.absoluteString ?? "",
                         createdTime: Timestamp()
                     )
-                    print(user)
+                    print("Current Login User: \(user)")
                     self?.create(in: .users, data: user)
                     completion?(user)
                 }

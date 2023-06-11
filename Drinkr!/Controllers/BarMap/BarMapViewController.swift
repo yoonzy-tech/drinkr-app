@@ -10,9 +10,10 @@ import MapKit
 import CoreLocation
 import Kingfisher
 import FirebaseAuth
+import FirebaseFirestore
 
 class BarMapViewController: UIViewController {
-
+    
     var user = FirebaseManager.shared.userData {
         didSet {
             collectionView.reloadData()
@@ -67,8 +68,8 @@ class BarMapViewController: UIViewController {
         mapView.delegate = self
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         guard let uid = Auth.auth().currentUser?.uid else {
             print("Error getting Uid")
             return
@@ -77,7 +78,6 @@ class BarMapViewController: UIViewController {
             self.user = user
         }
     }
-    
 }
 
 // MARK: - Map Pins
@@ -127,7 +127,7 @@ extension BarMapViewController: MKMapViewDelegate {
                                                                                  longitude: userCoordinates.longitude),
                                                   span: MKCoordinateSpan(latitudeDelta: 0.035,
                                                                          longitudeDelta: 0.035)
-                                                ), animated: true)
+        ), animated: true)
     }
     
     private func calculateCorrespondingIndex(for coordinates: CLLocationCoordinate2D) -> Int {
@@ -164,7 +164,7 @@ extension BarMapViewController: MKMapViewDelegate {
         guard !(annotation is MKUserLocation) else {
             return nil
         }
-
+        
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "custom")
         if annotationView == nil {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "custom")
@@ -176,7 +176,7 @@ extension BarMapViewController: MKMapViewDelegate {
         let beerImage =  UIImage(named: "beer jar")
         annotationView?.image = beerImage
         annotationView?.image = beerImage?.resizableImage(withCapInsets: .zero, resizingMode: .stretch)
-
+        
         // Adjust the initial size of the pin image
         let initialPinSize = CGSize(width: 40, height: 40)
         annotationView?.bounds.size = initialPinSize
@@ -244,8 +244,8 @@ extension BarMapViewController: UICollectionViewDataSource,
         }
         
         if let photoRef = dataSource[indexPath.row].photos?.first?.photoReference,
-            let height = dataSource[indexPath.row].photos?.first?.height,
-            let width = dataSource[indexPath.row].photos?.first?.width {
+           let height = dataSource[indexPath.row].photos?.first?.height,
+           let width = dataSource[indexPath.row].photos?.first?.width {
             let string = "https://maps.googleapis.com/maps/api/place/photo?photo_reference=\(photoRef)&maxwidth=\(width)&maxheight=\(height)&key=\(GMSPlacesAPIKey)"
             cell.imageView.kf.setImage(with: URL(string: string))
             cell.imageView.layer.cornerRadius = 8
@@ -256,7 +256,7 @@ extension BarMapViewController: UICollectionViewDataSource,
         cell.saveButton.tag = indexPath.row
         cell.saveButton.addTarget(self, action: #selector(saveToFavorite), for: .touchUpInside)
         if let placeId = dataSource[indexPath.row].placeID,
-           let bool = user?.placeFavorite.contains(placeId) {
+           let bool = user?.favoritePlaces.contains(where: { $0.placeID == placeId }) {
             cell.saveButton.imageView?.image = bool ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
         }
         
@@ -289,12 +289,12 @@ extension BarMapViewController: UICollectionViewDataSource,
     
     // When end display the card resume the image size to small
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-            if let barLatitude = dataSource[indexPath.row].geometry?.location.lat,
-               let barLongitude = dataSource[indexPath.row].geometry?.location.lng,
-               let annotation = findMapPin(withCoordinates: CLLocationCoordinate2D(latitude: barLatitude,
-                                                                                   longitude: barLongitude)) {
-                self.mapView.deselectAnnotation(annotation, animated: true)
-            }
+        if let barLatitude = dataSource[indexPath.row].geometry?.location.lat,
+           let barLongitude = dataSource[indexPath.row].geometry?.location.lng,
+           let annotation = findMapPin(withCoordinates: CLLocationCoordinate2D(latitude: barLatitude,
+                                                                               longitude: barLongitude)) {
+            self.mapView.deselectAnnotation(annotation, animated: true)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -403,14 +403,14 @@ extension BarMapViewController {
         let indexPath = IndexPath(item: sender.tag, section: 0)
         
         guard let placeId = dataSource[sender.tag].placeID else {
-            print("Failed downcasting")
+            print("Failed getting place ID of this save button")
             return
         }
-        guard var placeFavorite = user?.placeFavorite as? [String] else {
+        guard var favoritePlaces = user?.favoritePlaces as? [FavPlace] else {
             print("Failed to convert place favorite")
             return
         }
-        guard var saved = user?.placeFavorite.contains(placeId) else {
+        guard var saved = user?.favoritePlaces.contains(where: { $0.placeID == placeId }) else {
             print("Saved: is Nil")
             return
         }
@@ -421,8 +421,9 @@ extension BarMapViewController {
         
         saved = !saved
         cell.saveButton.setImage(saved ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"), for: .normal)
-        saved ? (placeFavorite.append(placeId)) : (placeFavorite.removeAll { $0 == placeId })
-        user?.placeFavorite = placeFavorite
+        let favPlace = FavPlace(placeID: placeId, addedTime: Timestamp())
+        saved ? (favoritePlaces.append(favPlace)) : (favoritePlaces.removeAll { $0.placeID == placeId })
+        user?.favoritePlaces = favoritePlaces
         FirebaseManager.shared.update(in: .users, docId: user?.id ?? "", data: self.user)
     }
     

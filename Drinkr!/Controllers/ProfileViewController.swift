@@ -43,7 +43,6 @@ class ProfileViewController: UIViewController {
     
     func retrieveUserData() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        print(uid)
         FirebaseManager.shared.fetchAllByUserUid(in: .posts, userUid: uid) { (posts: [Post]) in
             self.postDataSource = posts
             self.postDataSource.sort { ($0.createdTime ?? .init())
@@ -142,6 +141,8 @@ extension ProfileViewController {
                 } catch let signOutError as NSError {
                   print("Error signing out: %@", signOutError)
                 }
+                FirebaseManager.shared.userUid = nil
+                FirebaseManager.shared.userData = nil
                 self.changeRootVCToSignIn()
             }
         

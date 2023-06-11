@@ -31,7 +31,11 @@ class PostsViewController: UIViewController {
     
     var postData: Post?
     
-    var dataSource: [Post] = []
+    var dataSource: [Post] = [] {
+        didSet {
+//            collectionView.reloadData()
+        }
+    }
     
     var tapGesture: UITapGestureRecognizer?
     
@@ -119,6 +123,7 @@ class PostsViewController: UIViewController {
         
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap))
         tapGesture?.numberOfTouchesRequired = 2
+        updateDataSource()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -126,9 +131,7 @@ class PostsViewController: UIViewController {
         if (navigationController?.viewControllers.first(where: { $0 is ProfileViewController })) != nil {
             collectionView.reloadData()
         } else {
-            FirebaseManager.shared.listen(in: .posts) {
-                self.updateDataSource()
-            }
+            updateDataSource()
         }
     }
     
@@ -228,21 +231,25 @@ extension PostsViewController: UICollectionViewDataSource,
 // MARK: - Cell Button Action
 extension PostsViewController {
     @objc func likes(_ sender: UIButton) {
-        // Get user uid
-        guard let userUid = FirebaseManager.shared.userUid else { return }
+        // Get user uid (current user)
+        guard let currentUserUid = FirebaseManager.shared.userUid else { return }
         // Get this post data
         let index = sender.tag
         var post = dataSource[index]
         // Get the bool of the like status
-        let hasLiked = post.likes.contains(userUid) // the user has liked this post
-        !hasLiked ? (post.likes.append(userUid)) : (post.likes.removeAll { $0 == userUid })
+        var hasLiked = post.likes.contains(currentUserUid) // default is false, the user has liked this post
+        hasLiked = !hasLiked
+        sender.setImage(hasLiked ? UIImage(named: "cheers") : UIImage(named: "cheers.fill"), for: .normal)
+        hasLiked ? (post.likes.append(currentUserUid)) : (post.likes.removeAll { $0 == currentUserUid })
         // Lastly update post data in DB
         guard let postDocId = post.id else {
             print("Cannot find the data of this post to update likes")
             return
         }
+        dataSource[index] = post
+        collectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
         FirebaseManager.shared.update(in: .posts, docId: postDocId, data: post)
-//        sender.setImage(hasLiked ? UIImage(named: "cheers.fill") : UIImage(named: "cheers"), for: .normal)
+        
     }
     
     @objc func makeComment(_ sender: UIButton) {

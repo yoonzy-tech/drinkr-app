@@ -16,6 +16,8 @@ class CommentTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.userProfileImageView.layer.cornerRadius = self.userProfileImageView.frame.size.width / 2
+        self.userProfileImageView.clipsToBounds = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

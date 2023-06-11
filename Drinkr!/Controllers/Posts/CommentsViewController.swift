@@ -8,6 +8,7 @@
 import UIKit
 import IQKeyboardManagerSwift
 import FirebaseFirestoreSwift
+import FirebaseAuth
 
 class CommentsViewController: UIViewController {
 
@@ -15,6 +16,7 @@ class CommentsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textField: UITextField!
     
+    var userData: User?
     var postDataSource: Post?
     var shouldActivateTextField: Bool = false
     
@@ -38,13 +40,18 @@ class CommentsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         textField.borderStyle = .none
-        
-        userProfileImageView.layer.cornerRadius = userProfileImageView.frame.size.width / 2
-        userProfileImageView.clipsToBounds = true
-        
         tableView.dataSource = self
         tableView.delegate = self
         
+        FirebaseManager.shared.fetchAccountInfo(uid: userUid ?? "Unknown User Doc Id") { userData in
+            self.userData = userData
+            
+            // User Typing Commnets Input
+            self.userProfileImageView.kf.setImage(with: URL(string: userData.profileImageUrl)) // author image
+            self.userProfileImageView.layer.cornerRadius = self.userProfileImageView.frame.size.width / 2
+            self.userProfileImageView.clipsToBounds = true
+        }
+
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         view.addGestureRecognizer(tapGesture)
         
@@ -99,10 +106,12 @@ extension CommentsViewController: UITableViewDataSource, UITableViewDelegate {
             else { fatalError("Unable to generate Table View Cell") }
             
             if let postDataSource = postDataSource {
-                cell.updateCell(
-                    username: "c.eight_rrrrr",
-                    profileImageUrlString: "",
-                    caption: postDataSource.caption ?? "")
+                FirebaseManager.shared.fetchAccountInfo(uid: postDataSource.userUid) { authorData in
+                    cell.updateCell(
+                        username: authorData.name, // change to author info
+                        profileImageUrlString: authorData.profileImageUrl,
+                        caption: postDataSource.caption ?? "I'm drinking!")
+                }
             }
             return cell
             
@@ -113,12 +122,17 @@ extension CommentsViewController: UITableViewDataSource, UITableViewDelegate {
             else { fatalError("Unable to generate Table View Cell") }
             
             if let postDataSource = postDataSource {
-                cell.updateCell(
-                    username: "richman",
-                    profileImageUrlString: "",
-                    comment: postDataSource.comments[indexPath.row - 1].text
-                )
+                // To know which person post comments here
+                let commenterUid = postDataSource.comments[indexPath.row - 1].userUid
+                // Fetch that person's image and name
+                FirebaseManager.shared.fetchAccountInfo(uid: commenterUid) { commentData in
+                    cell.updateCell(
+                        username: commentData.name, // change to author info
+                        profileImageUrlString: commentData.profileImageUrl,
+                        comment: postDataSource.comments[indexPath.row - 1].text) // Show comment content
+                }
             }
+            
             return cell
         }
     }
@@ -133,7 +147,6 @@ extension CommentsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            
             // Delete local dataSource
             postDataSource?.comments.remove(at: indexPath.row - 1)
             // Update Firestore

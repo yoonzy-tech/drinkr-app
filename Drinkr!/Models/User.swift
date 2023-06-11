@@ -19,7 +19,7 @@ struct User: Codable {
     var isActive: Bool = true
     
     var friends: [String] = []
-    var cocktailsFavorite: [String] = []
-    var placeFavorite: [String] =  []
+    var favoriteCocktails: [FavDrink] = []
+    var favoritePlaces: [FavPlace] =  []
     var posts: [String] = []
 }

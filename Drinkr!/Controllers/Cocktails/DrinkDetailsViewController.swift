@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import FirebaseFirestore
 
 class DrinkDetailsViewController: UIViewController {
     
@@ -24,10 +25,12 @@ class DrinkDetailsViewController: UIViewController {
         saveButton.image = saved ? UIImage(systemName: "star.fill") : UIImage(systemName: "star")
         
         if let drinkId = drinkDetails?.idDrink, let docId = user?.id {
+            let favDrink = FavDrink(idDrink: drinkId, addedTime: Timestamp())
+            
             if saved {
-                user?.cocktailsFavorite.append(drinkId)
+                user?.favoriteCocktails.append(favDrink)
             } else {
-                user?.cocktailsFavorite.removeAll { $0 == drinkId }
+                user?.favoriteCocktails.removeAll { $0.idDrink == drinkId }
             }
             FirebaseManager.shared.update(in: .users, docId: docId, data: user)
         }
@@ -37,7 +40,6 @@ class DrinkDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(user as Any)
         navigationController?.navigationBar.prefersLargeTitles = false
         tableView.dataSource = self
         tableView.delegate = self
@@ -74,9 +76,23 @@ class DrinkDetailsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = false
-        if let drinkId = drinkDetails?.idDrink, let saved = (user?.cocktailsFavorite.contains(drinkId)) {
+        if let drinkId = drinkDetails?.idDrink,
+           let saved = (user?.favoriteCocktails.contains { $0.idDrink == drinkId }) {
             self.saved = saved
             saveButton.image = saved ? UIImage(systemName: "star.fill") : UIImage(systemName: "star")
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        FirebaseManager.shared.fetchAccountInfo(uid: self.user?.uid ?? "User no uid") { userData in
+            self.user = userData
+            if let drinkId = self.drinkDetails?.idDrink,
+               let saved = (self.user?.favoriteCocktails.contains { $0.idDrink == drinkId }) {
+                self.saved = saved
+                self.saveButton.image = saved ? UIImage(systemName: "star.fill") : UIImage(systemName: "star")
+            }
         }
     }
     

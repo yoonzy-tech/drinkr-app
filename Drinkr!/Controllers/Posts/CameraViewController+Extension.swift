@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 import FirebaseFirestore
 
 // Preview Create Post Related UI Setup
@@ -108,13 +109,12 @@ extension CameraViewController {
     
     @objc func publishImage(_ button: UIButton) {
         if let image = imageView.image,
-           let imageData = FirebaseManager.shared.rotateImageToUp(image: image),
-            let userUid = FirebaseManager.shared.userUid {
+           let imageData = FirebaseManager.shared.rotateImageToUp(image: image) {
             
             FirebaseManager.shared.uploadFile(to: .posts, imageData: imageData) { [weak self] imageRef, imageUrl in
-                
+                guard let uid = Auth.auth().currentUser?.uid else { return }
                 let post = Post(
-                    userUid: userUid,
+                    userUid: uid,
                     caption: self?.currentCaption,
                     imageUrl: imageUrl,
                     imageRef: imageRef,
@@ -124,6 +124,7 @@ extension CameraViewController {
                 )
                 
                 FirebaseManager.shared.create(in: .posts, data: post)
+                // Clear whatever is in this variable after posting
                 self?.currentCaption = ""
             }
             

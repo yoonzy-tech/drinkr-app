@@ -6,7 +6,13 @@
 //
 
 import Foundation
+import FirebaseFirestore
 import FirebaseFirestoreSwift
+
+struct FavDrink: Codable {
+    let idDrink: String
+    let addedTime: Timestamp?
+}
 
 struct DrinksResponse: Codable {
     let drinks: [Drink]
