@@ -26,10 +26,14 @@ class CaptionTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func updateCell (username: String, profileImageUrlString: String, caption: String) {
+    func updateCell (username: String, profileImageUrlString: String?, caption: String) {
         self.usernameLabel.text = username
-        let imageUrl = URL(string: profileImageUrlString)
-        self.userProfileImageView.kf.setImage(with: imageUrl)
         self.captionLabel.text = caption
+        
+        if let profileImageUrlString = profileImageUrlString, let imageUrl = URL(string: profileImageUrlString) {
+            self.userProfileImageView.kf.setImage(with: imageUrl)
+        } else {
+            self.userProfileImageView.image = UIImage(named: "icons8-edvard-munch")
+        }
     }
 }

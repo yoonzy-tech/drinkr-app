@@ -45,11 +45,19 @@ class CommentsViewController: UIViewController {
         
         FirebaseManager.shared.fetchAccountInfo(uid: userUid ?? "Unknown User Doc Id") { userData in
             self.userData = userData
-            
-            // User Typing Commnets Input
-            self.userProfileImageView.kf.setImage(with: URL(string: userData.profileImageUrl)) // author image
+
             self.userProfileImageView.layer.cornerRadius = self.userProfileImageView.frame.size.width / 2
             self.userProfileImageView.clipsToBounds = true
+            
+            // User Typing Commnets Input
+//            self.userProfileImageView.kf.setImage(with: URL(string: userData.profileImageUrl)) // author image
+         
+            if let imageUrl = URL(string: userData.profileImageUrl) {
+                self.userProfileImageView.kf.setImage(with: imageUrl)
+            } else {
+                self.userProfileImageView.image = UIImage(named: "icons8-edvard-munch")
+            }
+            
         }
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
