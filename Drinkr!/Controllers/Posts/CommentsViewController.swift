@@ -20,7 +20,7 @@ class CommentsViewController: UIViewController {
     var postDataSource: Post?
     var shouldActivateTextField: Bool = false
     
-    let userUid = FirebaseManager.shared.userUid
+    let userUid = Auth.auth().currentUser?.uid
     
     @IBAction func postComment(_ sender: Any) {
         if let text = textField.text,
@@ -42,15 +42,14 @@ class CommentsViewController: UIViewController {
         textField.borderStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
-        
-        FirebaseManager.shared.fetchAccountInfo(uid: userUid ?? "Unknown User Doc Id") { userData in
+        guard let userUid = userUid else {
+            print("Unable to get uid")
+            return
+        }
+        FirebaseManager.shared.fetchAccountInfo(uid: userUid) { userData in
             self.userData = userData
-
             self.userProfileImageView.layer.cornerRadius = self.userProfileImageView.frame.size.width / 2
             self.userProfileImageView.clipsToBounds = true
-            
-            // User Typing Commnets Input
-//            self.userProfileImageView.kf.setImage(with: URL(string: userData.profileImageUrl)) // author image
          
             if let imageUrl = URL(string: userData.profileImageUrl) {
                 self.userProfileImageView.kf.setImage(with: imageUrl)

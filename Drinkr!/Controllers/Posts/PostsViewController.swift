@@ -29,13 +29,11 @@ protocol PostCaptionDelegate: AnyObject {
 
 class PostsViewController: UIViewController {
     
+    var currentUserUid = Auth.auth().currentUser?.uid
+    
     var postData: Post?
     
-    var dataSource: [Post] = [] {
-        didSet {
-//            collectionView.reloadData()
-        }
-    }
+    var dataSource: [Post] = []
     
     var tapGesture: UITapGestureRecognizer?
     
@@ -76,7 +74,7 @@ class PostsViewController: UIViewController {
         }
     }
     
-    func playBeerPouringSound() {
+    private func playBeerPouringSound() {
         let urlString = Bundle.main.path(forResource: "pouring", ofType: "mp3")
         
         do {
@@ -128,8 +126,9 @@ class PostsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if (navigationController?.viewControllers.first(where: { $0 is ProfileViewController })) != nil {
-            collectionView.reloadData()
+        
+        if let index = navigationController?.viewControllers.count, index >= 1 {
+            self.collectionView.reloadData()
         } else {
             updateDataSource()
         }
@@ -170,7 +169,11 @@ class PostsViewController: UIViewController {
     }
     
     @objc func refreshData() {
-        updateDataSource()
+        if let index = navigationController?.viewControllers.count, index >= 1 {
+            self.collectionView.reloadData()
+        } else {
+            updateDataSource()
+        }
         collectionView.mj_header?.endRefreshing()
     }
     
@@ -286,19 +289,27 @@ extension PostsViewController {
             actionSheetController.addAction(deleteAction)
         } else {
             // TODO: Others Post: Report, Share
-            let shareAction: UIAlertAction = UIAlertAction(
-                title: "Share", style: .default) { _ in
-                    print("Share a post")
-                }
+//            let shareAction: UIAlertAction = UIAlertAction(
+//                title: "Share", style: .default) { _ in
+//                    print("Share a post")
+//                }
             let reportAction: UIAlertAction = UIAlertAction(
                 title: "Report post", style: .destructive) { _ in
                     print("Report a post")
+                    // Send a report request
+                    let report = Report(
+                        fromUserUid: Auth.auth().currentUser?.uid ?? "User UID Not Found to report",
+                        postId: self.postData?.id ?? "Unknown Post ID to report")
+                    FirebaseManager.shared.create(in: .reportRequests, data: report)
                 }
             let blockUserAction: UIAlertAction = UIAlertAction(
                 title: "Block user", style: .destructive) { _ in
                     print("Block user")
+                    // Unable to see posts from this user
+                    // Remove from following list
+                    // Add to blacklist
                 }
-            actionSheetController.addAction(shareAction)
+//            actionSheetController.addAction(shareAction)
             actionSheetController.addAction(reportAction)
             actionSheetController.addAction(blockUserAction)
         }

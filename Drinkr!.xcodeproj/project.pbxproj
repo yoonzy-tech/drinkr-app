@@ -21,6 +21,7 @@
 		0419034F2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0419034E2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift */; };
 		044362AC2A28AD56007C89F6 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044362AB2A28AD56007C89F6 /* UIColor+Extension.swift */; };
 		0450E77B2A2F72FB00B3EFF8 /* fill drink.json in Resources */ = {isa = PBXBuildFile; fileRef = 0450E77A2A2F72FB00B3EFF8 /* fill drink.json */; };
+		0472E1C32A372688007BAF44 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472E1C22A372688007BAF44 /* AuthManager.swift */; };
 		0475FF432A1E46FC00DBA6E0 /* PostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0475FF422A1E46FC00DBA6E0 /* PostsViewController.swift */; };
 		047AF2A82A1DEB2B00FB9ADD /* ScanHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047AF2A72A1DEB2B00FB9ADD /* ScanHistory.swift */; };
 		047E42522A2F8A88008D4E5A /* beer filling.json in Resources */ = {isa = PBXBuildFile; fileRef = 047E42512A2F8A88008D4E5A /* beer filling.json */; };
@@ -94,6 +95,7 @@
 		0429F2D82A2E18FF00F255CF /* Drinkr!.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Drinkr!.entitlements"; sourceTree = "<group>"; };
 		044362AB2A28AD56007C89F6 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		0450E77A2A2F72FB00B3EFF8 /* fill drink.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "fill drink.json"; sourceTree = "<group>"; };
+		0472E1C22A372688007BAF44 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		0475FF422A1E46FC00DBA6E0 /* PostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsViewController.swift; sourceTree = "<group>"; };
 		047AF2A72A1DEB2B00FB9ADD /* ScanHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanHistory.swift; sourceTree = "<group>"; };
 		047E42512A2F8A88008D4E5A /* beer filling.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "beer filling.json"; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				04B9EA082A1A81BA002A7EC4 /* GooglePlacesManager.swift */,
 				04D2C1C62A1F4441001212A7 /* CocktailManager.swift */,
 				04946E7D2A27829100DCD2A4 /* FirebaseManager.swift */,
+				0472E1C22A372688007BAF44 /* AuthManager.swift */,
 				04AE14222A2F207900CA4FCD /* KeychainManager.swift */,
 			);
 			path = Resource;
@@ -575,6 +578,7 @@
 				0419034F2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift in Sources */,
 				04E8564A2A2C5D1F0041F1DE /* DrinksResponse.swift in Sources */,
 				040DB3182A1CCEC9003E02A4 /* UIImage+Extension.swift in Sources */,
+				0472E1C32A372688007BAF44 /* AuthManager.swift in Sources */,
 				04E856562A2C84090041F1DE /* ImageTableViewCell.swift in Sources */,
 				04E856482A2C59240041F1DE /* DrinkDetailsViewController.swift in Sources */,
 				04946E782A273CBE00DCD2A4 /* CommentsViewController.swift in Sources */,

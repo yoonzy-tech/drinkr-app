@@ -9,8 +9,11 @@ import UIKit
 import FirebaseAuth
 import Kingfisher
 import MJRefresh
+import AuthenticationServices
 
 class ProfileViewController: UIViewController {
+    
+    var scrollToIndex = 0
     
     var userData: User? {
         didSet {
@@ -24,16 +27,19 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    var currentNonce: String?
+    
     @IBOutlet weak var collectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        retrieveUserData()
         collectionView.dataSource = self
         collectionView.delegate = self
         
         collectionView.mj_header = MJRefreshNormalHeader()
         collectionView.mj_header?.setRefreshingTarget(self, refreshingAction: #selector(refreshData))
-        retrieveUserData()
+        
     }
     
     @objc func refreshData() {
@@ -43,15 +49,13 @@ class ProfileViewController: UIViewController {
     
     func retrieveUserData() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        FirebaseManager.shared.fetchAllByUserUid(in: .posts, userUid: uid) { (posts: [Post]) in
-            self.postDataSource = posts
-            self.postDataSource.sort { ($0.createdTime ?? .init())
-                .compare($1.createdTime ?? .init()) == .orderedDescending }
-        }
         FirebaseManager.shared.fetchAccountInfo(uid: uid) { userData in
             self.userData = userData
-            self.navigationItem.title = self.userData?.name
-            self.navigationItem.title = Auth.auth().currentUser?.displayName
+            FirebaseManager.shared.fetchAllByUserUid(in: .posts, userUid: uid) { (posts: [Post]) in
+                self.postDataSource = posts
+                self.postDataSource.sort { ($0.createdTime ?? .init())
+                    .compare($1.createdTime ?? .init()) == .orderedDescending }
+            }
         }
     }
 }
@@ -78,13 +82,19 @@ extension ProfileViewController: UICollectionViewDataSource,
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "UserInfoCollectionViewCell", for: indexPath) as? UserInfoCollectionViewCell
             else { fatalError("Unable to generate User Info Collection View Cell") }
-            
+           
             cell.prepareCell(postCount: postDataSource.count)
             
             if let urlString = userData?.profileImageUrl, let url = URL(string: urlString) {
                 cell.profileImageView.kf.setImage(with: url)
             } else {
                 cell.profileImageView.image = UIImage(named: "icons8-edvard-munch")
+            }
+            
+            if let username = self.userData?.name {
+                cell.usernameLabel.text = username
+            } else {
+                cell.usernameLabel.text = "User Not Found"
             }
             
             return cell
@@ -114,11 +124,21 @@ extension ProfileViewController: UICollectionViewDataSource,
         if indexPath.section == 1 {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let postsVC = storyboard.instantiateViewController(identifier: "PostsViewController") as PostsViewController
-            
-            DispatchQueue.main.async {
-                postsVC.dataSource = self.postDataSource
-                postsVC.postIndex = indexPath.row
-                self.navigationController?.pushViewController(postsVC, animated: true)
+            scrollToIndex = indexPath.row
+            performSegue(withIdentifier: "openPersonalPosts", sender: nil)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "openPersonalPosts",
+           let destinationVC = segue.destination as? PostsViewController {
+            destinationVC.postIndex = scrollToIndex
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            FirebaseManager.shared.fetchAllByUserUid(in: .posts, userUid: uid) { (posts: [Post]) in
+                destinationVC.dataSource = posts
+                destinationVC.dataSource.sort { ($0.createdTime ?? .init())
+                    .compare($1.createdTime ?? .init()) == .orderedDescending }
+                destinationVC.collectionView.reloadData()
             }
         }
     }
@@ -131,6 +151,12 @@ extension ProfileViewController {
         let actionSheetController: UIAlertController = UIAlertController(
             title: nil, message: nil, preferredStyle: .actionSheet)
         
+        let deleteAccountAction: UIAlertAction = UIAlertAction(
+            title: "Delete Account",
+            style: .destructive) { [weak self] _ in
+                print("Delete account")
+                self?.deleteAccount()
+            }
         let signOutAction: UIAlertAction = UIAlertAction(
             title: "Log Out",
             style: .default) { _ in
@@ -145,17 +171,10 @@ extension ProfileViewController {
                 FirebaseManager.shared.userData = nil
                 self.changeRootVCToSignIn()
             }
-        
-        let deleteAccountAction: UIAlertAction = UIAlertAction(
-            title: "Delete Account",
-            style: .destructive) { [weak self] _ in
-                print("Delete account")
-                self?.deleteAccount()
-            }
-        
+
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel)
-        actionSheetController.addAction(signOutAction)
         actionSheetController.addAction(deleteAccountAction)
+        actionSheetController.addAction(signOutAction)
         actionSheetController.addAction(cancelAction)
         actionSheetController.popoverPresentationController?.sourceView = self.view
         self.present(actionSheetController, animated: true)
@@ -172,9 +191,7 @@ extension ProfileViewController {
             print("OK button clicked")
             // Perform the desired action here
             // Account deleted.
-            if let docId = self.userData?.id {
-                FirebaseManager.shared.delete(in: .users, docId: docId)
-            }
+            
             self.changeRootVCToSignIn()
         }
         
@@ -195,5 +212,73 @@ extension ProfileViewController {
         let loginNavController = storyboard.instantiateViewController(identifier: "SignInViewController")
         (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?
             .changeRootViewController(loginNavController)
+    }
+    
+    func deleteApple() {
+        let nonce = AuthManager.shared.randomNonceString()
+        currentNonce = nonce
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        request.nonce = AuthManager.shared.sha256(nonce)
+
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
+    
+    func deleteGoogle() {
+        // let user = Auth.auth().currentUser
+        // Prompt the user to re-provide their sign-in credentials
+        FirebaseManager.shared.signInGoogle(self) { credential in
+            FirebaseManager.shared.reauthenticateFirebase(credential: credential)
+        }
+    }
+}
+
+extension ProfileViewController: ASAuthorizationControllerDelegate {
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            // unique ID for the user
+            // let userID = appleIDCredential.user
+            // save it to user defaults
+            UserDefaults.standard.set(appleIDCredential.user, forKey: "userID")
+            
+            guard let nonce = currentNonce else {
+                fatalError("Invalid state: A login callback was received, but no login request was sent.")
+            }
+            guard let appleIDToken = appleIDCredential.identityToken else {
+                print("Unable to fetch identity token")
+                return
+            }
+            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+                print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+                return
+            }
+            guard let appleAuthCode = appleIDCredential.authorizationCode else {
+                print("Unable to fetch authorization code")
+                return
+            }
+            
+            guard let authCodeString = String(data: appleAuthCode, encoding: .utf8) else {
+                print("Unable to serialize auth code string from data: \(appleAuthCode.debugDescription)")
+                return
+            }
+            
+            FirebaseManager.shared.reauthenticateApple(
+                idTokenString: idTokenString,
+                nonce: nonce,
+                appleIDCredential: appleIDCredential) { credential in
+                    FirebaseManager.shared.reauthenticateFirebase(credential: credential)
+                }
+        }
+    }
+}
+
+extension ProfileViewController: ASAuthorizationControllerPresentationContextProviding {
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
     }
 }

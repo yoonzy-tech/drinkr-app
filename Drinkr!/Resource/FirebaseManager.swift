@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 import Firebase
 import FirebaseCore
 import FirebaseAuth
@@ -22,6 +21,7 @@ enum Collection: String {
     case cocktailDB
     case cocktails
     case users
+    case reportRequests
 }
 
 enum StoragePath: String {
@@ -74,26 +74,6 @@ class FirebaseManager {
             }
         }
     }
-    /*
-     db.collection("cities").whereField("state", isEqualTo: "CA")
-         .addSnapshotListener { querySnapshot, error in
-             guard let snapshot = querySnapshot else {
-                 print("Error fetching snapshots: \(error!)")
-                 return
-             }
-             snapshot.documentChanges.forEach { diff in
-                 if (diff.type == .added) {
-                     print("New city: \(diff.document.data())")
-                 }
-                 if (diff.type == .modified) {
-                     print("Modified city: \(diff.document.data())")
-                 }
-                 if (diff.type == .removed) {
-                     print("Removed city: \(diff.document.data())")
-                 }
-             }
-         }
-     */
     
     func listen(in collection: Collection, completion: (() -> Void)? = nil) {
         database.collection(collection.rawValue).addSnapshotListener { snapshot, error in
@@ -105,8 +85,6 @@ class FirebaseManager {
                 print("Failed to get listener snapshot")
                 return
             }
-            
-            
             snapshot.documentChanges.forEach { documentChange in
                 switch documentChange.type {
                 case .added:
@@ -418,8 +396,11 @@ extension FirebaseManager {
                 print(error.localizedDescription)
                 return
             }
+            // Get current user info
             guard let user = Auth.auth().currentUser else { return }
             let uid = user.uid
+            guard let email = user.email else { return }
+            
             // Check if has this user info in firebase
             self.checkUserAccountExist(uid: uid) { [weak self] exists, error in
                 if let error = error {
@@ -436,7 +417,6 @@ extension FirebaseManager {
                     
                 } else {
                     print("User does not exist in Firestore.")
-                    guard let email = user.email else { return }
                     
                     // Store user info to firebase
                     let user = User(
@@ -454,38 +434,57 @@ extension FirebaseManager {
         }
     }
     
-    func signInApple(nonce: String?, appleIDCredential: ASAuthorizationAppleIDCredential, completion: ((AuthCredential?, String) -> Void)? = nil) {
-        
-        guard let nonce = nonce else {
-            fatalError("Invalid state: A login callback was received, but no login request was sent.")
-        }
-        guard let appleIDToken = appleIDCredential.identityToken else {
-            print("Unable to fetch identity token")
-            return
-        }
-        guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-            print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
-            return
-        }
-        
-        var displayName: String = ""
-        
-        if let firstName = appleIDCredential.fullName?.givenName,
-           let lastName = appleIDCredential.fullName?.familyName {
-            displayName = "\(firstName) \(lastName)"
-            print(displayName)
-        }
+    func signInApple(idTokenString: String, nonce: String, appleIDCredential: ASAuthorizationAppleIDCredential, completion: ((AuthCredential?, String) -> Void)? = nil) {
+
         let credential = OAuthProvider.appleCredential(
             withIDToken: idTokenString,
             rawNonce: nonce,
             fullName: appleIDCredential.fullName
         )
         // only the first time will get the name, try change profile name
-        completion?(credential, Auth.auth().currentUser?.displayName ?? "Unknown Name from Firebase")
+        completion?(credential, Auth.auth().currentUser?.displayName ?? "Apple Sign in No Name Provided")
     }
     
-    func signInGoogle(_ viewController: UIViewController, completion: ((AuthCredential?) -> Void)? = nil) {
-        var credential: AuthCredential?
+    func reauthenticateApple(idTokenString: String, nonce: String, appleIDCredential: ASAuthorizationAppleIDCredential, completion: ((OAuthCredential) -> Void)? = nil) {
+        // Initialize a fresh Apple credential with Firebase.
+        let credential = OAuthProvider.credential(
+            withProviderID: "apple.com",
+            idToken: idTokenString,
+            rawNonce: nonce
+        )
+        completion?(credential)
+    }
+    
+    func reauthenticateFirebase(credential: AuthCredential) {
+        // Reauthenticate current Apple user with fresh Apple credential.
+        Auth.auth().currentUser?.reauthenticate(with: credential) { (_, error) in
+            guard error != nil else { return }
+            // Apple user successfully re-authenticated.
+            // Only when requestDeleteAccount is true will execute
+            // Delete data related to this user uid
+            // Delete this user profile data
+            // Delete user account in firebase
+            self.deleteAccout()
+        }
+    }
+    
+    func deleteAccout() {
+        let user = Auth.auth().currentUser
+        user?.delete { error in
+          if let error = error {
+              print(error.localizedDescription)
+          } else {
+            // Account deleted. Delete all the user's data in firebase
+              if let docId = self.userData?.id {
+                  FirebaseManager.shared.delete(in: .users, docId: docId)
+              } else {
+                  print("Need User Doc Id to delete user data.")
+              }
+          }
+        }
+    }
+    
+    func signInGoogle(_ viewController: UIViewController, completion: ((AuthCredential) -> Void)? = nil) {
         if let clientID = FirebaseApp.app()?.options.clientID {
             let config = GIDConfiguration(clientID: clientID)
             GIDSignIn.sharedInstance.configuration = config
@@ -495,11 +494,10 @@ extension FirebaseManager {
             guard let user = result?.user,
                   let idToken = user.idToken?.tokenString else { return }
             
-            credential = GoogleAuthProvider.credential(
+             let credential = GoogleAuthProvider.credential(
                 withIDToken: idToken,
                 accessToken: user.accessToken.tokenString
-            )
-            
+             )
             completion?(credential)
         }
         

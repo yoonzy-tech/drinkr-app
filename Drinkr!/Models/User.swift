@@ -22,4 +22,6 @@ struct User: Codable {
     var favoriteCocktails: [FavDrink] = []
     var favoritePlaces: [FavPlace] =  []
     var posts: [String] = []
+    
+    // var blackList: [String] = []
 }

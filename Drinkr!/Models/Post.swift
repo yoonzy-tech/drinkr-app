@@ -31,3 +31,9 @@ struct Comment: Codable {
     var text: String
     var createdTime: Timestamp?
 }
+
+struct Report: Codable {
+    var createdTime: Timestamp?
+    var fromUserUid: String
+    var postId: String
+}

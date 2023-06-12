@@ -35,7 +35,7 @@ class PostCollectionViewCell: UICollectionViewCell {
                 print("User has no profile image")
                 self.userProfileImageView.image = UIImage(named: "icons8-edvard-munch")
             }
-            
+            // Could be user not found
             self.usernameLabel.text = userData.name
             self.captionUsernameLabel.text = userData.name
 

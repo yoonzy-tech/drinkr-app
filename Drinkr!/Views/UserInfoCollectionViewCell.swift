@@ -10,6 +10,7 @@ import FirebaseAuth
 
 class UserInfoCollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var followRequestButton: UIButton!
     @IBOutlet weak var favoriteCocktailsButton: UIButton!
     @IBOutlet weak var favoriteBarsButton: UIButton!
@@ -24,24 +25,6 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
         profileImageView.clipsToBounds = true
         favoriteCocktailsButton.layer.cornerRadius = 8
         favoriteBarsButton.layer.cornerRadius = 8
-        followRequestButton.layer.cornerRadius = followRequestButton.frame.width / 2
-        
-//        favoriteBarsButton.layer.masksToBounds = false
-//        favoriteBarsButton.layer.shadowColor = UIColor.darkGray.cgColor
-//        favoriteBarsButton.layer.shadowOpacity = 0.5
-//        favoriteBarsButton.layer.shadowOffset = CGSize(width: 1, height: 0.5)
-//        favoriteBarsButton.layer.shadowRadius = 3
-//
-//        favoriteCocktailsButton.layer.masksToBounds = false
-//        favoriteCocktailsButton.layer.shadowColor = UIColor.darkGray.cgColor
-//        favoriteCocktailsButton.layer.shadowOpacity = 0.5
-//        favoriteCocktailsButton.layer.shadowOffset = CGSize(width: 1, height: 0.5)
-//        favoriteCocktailsButton.layer.shadowRadius = 4
-        
-//        followRequestButton.layer.masksToBounds = false
-//        followRequestButton.layer.shadowColor = UIColor.darkGray.cgColor
-//        followRequestButton.layer.shadowOpacity = 0.3
-//        followRequestButton.layer.shadowOffset = CGSize(width: 1, height: 0.5)
-//        followRequestButton.layer.shadowRadius = 5
+        followRequestButton.layer.cornerRadius = 8
     }
 }

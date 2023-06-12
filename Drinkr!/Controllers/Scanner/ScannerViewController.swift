@@ -51,7 +51,7 @@ class ScannerViewController: UIViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+        super.viewDidDisappear(animated)
         imageView.image = UIImage(named: "beer can")
         itemLabel.text = "Take a photo or choose from library to scan"
     }

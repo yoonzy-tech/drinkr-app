@@ -8,6 +8,7 @@
 import UIKit
 import MJRefresh
 import FirebaseFirestore
+import FirebaseAuth
 
 class ScanHistoryViewController: UIViewController {
     
@@ -28,6 +29,8 @@ class ScanHistoryViewController: UIViewController {
         
         updateDataSource()
         
+        // Add listener that the current user is following
+        
         tableView.mj_header = MJRefreshNormalHeader()
         tableView.mj_header?.setRefreshingTarget(self, refreshingAction: #selector(refreshData))
     }
@@ -38,7 +41,8 @@ class ScanHistoryViewController: UIViewController {
     }
     
     private func updateDataSource() {
-        guard let userUid = FirebaseManager.shared.userUid else { return }
+        guard let userUid = Auth.auth().currentUser?.uid else { return }
+        
         FirebaseManager.shared.fetchAllByUserUid(
             in: .scanHistories,
             userUid: userUid) { (scanHistories: [ScanHistory]) in
