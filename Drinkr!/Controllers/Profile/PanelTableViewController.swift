@@ -187,7 +187,5 @@ extension PanelTableViewController {
             FirebaseManager.shared.update(in: .users, docId: docId, data: currentUserData)
             self.fetchUserData()
         }
-        
-        
     }
 }

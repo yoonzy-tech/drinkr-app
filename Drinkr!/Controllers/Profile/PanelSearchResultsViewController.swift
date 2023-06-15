@@ -78,18 +78,21 @@ extension PanelSearchResultsViewController: UITableViewDataSource, UITableViewDe
 extension PanelSearchResultsViewController {
     @objc func follow(_ sender: UIButton) {
         sender.isEnabled = false
-        guard var currentUserData = currentUser else { return }
         
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        // B: Add A in Follower
-        FirebaseManager.shared.fetchAccountInfo(uid: dataSource[sender.tag].uid) { otherUserData in
-            var newOtherUserData = otherUserData
-            newOtherUserData.follower.append(currentUserData.uid)
-            FirebaseManager.shared.update(in: .users, docId: otherUserData.id ?? "Unknown User Doc Id", data: newOtherUserData)
+        FirebaseManager.shared.fetchAccountInfo(uid: uid) { userData in
+            // A -> Current User ; B -> To Follow
+            var currentUser = userData
+            var otherUser = self.dataSource[sender.tag]
             
             // A: Add B in Following
-            currentUserData.following.append(self.dataSource[sender.tag].uid)
-            FirebaseManager.shared.update(in: .users, docId: currentUserData.id ?? "Unknown User Doc Id", data: currentUserData)
+            currentUser.following.append(otherUser.uid)
+            FirebaseManager.shared.update(in: .users, docId: currentUser.id ?? "Unknown User Doc Id", data: currentUser)
+            
+            // B: Add A in Follower
+            otherUser.follower.append(currentUser.uid)
+            FirebaseManager.shared.update(in: .users, docId: otherUser.id ?? "Unknown User Doc Id", data: otherUser)
         }
     }
 }

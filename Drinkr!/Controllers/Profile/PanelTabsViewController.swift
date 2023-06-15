@@ -112,33 +112,6 @@ class PanelTabsViewController: UIViewController {
             searchResultContainerView.addSubview(resultsVC.view)
             resultsVC.didMove(toParent: self)
         }
-        
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        FirebaseManager.shared.listen(in: .users) {
-            FirebaseManager.shared.fetchAccountInfo(uid: uid) { userData in
-                
-                guard let panelListVC = storyboard
-                 .instantiateViewController(withIdentifier: "PanelTableViewController")
-                         as? PanelTableViewController else { return }
-                panelListVC.followerDataSource = userData.follower
-                panelListVC.followerDataSource = userData.follower
-                panelListVC.blocklistDataSource = userData.block
-                
-                FirebaseManager.shared.search(in: .users, value: self.searchBar.text ?? "", key: "name") { (users: [User]) in
-                    // Search filter out the ones in block list and blockedby list
-                    guard let uid = Auth.auth().currentUser?.uid else { return }
-                    FirebaseManager.shared.fetchAccountInfo(uid: uid) { currentUser in
-                        let blocklist = userData.block
-                        let blockedBy = userData.blockedBy
-                        var filterOutUsers = blocklist + blockedBy
-                        filterOutUsers.append(uid)
-                        let searchResults = users.filter { !filterOutUsers.contains($0.uid) }
-                        self.searchResults = searchResults
-                        self.resultsVC?.update(with: searchResults)
-                    }
-                }
-            }
-        }
     }
     
     @objc func handleTap() {
