@@ -11,7 +11,6 @@ import FirebaseAuth
 class UserInfoCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var followRequestButton: UIButton!
     @IBOutlet weak var favoriteCocktailsButton: UIButton!
     @IBOutlet weak var favoriteBarsButton: UIButton!
     @IBOutlet weak var profileImageView: UIImageView!
@@ -19,12 +18,12 @@ class UserInfoCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var followerCountLabel: UILabel!
     @IBOutlet weak var postCountLabel: UILabel!
     
-    func prepareCell(postCount: Int) {
+    func prepareCell(postCount: Int, follower: Int, following: Int) {
+        followerCountLabel.text = "\(follower)"
+        followingCountLabel.text = "\(following)"
         postCountLabel.text = "\(postCount)"
-        profileImageView.layer.cornerRadius = profileImageView.frame.size.width / 2
-        profileImageView.clipsToBounds = true
+        profileImageView.layer.cornerRadius = profileImageView.frame.width / 2
         favoriteCocktailsButton.layer.cornerRadius = 8
         favoriteBarsButton.layer.cornerRadius = 8
-        followRequestButton.layer.cornerRadius = 8
     }
 }

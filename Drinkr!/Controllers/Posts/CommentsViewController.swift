@@ -163,7 +163,8 @@ extension CommentsViewController: UITableViewDataSource, UITableViewDelegate {
                 data: postDataSource
             )
             // Update local dataSource
-            FirebaseManager.shared.fetchByDocId(in: .posts, docId: postDataSource?.id ?? "Unknown Doc Id") { (data: Post) in
+            FirebaseManager.shared.fetchByDocId(in: .posts,
+                                                docId: postDataSource?.id ?? "Unknown Doc Id") { (data: Post) in
                 self.postDataSource = data
                 tableView.reloadData()
             }

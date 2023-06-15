@@ -21,69 +21,6 @@ final class GooglePlacesManager {
     public let client = GMSPlacesClient.shared()
     
     private init() {}
-
-    //    public func searchNearbyBars(with nextPageToken: String? = nil, completion: ((Result<Data, Error>) -> Void)? = nil) {
-    //
-    //        let location  = "25.03028805128867,121.53062812349258"
-    //        let radius = 50000
-    //        let type = "bar"
-    //        let language = "zh-TW"
-    //
-    //        var api = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(location)&radius=\(radius)&language=\(language)&type=\(type)&key=\(GMSPlacesAPIKey)"
-    //
-    //        if let nextPageToken = nextPageToken {
-    //            api += "&pagetoken=\(nextPageToken)"
-    //        }
-    //
-    //        guard let url = URL(string: api) else {
-    //            print("Invalid URL")
-    //            return
-    //        }
-    //
-    //        let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
-    //            if let error = error {
-    //                print("Error fetching next page: \(error)")
-    //                completion?(.failure(error))
-    //                return
-    //            }
-    //
-    //            if let data = data {
-    //                do {
-    //                    let decoder = JSONDecoder()
-    //                    let response = try decoder.decode(PlacesResponse.self, from: data)
-    //
-    //                    completion?(.success(data))
-    //
-    //                    if let nextPageToken = response.nextPageToken {
-    //                        // Request the next page if there is a next page token
-    //                        self?.searchNearbyBars(with: nextPageToken)
-    //                    }
-    //
-    //                } catch {
-    //                    print("Error decoding response: \(error)")
-    //                }
-    //            }
-    //        }
-    //        task.resume()
-    //    }
-    //
-    //    func decodeBarDataToStoreFirebase() {
-    //        self.searchNearbyBars { result in
-    //            switch result {
-    //            case .success(let data):
-    //                let decoder = JSONDecoder()
-    //                do {
-    //                    let placesResponse = try decoder.decode(PlacesResponse.self, from: data)
-    //                    FirebaseManager.shared.create(in: .places, data: placesResponse)
-    //                    FFSManager.shared.addBars(placeResponse: placesResponse.results)
-    //                } catch {
-    //                    print("Decoding error: \(error)")
-    //                }
-    //            case .failure(let error):
-    //                print("Error fetching data: \(error)")
-    //            }
-    //        }
-    //    }
     
     func sendApiRequest(with nextPageToken: String? = nil) {
         let location  = "25.03028805128867,121.53062812349258"
@@ -95,7 +32,7 @@ final class GooglePlacesManager {
 //        let location = "25.04989055391903,121.51036693875808"
 //        let location = "25.033766771602156,121.50036622630114"
         let radius = 50000
-        let type = "bar"
+        let type = "bar" // pub, bistro, restaurant, club
         let language = "zh-TW"
         
         var api = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(location)&radius=\(radius)&language=\(language)&type=\(type)&key=\(GMSPlacesAPIKey)"

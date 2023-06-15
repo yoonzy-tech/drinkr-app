@@ -33,13 +33,12 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        retrieveUserData()
         collectionView.dataSource = self
         collectionView.delegate = self
         
         collectionView.mj_header = MJRefreshNormalHeader()
         collectionView.mj_header?.setRefreshingTarget(self, refreshingAction: #selector(refreshData))
-        
+        retrieveUserData()
     }
     
     @objc func refreshData() {
@@ -69,11 +68,7 @@ extension ProfileViewController: UICollectionViewDataSource,
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
-        } else {
-            return postDataSource.count
-        }
+        section == 0 ? 1 : postDataSource.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -83,15 +78,17 @@ extension ProfileViewController: UICollectionViewDataSource,
                 withReuseIdentifier: "UserInfoCollectionViewCell", for: indexPath) as? UserInfoCollectionViewCell
             else { fatalError("Unable to generate User Info Collection View Cell") }
            
-            cell.prepareCell(postCount: postDataSource.count)
+            cell.prepareCell(postCount: postDataSource.count,
+                             follower: userData?.follower.count ?? 15,
+                             following: userData?.following.count ?? 20)
             
             if let urlString = userData?.profileImageUrl, let url = URL(string: urlString) {
                 cell.profileImageView.kf.setImage(with: url)
             } else {
                 cell.profileImageView.image = UIImage(named: "icons8-edvard-munch")
             }
-            
-            if let username = self.userData?.name {
+//            Auth.auth().currentUser?.displayName
+            if let username = userData?.name {
                 cell.usernameLabel.text = username
             } else {
                 cell.usernameLabel.text = "User Not Found"
@@ -113,17 +110,13 @@ extension ProfileViewController: UICollectionViewDataSource,
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let screen = UIScreen.main.bounds
         let screenWidth = screen.size.width
-        if indexPath.section == 0 {
-            return CGSize(width: screenWidth, height: 280)
-        } else {
-            return CGSize(width: (screenWidth / 3.0) - 1, height: (screenWidth / 3.0) - 1)
-        }
+        return indexPath.section == 0 ?
+        CGSize(width: screenWidth, height: 280) :
+        CGSize(width: (screenWidth / 3.0) - 1, height: (screenWidth / 3.0) - 1)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.section == 1 {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let postsVC = storyboard.instantiateViewController(identifier: "PostsViewController") as PostsViewController
             scrollToIndex = indexPath.row
             performSegue(withIdentifier: "openPersonalPosts", sender: nil)
         }
@@ -169,7 +162,7 @@ extension ProfileViewController {
                 }
                 FirebaseManager.shared.userUid = nil
                 FirebaseManager.shared.userData = nil
-                self.changeRootVCToSignIn()
+                Utils.changeRootVCToSignIn()
             }
 
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel)
@@ -183,35 +176,24 @@ extension ProfileViewController {
     func deleteAccount() {
         let alertController = UIAlertController(
             title: "🚨 Alert",
-            message: "Are you sure to delete your account?",
+            message: "Do you want to proceed? \nDelete account will require re-authentication. ",
             preferredStyle: .alert
         )
-        
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { (_) in
-            print("OK button clicked")
-            // Perform the desired action here
+        let deleteAction = UIAlertAction(title: "Yes, Delete", style: .destructive) { (_) in
+            print("Delete button clicked")
             // Account deleted.
-            
-            self.changeRootVCToSignIn()
+            if let providerID = Auth.auth().currentUser?.providerData.first?.providerID, providerID == "apple.com" {
+                self.deleteApple()
+                print("Delete Apple Account")
+            } else {
+                self.deleteGoogle()
+                print("Delete Google Account")
+            }
         }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
-            print("Cancel button clicked")
-            // Perform an alternate action or simply dismiss the alert
-        }
-        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         alertController.addAction(deleteAction)
         alertController.addAction(cancelAction)
-        
-        // Present the alert controller
         self.present(alertController, animated: true, completion: nil)
-    }
-    
-    func changeRootVCToSignIn() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let loginNavController = storyboard.instantiateViewController(identifier: "SignInViewController")
-        (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?
-            .changeRootViewController(loginNavController)
     }
     
     func deleteApple() {
@@ -229,8 +211,6 @@ extension ProfileViewController {
     }
     
     func deleteGoogle() {
-        // let user = Auth.auth().currentUser
-        // Prompt the user to re-provide their sign-in credentials
         FirebaseManager.shared.signInGoogle(self) { credential in
             FirebaseManager.shared.reauthenticateFirebase(credential: credential)
         }
@@ -241,10 +221,6 @@ extension ProfileViewController: ASAuthorizationControllerDelegate {
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            // unique ID for the user
-            // let userID = appleIDCredential.user
-            // save it to user defaults
-            UserDefaults.standard.set(appleIDCredential.user, forKey: "userID")
             
             guard let nonce = currentNonce else {
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
@@ -261,12 +237,10 @@ extension ProfileViewController: ASAuthorizationControllerDelegate {
                 print("Unable to fetch authorization code")
                 return
             }
-            
-            guard let authCodeString = String(data: appleAuthCode, encoding: .utf8) else {
+            guard String(data: appleAuthCode, encoding: .utf8) != nil else {
                 print("Unable to serialize auth code string from data: \(appleAuthCode.debugDescription)")
                 return
             }
-            
             FirebaseManager.shared.reauthenticateApple(
                 idTokenString: idTokenString,
                 nonce: nonce,

@@ -9,7 +9,6 @@ import UIKit
 
 class FavoriteCocktailTableViewCell: UITableViewCell {
 
-    
     @IBOutlet weak var cocktailImageView: UIImageView!
     
     @IBOutlet weak var cocktailNameLabel: UILabel!

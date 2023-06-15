@@ -77,3 +77,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         appearance.standardAppearance = newNavBarAppearance
     }
 }
+// swiftlint:enable line_length

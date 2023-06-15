@@ -4,7 +4,7 @@
 //
 //  Created by Ruby Chew on 2023/5/24.
 //
-// TODO: Fix Posts Data Source Query (Now just fetch all in DB)
+
 import UIKit
 import AVFoundation
 import Firebase
@@ -12,6 +12,7 @@ import MJRefresh
 import Kingfisher
 import IQKeyboardManagerSwift
 import Lottie
+import ProgressHUD
 
 enum Liked {
     case yes
@@ -70,7 +71,6 @@ class PostsViewController: UIViewController {
             self.animationView?.stop()
             self.audioPlayer?.stop()
             self.animationView?.removeFromSuperview()
-            
         }
     }
     
@@ -121,7 +121,15 @@ class PostsViewController: UIViewController {
         
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap))
         tapGesture?.numberOfTouchesRequired = 2
-        updateDataSource()
+        
+        if let index = navigationController?.viewControllers.count, index >= 1 {
+            self.collectionView.reloadData()
+        } else {
+            updateDataSource()
+            FirebaseManager.shared.listen(in: .posts) {
+                self.updateDataSource()
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -138,6 +146,8 @@ class PostsViewController: UIViewController {
         super.viewDidAppear(animated)
         if let index = postIndex {
             collectionView.scrollToItem(at: IndexPath(row: index, section: 0), at: .top, animated: true)
+        } else {
+            updateDataSource()
         }
     }
     
@@ -178,11 +188,18 @@ class PostsViewController: UIViewController {
     }
     
     private func updateDataSource() {
-        FirebaseManager.shared.fetchAll(in: .posts) { [weak self] (posts: [Post]) in
-            self?.dataSource = posts
-            self?.dataSource.sort { ($0.createdTime ?? .init())
-                .compare($1.createdTime ?? .init()) == .orderedDescending }
-            self?.collectionView.reloadData()
+        FirebaseManager.shared.fetchAccountInfo(uid: currentUserUid ?? "Unknown User Uid") { currentUserData in
+            
+            var followingList = currentUserData.following
+            followingList.append(currentUserData.uid)
+            
+            FirebaseManager.shared.fetchAll(in: .posts) { [weak self] (posts: [Post]) in
+                let filteredPosts = posts.filter { followingList.contains($0.userUid) }
+                self?.dataSource = filteredPosts
+                self?.dataSource.sort { ($0.createdTime ?? .init())
+                    .compare($1.createdTime ?? .init()) == .orderedDescending }
+                self?.collectionView.reloadData()
+            }
         }
     }
 }
@@ -213,7 +230,7 @@ extension PostsViewController: UICollectionViewDataSource,
         cell.likeButton.tag = indexPath.row
         cell.likeButton.addTarget(self, action: #selector(likes), for: .touchUpInside)
         
-        if let userUid = FirebaseManager.shared.userUid {
+        if let userUid = Auth.auth().currentUser?.uid {
             let bool = dataSource[indexPath.row].likes.contains(userUid)
             cell.likeButton.setImage(bool ? UIImage(named: "cheers.fill") : UIImage(named: "cheers"), for: .normal)
         }
@@ -235,7 +252,7 @@ extension PostsViewController: UICollectionViewDataSource,
 extension PostsViewController {
     @objc func likes(_ sender: UIButton) {
         // Get user uid (current user)
-        guard let currentUserUid = FirebaseManager.shared.userUid else { return }
+        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
         // Get this post data
         let index = sender.tag
         var post = dataSource[index]
@@ -269,18 +286,19 @@ extension PostsViewController {
         postData = dataSource[sender.tag]
         let actionSheetController: UIAlertController = UIAlertController(
             title: nil, message: nil, preferredStyle: .actionSheet)
-        let isAuthor = FirebaseManager.shared.userUid == postData?.userUid
+        
+        let isAuthor = Auth.auth().currentUser?.uid == postData?.userUid
+        
         if  isAuthor {
             let editAction: UIAlertAction = UIAlertAction(
                 title: "Edit", style: .default) { [weak self] _ in
-                    self?.performSegue(withIdentifier: "editCaptionSegue", sender: sender)
-                }
+                    self?.performSegue(withIdentifier: "editCaptionSegue", sender: sender) }
             let deleteAction: UIAlertAction = UIAlertAction(
                 title: "Delete", style: .destructive) { [weak self] _ in
                     FirebaseManager.shared.delete(
                         in: .posts, docId: self?.dataSource[sender.tag].id ?? "Unknown Doc Id") {
                         self?.updateDataSource()
-                    }
+                        }
                     FirebaseManager.shared.deleteFile(
                         to: .posts, imageRef: self?.dataSource[sender.tag].imageRef ?? "Unknown Image Ref"
                     )
@@ -288,28 +306,43 @@ extension PostsViewController {
             actionSheetController.addAction(editAction)
             actionSheetController.addAction(deleteAction)
         } else {
-            // TODO: Others Post: Report, Share
-//            let shareAction: UIAlertAction = UIAlertAction(
-//                title: "Share", style: .default) { _ in
-//                    print("Share a post")
-//                }
             let reportAction: UIAlertAction = UIAlertAction(
                 title: "Report post", style: .destructive) { _ in
-                    print("Report a post")
-                    // Send a report request
                     let report = Report(
                         fromUserUid: Auth.auth().currentUser?.uid ?? "User UID Not Found to report",
                         postId: self.postData?.id ?? "Unknown Post ID to report")
                     FirebaseManager.shared.create(in: .reportRequests, data: report)
+                    self.showProgressHud(text: "Reported Successfully")
                 }
             let blockUserAction: UIAlertAction = UIAlertAction(
                 title: "Block user", style: .destructive) { _ in
-                    print("Block user")
-                    // Unable to see posts from this user
-                    // Remove from following list
-                    // Add to blacklist
+                    guard let currentUserUid = self.currentUserUid,
+                          let blockUid = self.postData?.userUid else {
+                        return
+                    }
+                    FirebaseManager.shared.fetchAccountInfo(uid: currentUserUid) { currentUserData in
+                        var newCurrentUserData = currentUserData
+                        newCurrentUserData.block.append(blockUid)
+                        newCurrentUserData.follower.removeAll { $0 == blockUid}
+                        newCurrentUserData.following.removeAll { $0 == blockUid}
+                        FirebaseManager.shared.update(in: .users,
+                                                      docId: currentUserData.id ?? "Unknown User Doc Id",
+                                                      data: newCurrentUserData)
+                        self.updateDataSource()
+                        self.showProgressHud(text: "Blocked Successfully")
+                        
+                        // B: Add A to BlockBy
+                        FirebaseManager.shared.fetchAccountInfo(uid: blockUid) { otherUserData in
+                            var newOtherUserData = otherUserData
+                            newOtherUserData.blockedBy.append(currentUserUid)
+                            newOtherUserData.follower.removeAll { $0 == currentUserUid }
+                            newOtherUserData.following.removeAll { $0 == currentUserUid }
+                            FirebaseManager.shared.update(in: .users,
+                                                          docId: otherUserData.id ?? "Unknown User Doc Id",
+                                                          data: newOtherUserData)
+                        }
+                    }
                 }
-//            actionSheetController.addAction(shareAction)
             actionSheetController.addAction(reportAction)
             actionSheetController.addAction(blockUserAction)
         }
@@ -319,5 +352,10 @@ extension PostsViewController {
         self.present(actionSheetController, animated: true) {
             print("option menu presented")
         }
+    }
+    
+    func showProgressHud(text: String) {
+        ProgressHUD.colorAnimation = UIColor(hexString: AppColor.blue.rawValue)
+        ProgressHUD.showSucceed(text, delay: 1.5)
     }
 }

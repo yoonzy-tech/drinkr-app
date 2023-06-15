@@ -86,7 +86,8 @@ extension FavoriteBarsViewController: UITableViewDataSource, UITableViewDelegate
                 }
                 
                 cell.barAddressLabel.text = placeDetails.vicinity
-                cell.barOpenTimeLabel.text = placeDetails.openingHours?["opening_hours"] ?? false ? "Open now" : "Closed"
+                cell.barOpenTimeLabel.text = placeDetails.openingHours?["opening_hours"] ?? false ?
+                "Open now" : "Closed"
                 // price level, open hours
             }
         

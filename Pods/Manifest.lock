@@ -4,6 +4,7 @@ PODS:
   - IQKeyboardManagerSwift (6.5.11)
   - Kingfisher (7.6.2)
   - MJRefresh (3.7.5)
+  - ProgressHUD (13.6.2)
   - SwiftLint (0.52.2)
 
 DEPENDENCIES:
@@ -12,6 +13,7 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - Kingfisher
   - MJRefresh
+  - ProgressHUD
   - SwiftLint
 
 SPEC REPOS:
@@ -21,6 +23,7 @@ SPEC REPOS:
     - IQKeyboardManagerSwift
     - Kingfisher
     - MJRefresh
+    - ProgressHUD
     - SwiftLint
 
 SPEC CHECKSUMS:
@@ -29,8 +32,9 @@ SPEC CHECKSUMS:
   IQKeyboardManagerSwift: c7955c0bdbf7b2eb29bb7daaa44e3d90f55a9a85
   Kingfisher: 6c5449c6450c5239166510ba04afe374a98afc4f
   MJRefresh: fdf5e979eb406a0341468932d1dfc8b7f9fce961
+  ProgressHUD: 355915c8f033e626788fa9b0d99d06e8691595ab
   SwiftLint: 1ac76dac888ca05cb0cf24d0c85887ec1209961d
 
-PODFILE CHECKSUM: 023cc45c9b7b91bf90bace45b39d2950f2029833
+PODFILE CHECKSUM: 351a418af03e1ba4ec041a856e62a9bc7343fc20
 
 COCOAPODS: 1.12.0

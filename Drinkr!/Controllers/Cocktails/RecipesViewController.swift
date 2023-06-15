@@ -54,7 +54,7 @@ class RecipesViewController: UIViewController {
     }
     
     private func updateDataSource() {
-        FirebaseManager.shared.fetchAll(in: .cocktailDB) { (drinks: [Drink]) in
+        FirebaseManager.shared.fetchAll(in: .cocktails) { (drinks: [Drink]) in
             self.dataSource = drinks
         }
     }
@@ -84,7 +84,9 @@ extension RecipesViewController: UISearchResultsUpdating, CocktailsResultsViewCo
     func didTapDrink(with drinkDetails: Drink, drinkName: String) {
         searchVC.searchBar.resignFirstResponder()
         // Create an instance of the destination view controller
-        guard let destinationViewController = self.storyboard?.instantiateViewController(withIdentifier: "DrinkDetailsViewController") as? DrinkDetailsViewController else { return }
+        guard let destinationViewController = self.storyboard?
+            .instantiateViewController(withIdentifier: "DrinkDetailsViewController")
+                as? DrinkDetailsViewController else { return }
         destinationViewController.title = drinkName
         destinationViewController.drinkDetails = drinkDetails
         // Push the destination view controller onto the navigation stack
@@ -119,7 +121,9 @@ extension RecipesViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         // Create an instance of the destination view controller
-       guard let destinationViewController = storyboard?.instantiateViewController(withIdentifier: "DrinkDetailsViewController") as? DrinkDetailsViewController else { return }
+       guard let destinationViewController = storyboard?
+        .instantiateViewController(withIdentifier: "DrinkDetailsViewController")
+                as? DrinkDetailsViewController else { return }
         destinationViewController.title = dataSource[indexPath.row].strDrink
         destinationViewController.drinkDetails = dataSource[indexPath.row]
         // Push the destination view controller onto the navigation stack

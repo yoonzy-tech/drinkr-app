@@ -10,6 +10,7 @@ import CoreML
 import Photos
 import PhotosUI
 import FirebaseFirestore
+import FirebaseAuth
 import Lottie
 
 class ScannerViewController: UIViewController {
@@ -140,7 +141,10 @@ extension ScannerViewController: PHPickerViewControllerDelegate {
                     
                     // Get Model Prediction
                     guard let pixelBuffer = image.pixelBuffer(width: 299, height: 299),
-                          let prediction = try? self.model?.prediction(image: pixelBuffer) else { return }
+                          let prediction = try? self.model?.prediction(image: pixelBuffer) else {
+                        print("Error getting image")
+                        return
+                    }
                     
                     self.uploadCreateScanHistory(imageData: imageData, brandName: prediction.classLabel)
 
@@ -157,7 +161,7 @@ extension ScannerViewController: PHPickerViewControllerDelegate {
     func uploadCreateScanHistory(imageData: Data, brandName: String) {
         // Store Scan History to DB
         FirebaseManager.shared.uploadFile(to: .scanHistories, imageData: imageData) { imageRef, imageUrl in
-            guard let userUid = FirebaseManager.shared.userUid else { return }
+            guard let userUid = Auth.auth().currentUser?.uid else { return }
             let scanHistory = ScanHistory(
                 userUid: userUid,
                 brandName: brandName,

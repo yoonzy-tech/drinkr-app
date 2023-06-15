@@ -24,15 +24,15 @@ extension CameraViewController {
         ])
         
         // Add "Tag Friends" button
-        view.addSubview(tagFriendsButton)
-        NSLayoutConstraint.activate([
-            tagFriendsButton.trailingAnchor.constraint(
-                equalTo: captionButton.leadingAnchor, constant: -10),
-            tagFriendsButton.centerYAnchor.constraint(
-                equalTo: captionButton.centerYAnchor),
-            tagFriendsButton.widthAnchor.constraint(equalToConstant: 120),
-            tagFriendsButton.heightAnchor.constraint(equalToConstant: 40)
-        ])
+//        view.addSubview(tagFriendsButton)
+//        NSLayoutConstraint.activate([
+//            tagFriendsButton.trailingAnchor.constraint(
+//                equalTo: captionButton.leadingAnchor, constant: -10),
+//            tagFriendsButton.centerYAnchor.constraint(
+//                equalTo: captionButton.centerYAnchor),
+//            tagFriendsButton.widthAnchor.constraint(equalToConstant: 120),
+//            tagFriendsButton.heightAnchor.constraint(equalToConstant: 40)
+//        ])
         
         // Add Discard button
         view.addSubview(discardButton)

@@ -84,7 +84,8 @@ extension FavoriteCocktailsViewController: UITableViewDataSource, UITableViewDel
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let destinationViewController = storyboard?.instantiateViewController(withIdentifier: "DrinkDetailsViewController")
+        guard let destinationViewController = storyboard?
+            .instantiateViewController(withIdentifier: "DrinkDetailsViewController")
                 as? DrinkDetailsViewController else { return }
         
         FirebaseManager.shared.fetchOne(

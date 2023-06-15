@@ -55,9 +55,10 @@ class FirebaseManager {
     }
     
     // MARK: Update
-    func update<T: Codable>(in collection: Collection, docId: String, data: T, completion: (([T]) -> Void)? = nil) {
+    func update<T: Codable>(in collection: Collection, docId: String, data: T, completion: (() -> Void)? = nil) {
         do {
             try database.collection(collection.rawValue).document(docId).setData(from: data)
+            completion?()
         } catch {
             print(error)
         }
@@ -441,8 +442,12 @@ extension FirebaseManager {
             rawNonce: nonce,
             fullName: appleIDCredential.fullName
         )
+        let firstName = appleIDCredential.fullName?.givenName ?? "Unknown"
+        let lastName = appleIDCredential.fullName?.familyName ?? "User"
+        let fullName = "\(firstName) \(lastName)"
+        
         // only the first time will get the name, try change profile name
-        completion?(credential, Auth.auth().currentUser?.displayName ?? "Apple Sign in No Name Provided")
+        completion?(credential, fullName)
     }
     
     func reauthenticateApple(idTokenString: String, nonce: String, appleIDCredential: ASAuthorizationAppleIDCredential, completion: ((OAuthCredential) -> Void)? = nil) {
@@ -458,12 +463,11 @@ extension FirebaseManager {
     func reauthenticateFirebase(credential: AuthCredential) {
         // Reauthenticate current Apple user with fresh Apple credential.
         Auth.auth().currentUser?.reauthenticate(with: credential) { (_, error) in
-            guard error != nil else { return }
-            // Apple user successfully re-authenticated.
-            // Only when requestDeleteAccount is true will execute
+            if let error = error {
+                print("Re-auth Error: \(error.localizedDescription)")
+                return
+            }
             // Delete data related to this user uid
-            // Delete this user profile data
-            // Delete user account in firebase
             self.deleteAccout()
         }
     }
@@ -477,6 +481,7 @@ extension FirebaseManager {
             // Account deleted. Delete all the user's data in firebase
               if let docId = self.userData?.id {
                   FirebaseManager.shared.delete(in: .users, docId: docId)
+                  Utils.changeRootVCToSignIn()
               } else {
                   print("Need User Doc Id to delete user data.")
               }
@@ -503,11 +508,3 @@ extension FirebaseManager {
         
     }
 }
-
-/*
-
- FirestoreManager.shared.fetch(in: .posts) { (posts: [DPost]) in
-    print(posts)
- }
- 
- */

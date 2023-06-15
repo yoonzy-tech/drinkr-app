@@ -77,7 +77,7 @@ extension ScanHistoryViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        guard let userUid = FirebaseManager.shared.userUid else { return }
+        guard let userUid = Auth.auth().currentUser?.uid else { return }
         if editingStyle == .delete {
             // Update Firestore
             FirebaseManager.shared.delete(in: .scanHistories, docId: dataSource[indexPath.row].id ?? "Unknown Doc Id")

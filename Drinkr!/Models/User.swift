@@ -18,10 +18,12 @@ struct User: Codable {
     var createdTime: Timestamp?
     var isActive: Bool = true
     
-    var friends: [String] = []
     var favoriteCocktails: [FavDrink] = []
     var favoritePlaces: [FavPlace] =  []
     var posts: [String] = []
     
-    // var blackList: [String] = []
+    var follower: [String] = []
+    var following: [String] = []
+    var block: [String] = []
+    var blockedBy: [String] = []
 }

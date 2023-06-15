@@ -8,6 +8,7 @@
 import UIKit
 import Kingfisher
 import FirebaseFirestore
+import FirebaseAuth
 
 class DrinkDetailsViewController: UIViewController {
     
@@ -23,18 +24,21 @@ class DrinkDetailsViewController: UIViewController {
     @IBAction func saveToFavorite(_ sender: Any) {
         saved = !saved
         saveButton.image = saved ? UIImage(systemName: "star.fill") : UIImage(systemName: "star")
-        
-        if let drinkId = drinkDetails?.idDrink, let docId = user?.id {
-            let favDrink = FavDrink(idDrink: drinkId, addedTime: Timestamp())
+        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+        FirebaseManager.shared.fetchAccountInfo(uid: currentUserUid) { currentUserData in
+            var newCurrentUserData = currentUserData
             
-            if saved {
-                user?.favoriteCocktails.append(favDrink)
-            } else {
-                user?.favoriteCocktails.removeAll { $0.idDrink == drinkId }
+            if let drinkId = self.drinkDetails?.idDrink, let docId = currentUserData.id {
+                let favDrink = FavDrink(idDrink: drinkId, addedTime: Timestamp())
+                
+                if self.saved {
+                    newCurrentUserData.favoriteCocktails.append(favDrink)
+                } else {
+                    newCurrentUserData.favoriteCocktails.removeAll { $0.idDrink == drinkId }
+                }
+                FirebaseManager.shared.update(in: .users, docId: docId, data: newCurrentUserData)
             }
-            FirebaseManager.shared.update(in: .users, docId: docId, data: user)
         }
-        
     }
     @IBOutlet weak var tableView: UITableView!
     
@@ -110,7 +114,8 @@ extension DrinkDetailsViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "SectionHeaderView") as? SectionHeaderView
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "SectionHeaderView")
+                as? SectionHeaderView
         else { fatalError("Unable to generate Table View Section Header") }
         
         if section == 0 {

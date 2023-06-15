@@ -15,12 +15,18 @@ import CryptoKit
 class SignInViewController: UIViewController {
     
     var requestDeleteAccount = false
-    // Google Sign In Button
+    
     fileprivate var userGoogleToken: String = ""
+    
+    fileprivate var currentNonce: String?
+    
+    private let appleSignInButton = ASAuthorizationAppleIDButton(type: .continue, style: .white)
     
     @IBOutlet weak var appleSignInView: UIView!
     
     @IBOutlet weak var googleSignInButton: UIButton!
+    
+    var isSignInPage: Bool = true
     
     @IBAction func didTapGoogleSignIn(_ sender: Any) {
         FirebaseManager.shared.signInGoogle(self) { credential in
@@ -29,11 +35,6 @@ class SignInViewController: UIViewController {
             }
         }
     }
-    
-    // Apple Sign In Button
-    private let appleSignInButton = ASAuthorizationAppleIDButton(type: .signUp, style: .white)
-    
-    fileprivate var currentNonce: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,12 +71,6 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
                                  didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             
-            // unique ID for the user
-            let userID = appleIDCredential.user
-            
-            // save it to user defaults
-            UserDefaults.standard.set(appleIDCredential.user, forKey: "userID")
-            
             guard let nonce = currentNonce else {
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
             }
@@ -92,19 +87,14 @@ extension SignInViewController: ASAuthorizationControllerDelegate {
                 return
             }
             
-            guard let authCodeString = String(data: appleAuthCode, encoding: .utf8) else {
+            guard String(data: appleAuthCode, encoding: .utf8) != nil else {
                 print("Unable to serialize auth code string from data: \(appleAuthCode.debugDescription)")
                 return
             }
-            
-            FirebaseManager.shared.signInApple(
-                idTokenString: idTokenString,
-                nonce: nonce,
+            FirebaseManager.shared.signInApple(idTokenString: idTokenString, nonce: nonce,
                 appleIDCredential: appleIDCredential) { credential, username in
                     guard let credential = credential else { return }
-                    FirebaseManager.shared.signInFirebase(
-                        credential: credential,
-                        name: username) { _ in
+                    FirebaseManager.shared.signInFirebase(credential: credential, name: username) { _ in
                             self.presentAppHomeVC()
                         }
                 }

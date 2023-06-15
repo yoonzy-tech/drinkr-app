@@ -63,7 +63,9 @@ extension BarResultsViewController: UITableViewDataSource, UITableViewDelegate {
         if let placelatitude = places[indexPath.row].geometry?.location.lat,
            let placelongitude = places[indexPath.row].geometry?.location.lng,
            let placeName = places[indexPath.row].name {
-            self.delegate?.didTapPlace(with: CLLocationCoordinate2D(latitude: placelatitude, longitude: placelongitude), name: placeName)
+            self.delegate?.didTapPlace(with: CLLocationCoordinate2D(latitude: placelatitude,
+                                                                    longitude: placelongitude),
+                                       name: placeName)
         } else {
             print("fail to get lat and long ")
         }

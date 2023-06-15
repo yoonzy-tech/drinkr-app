@@ -75,7 +75,7 @@ class CameraViewController: UIViewController {
         button.tintColor = UIColor(hexString: AppColor.green2.rawValue, alpha: 1.0)
         button.backgroundColor = UIColor(hexString: AppColor.dark2.rawValue, alpha: 1.0)
         button.layer.cornerRadius = 20
-        button.addTarget(self, action: #selector(tagFriends), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(tagFriends), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.isHidden = true // Initially hidden
         return button

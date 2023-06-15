@@ -78,10 +78,12 @@ struct Drink: Codable {
         case strInstructionsCHTrad = "strInstructionsZH_HANS"
         case strInstructionsCHSimp = "strInstructionsZH_HANT"
         case strDrinkThumb
-        case strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5, strIngredient6, strIngredient7, strIngredient8,
-             strIngredient9, strIngredient10, strIngredient11, strIngredient12, strIngredient13, strIngredient14, strIngredient15
-        case strMeasure1, strMeasure2, strMeasure3, strMeasure4, strMeasure5, strMeasure6, strMeasure7, strMeasure8, strMeasure9, strMeasure10,
-             strMeasure11, strMeasure12, strMeasure13, strMeasure14, strMeasure15
+        case strIngredient1, strIngredient2, strIngredient3, strIngredient4, strIngredient5
+        case strIngredient6, strIngredient7, strIngredient8, strIngredient9, strIngredient10
+        case strIngredient11, strIngredient12, strIngredient13, strIngredient14, strIngredient15
+        case strMeasure1, strMeasure2, strMeasure3, strMeasure4, strMeasure5
+        case strMeasure6, strMeasure7, strMeasure8, strMeasure9, strMeasure10
+        case strMeasure11, strMeasure12, strMeasure13, strMeasure14, strMeasure15
         case strImageSource, strImageAttribution
         case strCreativeCommonsConfirmed, dateModified
     }

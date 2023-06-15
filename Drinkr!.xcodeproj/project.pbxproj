@@ -20,6 +20,10 @@
 		0419034D2A1DB59B009BD42A /* ScanHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0419034C2A1DB59B009BD42A /* ScanHistoryViewController.swift */; };
 		0419034F2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0419034E2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift */; };
 		044362AC2A28AD56007C89F6 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044362AB2A28AD56007C89F6 /* UIColor+Extension.swift */; };
+		04485E762A3854590022F03A /* PanelSearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04485E752A3854590022F03A /* PanelSearchResultsViewController.swift */; };
+		044AA71A2A39870700C058F9 /* PanelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AA7182A39870700C058F9 /* PanelTableViewCell.swift */; };
+		044AA71B2A39870700C058F9 /* PanelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044AA7192A39870700C058F9 /* PanelTableViewCell.xib */; };
+		044AA71F2A3988A900C058F9 /* PanelTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AA71E2A3988A900C058F9 /* PanelTableViewController.swift */; };
 		0450E77B2A2F72FB00B3EFF8 /* fill drink.json in Resources */ = {isa = PBXBuildFile; fileRef = 0450E77A2A2F72FB00B3EFF8 /* fill drink.json */; };
 		0472E1C32A372688007BAF44 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472E1C22A372688007BAF44 /* AuthManager.swift */; };
 		0475FF432A1E46FC00DBA6E0 /* PostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0475FF422A1E46FC00DBA6E0 /* PostsViewController.swift */; };
@@ -57,6 +61,8 @@
 		04B9EA092A1A81BA002A7EC4 /* GooglePlacesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9EA082A1A81BA002A7EC4 /* GooglePlacesManager.swift */; };
 		04B9EA0B2A1A8235002A7EC4 /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9EA0A2A1A8235002A7EC4 /* ApiKeys.swift */; };
 		04B9EA0F2A1A8382002A7EC4 /* BarResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9EA0E2A1A8382002A7EC4 /* BarResultsViewController.swift */; };
+		04BEE3D82A378CD2004BF5FD /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BEE3D72A378CD2004BF5FD /* Utils.swift */; };
+		04BEE3DD2A382855004BF5FD /* PanelTabsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BEE3DC2A382855004BF5FD /* PanelTabsViewController.swift */; };
 		04D2C1C72A1F4441001212A7 /* CocktailManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1C62A1F4441001212A7 /* CocktailManager.swift */; };
 		04D2C1CE2A1F64C8001212A7 /* PostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1CD2A1F64C8001212A7 /* PostCollectionViewCell.swift */; };
 		04D2C1D22A207444001212A7 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1D12A207444001212A7 /* Date+Extension.swift */; };
@@ -94,6 +100,10 @@
 		0419034E2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScanHistoryTableViewCell.swift; path = "Drinkr!/Views/ScanHistoryTableViewCell.swift"; sourceTree = SOURCE_ROOT; };
 		0429F2D82A2E18FF00F255CF /* Drinkr!.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Drinkr!.entitlements"; sourceTree = "<group>"; };
 		044362AB2A28AD56007C89F6 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		04485E752A3854590022F03A /* PanelSearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelSearchResultsViewController.swift; sourceTree = "<group>"; };
+		044AA7182A39870700C058F9 /* PanelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelTableViewCell.swift; sourceTree = "<group>"; };
+		044AA7192A39870700C058F9 /* PanelTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PanelTableViewCell.xib; sourceTree = "<group>"; };
+		044AA71E2A3988A900C058F9 /* PanelTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelTableViewController.swift; sourceTree = "<group>"; };
 		0450E77A2A2F72FB00B3EFF8 /* fill drink.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "fill drink.json"; sourceTree = "<group>"; };
 		0472E1C22A372688007BAF44 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		0475FF422A1E46FC00DBA6E0 /* PostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsViewController.swift; sourceTree = "<group>"; };
@@ -125,6 +135,8 @@
 		04B9EA082A1A81BA002A7EC4 /* GooglePlacesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GooglePlacesManager.swift; sourceTree = "<group>"; };
 		04B9EA0A2A1A8235002A7EC4 /* ApiKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 		04B9EA0E2A1A8382002A7EC4 /* BarResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarResultsViewController.swift; sourceTree = "<group>"; };
+		04BEE3D72A378CD2004BF5FD /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		04BEE3DC2A382855004BF5FD /* PanelTabsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelTabsViewController.swift; sourceTree = "<group>"; };
 		04D2C1C62A1F4441001212A7 /* CocktailManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CocktailManager.swift; sourceTree = "<group>"; };
 		04D2C1CD2A1F64C8001212A7 /* PostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCell.swift; sourceTree = "<group>"; };
 		04D2C1D12A207444001212A7 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -187,6 +199,7 @@
 		0414D3622A323A2E007BB817 /* Posts */ = {
 			isa = PBXGroup;
 			children = (
+				04AE47932A3072D7003F5891 /* PostImageCollectionViewCell.swift */,
 				04D2C1CD2A1F64C8001212A7 /* PostCollectionViewCell.swift */,
 				04946E7B2A2757F400DCD2A4 /* CaptionTableViewCell.swift */,
 				04946E792A2751C700DCD2A4 /* CommentTableViewCell.swift */,
@@ -202,9 +215,9 @@
 				0414D3622A323A2E007BB817 /* Posts */,
 				0419034E2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift */,
 				04E856532A2C838E0041F1DE /* Cocktails */,
-				04AE47932A3072D7003F5891 /* PostImageCollectionViewCell.swift */,
 				0408F5E12A30AC8800D7FF52 /* UserInfoCollectionViewCell.swift */,
-				0414D3672A324336007BB817 /* FavoriteCocktailTableViewCell.swift */,
+				044AA7182A39870700C058F9 /* PanelTableViewCell.swift */,
+				044AA7192A39870700C058F9 /* PanelTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -236,6 +249,7 @@
 				040DB31B2A1CD8EE003E02A4 /* Resource */,
 				048E166B2A1773C30008CF2A /* Models */,
 				048E166D2A1773D90008CF2A /* Controllers */,
+				04E568B32A28C44300863D8B /* TabBarViewController.swift */,
 				0419034B2A1DB547009BD42A /* Views */,
 				048E166E2A1774170008CF2A /* Storyboards */,
 				048E165C2A176A540008CF2A /* Assets.xcassets */,
@@ -261,13 +275,11 @@
 		048E166D2A1773D90008CF2A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				04E568B32A28C44300863D8B /* TabBarViewController.swift */,
-				04D2C1DC2A238C03001212A7 /* SignInViewController.swift */,
-				04AE14202A2F177F00CA4FCD /* ProfileViewController.swift */,
-				04E568BA2A2A165500863D8B /* BarMap */,
-				04E568BC2A2A168400863D8B /* Posts */,
+				04BEE3D92A381C9B004BF5FD /* Profile */,
 				04E568BB2A2A166E00863D8B /* Scanner */,
 				04AE141F2A2F175B00CA4FCD /* Cocktails */,
+				04E568BC2A2A168400863D8B /* Posts */,
+				04E568BA2A2A165500863D8B /* BarMap */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -292,12 +304,25 @@
 			path = Cocktails;
 			sourceTree = "<group>";
 		};
+		04BEE3D92A381C9B004BF5FD /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				04D2C1DC2A238C03001212A7 /* SignInViewController.swift */,
+				04AE14202A2F177F00CA4FCD /* ProfileViewController.swift */,
+				04BEE3DC2A382855004BF5FD /* PanelTabsViewController.swift */,
+				044AA71E2A3988A900C058F9 /* PanelTableViewController.swift */,
+				04485E752A3854590022F03A /* PanelSearchResultsViewController.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		04D2C1CA2A1F5490001212A7 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				040DB3172A1CCEC9003E02A4 /* UIImage+Extension.swift */,
 				04D2C1D12A207444001212A7 /* Date+Extension.swift */,
 				044362AB2A28AD56007C89F6 /* UIColor+Extension.swift */,
+				04BEE3D72A378CD2004BF5FD /* Utils.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -347,6 +372,7 @@
 		04E856532A2C838E0041F1DE /* Cocktails */ = {
 			isa = PBXGroup;
 			children = (
+				0414D3672A324336007BB817 /* FavoriteCocktailTableViewCell.swift */,
 				04D2C1D52A20BFF7001212A7 /* RecipeTableViewCell.swift */,
 				04E856542A2C84090041F1DE /* ImageTableViewCell.swift */,
 				04E856552A2C84090041F1DE /* ImageTableViewCell.xib */,
@@ -462,6 +488,7 @@
 				04E568B72A290EB500863D8B /* beer loading.json in Resources */,
 				048E165D2A176A540008CF2A /* Assets.xcassets in Resources */,
 				04E856572A2C84090041F1DE /* ImageTableViewCell.xib in Resources */,
+				044AA71B2A39870700C058F9 /* PanelTableViewCell.xib in Resources */,
 				0450E77B2A2F72FB00B3EFF8 /* fill drink.json in Resources */,
 				048E165B2A176A520008CF2A /* Main.storyboard in Resources */,
 				047E42562A2F8F8A008D4E5A /* pouring.mp3 in Resources */,
@@ -559,6 +586,7 @@
 				04D2C1D22A207444001212A7 /* Date+Extension.swift in Sources */,
 				04B9EA092A1A81BA002A7EC4 /* GooglePlacesManager.swift in Sources */,
 				048C8A3B2A2D0122001F001E /* CocktailResultsViewController.swift in Sources */,
+				044AA71A2A39870700C058F9 /* PanelTableViewCell.swift in Sources */,
 				04946E802A27850F00DCD2A4 /* Post.swift in Sources */,
 				047AF2A82A1DEB2B00FB9ADD /* ScanHistory.swift in Sources */,
 				048E16582A176A520008CF2A /* BarMapViewController.swift in Sources */,
@@ -576,9 +604,12 @@
 				04AE14212A2F177F00CA4FCD /* ProfileViewController.swift in Sources */,
 				04AE141E2A2EE20B00CA4FCD /* User.swift in Sources */,
 				0419034F2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift in Sources */,
+				04BEE3DD2A382855004BF5FD /* PanelTabsViewController.swift in Sources */,
 				04E8564A2A2C5D1F0041F1DE /* DrinksResponse.swift in Sources */,
+				04BEE3D82A378CD2004BF5FD /* Utils.swift in Sources */,
 				040DB3182A1CCEC9003E02A4 /* UIImage+Extension.swift in Sources */,
 				0472E1C32A372688007BAF44 /* AuthManager.swift in Sources */,
+				04485E762A3854590022F03A /* PanelSearchResultsViewController.swift in Sources */,
 				04E856562A2C84090041F1DE /* ImageTableViewCell.swift in Sources */,
 				04E856482A2C59240041F1DE /* DrinkDetailsViewController.swift in Sources */,
 				04946E782A273CBE00DCD2A4 /* CommentsViewController.swift in Sources */,
@@ -590,6 +621,7 @@
 				04946E7A2A2751C700DCD2A4 /* CommentTableViewCell.swift in Sources */,
 				04E856592A2C889E0041F1DE /* SectionHeaderView.swift in Sources */,
 				04B9EA0B2A1A8235002A7EC4 /* ApiKeys.swift in Sources */,
+				044AA71F2A3988A900C058F9 /* PanelTableViewController.swift in Sources */,
 				0414D3682A324336007BB817 /* FavoriteCocktailTableViewCell.swift in Sources */,
 				044362AC2A28AD56007C89F6 /* UIColor+Extension.swift in Sources */,
 				04D2C1CE2A1F64C8001212A7 /* PostCollectionViewCell.swift in Sources */,
@@ -767,9 +799,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.yoonzy.Drinkr-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -800,9 +835,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.yoonzy.Drinkr-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

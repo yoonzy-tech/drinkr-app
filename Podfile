@@ -12,5 +12,6 @@ target 'Drinkr!' do
   pod 'Kingfisher'
   pod 'MJRefresh'
   pod 'Alamofire' 
+  pod 'ProgressHUD'
 
 end

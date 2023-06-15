@@ -8,7 +8,6 @@
 import UIKit
 import FirebaseAuth
 
-// swiftlint:disable line_length
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -24,6 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // if user is logged in before
         if Auth.auth().currentUser != nil {
           // User is signed in. Read data in Keychain
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            FirebaseManager.shared.fetchAccountInfo(uid: uid)
             let mainTabBarController = storyboard.instantiateViewController(identifier: "TabBarViewController")
             window?.rootViewController = mainTabBarController
         } else {
@@ -59,6 +60,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
+        
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {

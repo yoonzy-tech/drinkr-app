@@ -32,7 +32,6 @@ class PostCollectionViewCell: UICollectionViewCell {
                 self.userProfileImageView.kf.setImage(with: url)
                 
             } else {
-                print("User has no profile image")
                 self.userProfileImageView.image = UIImage(named: "icons8-edvard-munch")
             }
             // Could be user not found
