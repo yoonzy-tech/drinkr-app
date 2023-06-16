@@ -136,11 +136,11 @@
             </objects>
             <point key="canvasLocation" x="-3317" y="-1113"/>
         </scene>
-        <!--Bar Map-->
+        <!--Navigation Controller-->
         <scene sceneID="Auv-i6-9bL">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hGu-x3-2OI" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Bar Map" image="map" catalog="system" selectedImage="map.fill" id="F59-FA-1XF"/>
+                    <tabBarItem key="tabBarItem" title="" image="map" catalog="system" selectedImage="map.fill" id="F59-FA-1XF"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="iRj-bn-Mc9">
                         <rect key="frame" x="0.0" y="59" width="393" height="96"/>
@@ -157,11 +157,11 @@
             </objects>
             <point key="canvasLocation" x="-7645" y="-4"/>
         </scene>
-        <!--Scanner-->
+        <!--Navigation Controller-->
         <scene sceneID="GsJ-z6-GWb">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6EG-rP-SzQ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Scanner" image="camera" catalog="system" selectedImage="camera.fill" id="kwv-Yo-km9"/>
+                    <tabBarItem key="tabBarItem" title="" image="camera" catalog="system" selectedImage="camera.fill" id="kwv-Yo-km9"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="2cz-Nd-qWT"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="W0h-N3-H6C">
@@ -177,11 +177,11 @@
             </objects>
             <point key="canvasLocation" x="-3712" y="14"/>
         </scene>
-        <!--Posts-->
+        <!--Navigation Controller-->
         <scene sceneID="pwx-mW-Uq3">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="bJv-OL-3uH" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Posts" image="newspaper" catalog="system" selectedImage="newspaper.fill" id="dfE-np-TKm"/>
+                    <tabBarItem key="tabBarItem" title="" image="newspaper" catalog="system" selectedImage="newspaper.fill" id="dfE-np-TKm"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="qYv-ci-7Bg">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
@@ -196,11 +196,11 @@
             </objects>
             <point key="canvasLocation" x="-6187" y="-2"/>
         </scene>
-        <!--Cocktails-->
+        <!--Navigation Controller-->
         <scene sceneID="FgZ-ac-mdv">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="553-DS-3cQ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Cocktails" image="wineglass" catalog="system" selectedImage="wineglass.fill" id="9CM-f8-yqd"/>
+                    <tabBarItem key="tabBarItem" title="" image="wineglass" catalog="system" selectedImage="wineglass.fill" id="9CM-f8-yqd"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="Ux8-oa-Fdu">
                         <rect key="frame" x="0.0" y="59" width="393" height="96"/>
@@ -219,11 +219,11 @@
             </objects>
             <point key="canvasLocation" x="-2318" y="18"/>
         </scene>
-        <!--Profile-->
+        <!--Navigation Controller-->
         <scene sceneID="YA2-SG-uYr">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="eaG-3a-iCQ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" image="person.circle" catalog="system" selectedImage="person.circle.fill" id="aEi-cx-2Dt"/>
+                    <tabBarItem key="tabBarItem" title="" image="person.circle" catalog="system" selectedImage="person.circle.fill" id="aEi-cx-2Dt"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="L3M-nv-fTT">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
@@ -444,7 +444,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="f5F-bZ-ilF"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -492,7 +492,7 @@
                             </containerView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="3b5-OU-pTu"/>
-                        <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="adl-H1-S8Z" firstAttribute="leading" secondItem="3b5-OU-pTu" secondAttribute="leading" constant="20" id="0kF-bc-6Av"/>
                             <constraint firstItem="3b5-OU-pTu" firstAttribute="bottom" secondItem="atw-pm-VNM" secondAttribute="bottom" constant="20" id="2x1-2w-75Z"/>
@@ -1904,7 +1904,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="I8p-7y-Lic"/>
-        <segue reference="HeC-HD-pvH"/>
+        <segue reference="BUs-YT-1Uh"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.clockwise" catalog="system" width="113" height="128"/>
