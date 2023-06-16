@@ -129,7 +129,6 @@ iOSInjectionProject/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 ### Plist ###
-*.plist
-
+GoogleService-Info.plist
 ### API ###
 ApiKeys.swift

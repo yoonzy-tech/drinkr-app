@@ -39,20 +39,20 @@ import UIKit
 public protocol Placeholder {
     
     /// How the placeholder should be added to a given image view.
-    func add(to barImageView: KFCrossPlatformImageView)
+    func add(to imageView: KFCrossPlatformImageView)
     
     /// How the placeholder should be removed from a given image view.
-    func remove(from barImageView: KFCrossPlatformImageView)
+    func remove(from imageView: KFCrossPlatformImageView)
 }
 
 /// Default implementation of an image placeholder. The image will be set or
 /// reset directly for `image` property of the image view.
 extension KFCrossPlatformImage: Placeholder {
     /// How the placeholder should be added to a given image view.
-    public func add(to barImageView: KFCrossPlatformImageView) { barImageView.image = self }
+    public func add(to imageView: KFCrossPlatformImageView) { imageView.image = self }
 
     /// How the placeholder should be removed from a given image view.
-    public func remove(from barImageView: KFCrossPlatformImageView) { barImageView.image = nil }
+    public func remove(from imageView: KFCrossPlatformImageView) { imageView.image = nil }
 }
 
 /// Default implementation of an arbitrary view as placeholder. The view will be 
@@ -63,18 +63,18 @@ extension KFCrossPlatformImage: Placeholder {
 extension Placeholder where Self: KFCrossPlatformView {
     
     /// How the placeholder should be added to a given image view.
-    public func add(to barImageView: KFCrossPlatformImageView) {
-        barImageView.addSubview(self)
+    public func add(to imageView: KFCrossPlatformImageView) {
+        imageView.addSubview(self)
         translatesAutoresizingMaskIntoConstraints = false
 
-        centerXAnchor.constraint(equalTo: barImageView.centerXAnchor).isActive = true
-        centerYAnchor.constraint(equalTo: barImageView.centerYAnchor).isActive = true
-        heightAnchor.constraint(equalTo: barImageView.heightAnchor).isActive = true
-        widthAnchor.constraint(equalTo: barImageView.widthAnchor).isActive = true
+        centerXAnchor.constraint(equalTo: imageView.centerXAnchor).isActive = true
+        centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
+        heightAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
+        widthAnchor.constraint(equalTo: imageView.widthAnchor).isActive = true
     }
 
     /// How the placeholder should be removed from a given image view.
-    public func remove(from barImageView: KFCrossPlatformImageView) {
+    public func remove(from imageView: KFCrossPlatformImageView) {
         removeFromSuperview()
     }
 }

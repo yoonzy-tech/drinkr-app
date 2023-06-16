@@ -70,7 +70,7 @@ public protocol Indicator {
 
     /// The size strategy used when adding the indicator to image view.
     /// - Parameter imageView: The super view of indicator.
-    func sizeStrategy(in barImageView: KFCrossPlatformImageView) -> IndicatorSizeStrategy
+    func sizeStrategy(in imageView: KFCrossPlatformImageView) -> IndicatorSizeStrategy
 }
 
 public enum IndicatorSizeStrategy {
@@ -87,7 +87,7 @@ extension Indicator {
 
     /// Default implementation of `centerOffset` of `Indicator`. The default value is `.full`, means that the indicator
     /// will pin to the same height and width as the image view.
-    public func sizeStrategy(in barImageView: KFCrossPlatformImageView) -> IndicatorSizeStrategy {
+    public func sizeStrategy(in imageView: KFCrossPlatformImageView) -> IndicatorSizeStrategy {
         return .full
     }
 }
@@ -130,7 +130,7 @@ final class ActivityIndicator: Indicator {
         }
     }
 
-    func sizeStrategy(in barImageView: KFCrossPlatformImageView) -> IndicatorSizeStrategy {
+    func sizeStrategy(in imageView: KFCrossPlatformImageView) -> IndicatorSizeStrategy {
         return .intrinsicSize
     }
 

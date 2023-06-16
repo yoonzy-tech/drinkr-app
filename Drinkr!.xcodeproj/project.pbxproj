@@ -19,6 +19,8 @@
 		0414D36A2A333F8C007BB817 /* PlacesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0414D3692A333F8C007BB817 /* PlacesResponse.swift */; };
 		0419034D2A1DB59B009BD42A /* ScanHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0419034C2A1DB59B009BD42A /* ScanHistoryViewController.swift */; };
 		0419034F2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0419034E2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift */; };
+		043140F52A3B5018001EF452 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 043140F42A3B5018001EF452 /* GoogleService-Info.plist */; };
+		043140F72A3B5275001EF452 /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043140F62A3B5275001EF452 /* ApiKeys.swift */; };
 		044362AC2A28AD56007C89F6 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044362AB2A28AD56007C89F6 /* UIColor+Extension.swift */; };
 		04485E762A3854590022F03A /* PanelSearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04485E752A3854590022F03A /* PanelSearchResultsViewController.swift */; };
 		044AA71A2A39870700C058F9 /* PanelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AA7182A39870700C058F9 /* PanelTableViewCell.swift */; };
@@ -59,7 +61,6 @@
 		04AE14232A2F207900CA4FCD /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AE14222A2F207900CA4FCD /* KeychainManager.swift */; };
 		04AE47942A3072D7003F5891 /* PostImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AE47932A3072D7003F5891 /* PostImageCollectionViewCell.swift */; };
 		04B9EA092A1A81BA002A7EC4 /* GooglePlacesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9EA082A1A81BA002A7EC4 /* GooglePlacesManager.swift */; };
-		04B9EA0B2A1A8235002A7EC4 /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9EA0A2A1A8235002A7EC4 /* ApiKeys.swift */; };
 		04B9EA0F2A1A8382002A7EC4 /* BarResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9EA0E2A1A8382002A7EC4 /* BarResultsViewController.swift */; };
 		04BEE3D82A378CD2004BF5FD /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BEE3D72A378CD2004BF5FD /* Utils.swift */; };
 		04BEE3DD2A382855004BF5FD /* PanelTabsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BEE3DC2A382855004BF5FD /* PanelTabsViewController.swift */; };
@@ -69,7 +70,6 @@
 		04D2C1D42A20BFC0001212A7 /* RecipesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1D32A20BFC0001212A7 /* RecipesViewController.swift */; };
 		04D2C1D62A20BFF7001212A7 /* RecipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1D52A20BFF7001212A7 /* RecipeTableViewCell.swift */; };
 		04D2C1D92A238A39001212A7 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 04D2C1D82A238A39001212A7 /* GoogleSignIn */; };
-		04D2C1DB2A238B77001212A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04D2C1DA2A238B77001212A7 /* GoogleService-Info.plist */; };
 		04D2C1DD2A238C03001212A7 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1DC2A238C03001212A7 /* SignInViewController.swift */; };
 		04E568B42A28C44300863D8B /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E568B32A28C44300863D8B /* TabBarViewController.swift */; };
 		04E568B72A290EB500863D8B /* beer loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 04E568B62A290EB500863D8B /* beer loading.json */; };
@@ -99,6 +99,8 @@
 		0419034C2A1DB59B009BD42A /* ScanHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScanHistoryViewController.swift; path = "Drinkr!/Controllers/Scanner/ScanHistoryViewController.swift"; sourceTree = SOURCE_ROOT; };
 		0419034E2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScanHistoryTableViewCell.swift; path = "Drinkr!/Views/ScanHistoryTableViewCell.swift"; sourceTree = SOURCE_ROOT; };
 		0429F2D82A2E18FF00F255CF /* Drinkr!.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Drinkr!.entitlements"; sourceTree = "<group>"; };
+		043140F42A3B5018001EF452 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		043140F62A3B5275001EF452 /* ApiKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 		044362AB2A28AD56007C89F6 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		04485E752A3854590022F03A /* PanelSearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelSearchResultsViewController.swift; sourceTree = "<group>"; };
 		044AA7182A39870700C058F9 /* PanelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelTableViewCell.swift; sourceTree = "<group>"; };
@@ -133,7 +135,6 @@
 		04AE14222A2F207900CA4FCD /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		04AE47932A3072D7003F5891 /* PostImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		04B9EA082A1A81BA002A7EC4 /* GooglePlacesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GooglePlacesManager.swift; sourceTree = "<group>"; };
-		04B9EA0A2A1A8235002A7EC4 /* ApiKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 		04B9EA0E2A1A8382002A7EC4 /* BarResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarResultsViewController.swift; sourceTree = "<group>"; };
 		04BEE3D72A378CD2004BF5FD /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		04BEE3DC2A382855004BF5FD /* PanelTabsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelTabsViewController.swift; sourceTree = "<group>"; };
@@ -142,7 +143,6 @@
 		04D2C1D12A207444001212A7 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		04D2C1D32A20BFC0001212A7 /* RecipesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesViewController.swift; sourceTree = "<group>"; };
 		04D2C1D52A20BFF7001212A7 /* RecipeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTableViewCell.swift; sourceTree = "<group>"; };
-		04D2C1DA2A238B77001212A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		04D2C1DC2A238C03001212A7 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		04E568B32A28C44300863D8B /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		04E568B62A290EB500863D8B /* beer loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "beer loading.json"; sourceTree = "<group>"; };
@@ -184,7 +184,7 @@
 		040DB31B2A1CD8EE003E02A4 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				04B9EA0A2A1A8235002A7EC4 /* ApiKeys.swift */,
+				043140F62A3B5275001EF452 /* ApiKeys.swift */,
 				048E16532A176A520008CF2A /* AppDelegate.swift */,
 				048E16552A176A520008CF2A /* SceneDelegate.swift */,
 				04B9EA082A1A81BA002A7EC4 /* GooglePlacesManager.swift */,
@@ -254,7 +254,7 @@
 				048E166E2A1774170008CF2A /* Storyboards */,
 				048E165C2A176A540008CF2A /* Assets.xcassets */,
 				048E16612A176A540008CF2A /* Info.plist */,
-				04D2C1DA2A238B77001212A7 /* GoogleService-Info.plist */,
+				043140F42A3B5018001EF452 /* GoogleService-Info.plist */,
 			);
 			path = "Drinkr!";
 			sourceTree = "<group>";
@@ -483,7 +483,6 @@
 			files = (
 				048E16602A176A540008CF2A /* LaunchScreen.storyboard in Resources */,
 				047E42522A2F8A88008D4E5A /* beer filling.json in Resources */,
-				04D2C1DB2A238B77001212A7 /* GoogleService-Info.plist in Resources */,
 				04E8564E2A2C7F9B0041F1DE /* DetailsTableViewCell.xib in Resources */,
 				04E568B72A290EB500863D8B /* beer loading.json in Resources */,
 				048E165D2A176A540008CF2A /* Assets.xcassets in Resources */,
@@ -493,6 +492,7 @@
 				048E165B2A176A520008CF2A /* Main.storyboard in Resources */,
 				047E42562A2F8F8A008D4E5A /* pouring.mp3 in Resources */,
 				04E8565B2A2C88B30041F1DE /* SectionHeaderView.xib in Resources */,
+				043140F52A3B5018001EF452 /* GoogleService-Info.plist in Resources */,
 				048C8A392A2CF45D001F001E /* DescrtiptionTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -616,11 +616,11 @@
 				04946E7E2A27829100DCD2A4 /* FirebaseManager.swift in Sources */,
 				040DB30B2A1C99C2003E02A4 /* ScannerViewController.swift in Sources */,
 				04AE14232A2F207900CA4FCD /* KeychainManager.swift in Sources */,
+				043140F72A3B5275001EF452 /* ApiKeys.swift in Sources */,
 				048E16562A176A520008CF2A /* SceneDelegate.swift in Sources */,
 				0414D3642A323D01007BB817 /* FavoriteCocktailsViewController.swift in Sources */,
 				04946E7A2A2751C700DCD2A4 /* CommentTableViewCell.swift in Sources */,
 				04E856592A2C889E0041F1DE /* SectionHeaderView.swift in Sources */,
-				04B9EA0B2A1A8235002A7EC4 /* ApiKeys.swift in Sources */,
 				044AA71F2A3988A900C058F9 /* PanelTableViewController.swift in Sources */,
 				0414D3682A324336007BB817 /* FavoriteCocktailTableViewCell.swift in Sources */,
 				044362AC2A28AD56007C89F6 /* UIColor+Extension.swift in Sources */,
@@ -784,6 +784,7 @@
 				DEVELOPMENT_TEAM = 7WDBV2M4JT;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Drinkr!/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Drinkr! needs access to your camera to scan bottle labels.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Drinkr! needs your location to show you nearby bars.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Drinkr! needs access to your photo library to store your photos.";
@@ -820,6 +821,7 @@
 				DEVELOPMENT_TEAM = 7WDBV2M4JT;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Drinkr!/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Drinkr! needs access to your camera to scan bottle labels.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Drinkr! needs your location to show you nearby bars.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Drinkr! needs access to your photo library to store your photos.";
