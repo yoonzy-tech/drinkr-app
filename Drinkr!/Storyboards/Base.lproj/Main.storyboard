@@ -1626,6 +1626,21 @@
             </objects>
             <point key="canvasLocation" x="215" y="739"/>
         </scene>
+        <!--Privacy Policy View Controller-->
+        <scene sceneID="PkU-Uj-3ZC">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AgU-4h-ntz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="PrivacyPolicyViewController" id="tkw-Gz-w1h" customClass="PrivacyPolicyViewController" customModule="Drinkr_" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Nyz-yz-Yvz">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="zHl-BD-vyv"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="215" y="1510"/>
+        </scene>
         <!--Panel Tabs View Controller-->
         <scene sceneID="NJF-xF-rUs">
             <objects>
@@ -1904,7 +1919,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="I8p-7y-Lic"/>
-        <segue reference="BUs-YT-1Uh"/>
+        <segue reference="HeC-HD-pvH"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.clockwise" catalog="system" width="113" height="128"/>

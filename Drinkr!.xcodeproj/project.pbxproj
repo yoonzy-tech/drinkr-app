@@ -27,6 +27,7 @@
 		044AA71B2A39870700C058F9 /* PanelTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 044AA7192A39870700C058F9 /* PanelTableViewCell.xib */; };
 		044AA71F2A3988A900C058F9 /* PanelTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AA71E2A3988A900C058F9 /* PanelTableViewController.swift */; };
 		0450E77B2A2F72FB00B3EFF8 /* fill drink.json in Resources */ = {isa = PBXBuildFile; fileRef = 0450E77A2A2F72FB00B3EFF8 /* fill drink.json */; };
+		046372962A3CBD8C00DE5979 /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046372952A3CBD8C00DE5979 /* PrivacyPolicyViewController.swift */; };
 		0472E1C32A372688007BAF44 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472E1C22A372688007BAF44 /* AuthManager.swift */; };
 		0475FF432A1E46FC00DBA6E0 /* PostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0475FF422A1E46FC00DBA6E0 /* PostsViewController.swift */; };
 		047AF2A82A1DEB2B00FB9ADD /* ScanHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 047AF2A72A1DEB2B00FB9ADD /* ScanHistory.swift */; };
@@ -107,6 +108,7 @@
 		044AA7192A39870700C058F9 /* PanelTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PanelTableViewCell.xib; sourceTree = "<group>"; };
 		044AA71E2A3988A900C058F9 /* PanelTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelTableViewController.swift; sourceTree = "<group>"; };
 		0450E77A2A2F72FB00B3EFF8 /* fill drink.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "fill drink.json"; sourceTree = "<group>"; };
+		046372952A3CBD8C00DE5979 /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PrivacyPolicyViewController.swift; path = "Drinkr!/Storyboards/PrivacyPolicyViewController.swift"; sourceTree = SOURCE_ROOT; };
 		0472E1C22A372688007BAF44 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		0475FF422A1E46FC00DBA6E0 /* PostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsViewController.swift; sourceTree = "<group>"; };
 		047AF2A72A1DEB2B00FB9ADD /* ScanHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanHistory.swift; sourceTree = "<group>"; };
@@ -275,6 +277,7 @@
 		048E166D2A1773D90008CF2A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				046372952A3CBD8C00DE5979 /* PrivacyPolicyViewController.swift */,
 				04BEE3D92A381C9B004BF5FD /* Profile */,
 				04E568BB2A2A166E00863D8B /* Scanner */,
 				04AE141F2A2F175B00CA4FCD /* Cocktails */,
@@ -595,6 +598,7 @@
 				04AE47942A3072D7003F5891 /* PostImageCollectionViewCell.swift in Sources */,
 				0475FF432A1E46FC00DBA6E0 /* PostsViewController.swift in Sources */,
 				0414D3662A323F93007BB817 /* FavoriteBarTableViewCell.swift in Sources */,
+				046372962A3CBD8C00DE5979 /* PrivacyPolicyViewController.swift in Sources */,
 				040DB31A2A1CD8A3003E02A4 /* BarHeinModel.mlmodel in Sources */,
 				040DB3092A1C8B82003E02A4 /* CameraViewController+Extension.swift in Sources */,
 				04B9EA0F2A1A8382002A7EC4 /* BarResultsViewController.swift in Sources */,

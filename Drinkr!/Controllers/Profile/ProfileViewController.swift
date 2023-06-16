@@ -12,7 +12,7 @@ import MJRefresh
 import AuthenticationServices
 
 class ProfileViewController: UIViewController {
-    
+        
     var scrollToIndex = 0
     
     var userData: User? {
@@ -143,7 +143,16 @@ extension ProfileViewController {
         
         let actionSheetController: UIAlertController = UIAlertController(
             title: nil, message: nil, preferredStyle: .actionSheet)
-        
+        let privacyPolicyAction: UIAlertAction = UIAlertAction(
+            title: "Privacy Policy",
+            style: .default) { [weak self] _ in
+                print("View Privacy Policy")
+                
+                guard let privacyPolicyVC = self?.storyboard?
+                .instantiateViewController(withIdentifier: "PrivacyPolicyViewController")
+                        as? PrivacyPolicyViewController else { return }
+                self?.navigationController?.pushViewController(privacyPolicyVC, animated: true)
+            }
         let deleteAccountAction: UIAlertAction = UIAlertAction(
             title: "Delete Account",
             style: .destructive) { [weak self] _ in
@@ -166,6 +175,7 @@ extension ProfileViewController {
             }
 
         let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel", style: .cancel)
+        actionSheetController.addAction(privacyPolicyAction)
         actionSheetController.addAction(deleteAccountAction)
         actionSheetController.addAction(signOutAction)
         actionSheetController.addAction(cancelAction)
