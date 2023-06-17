@@ -72,6 +72,7 @@
 		04D2C1D62A20BFF7001212A7 /* RecipeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1D52A20BFF7001212A7 /* RecipeTableViewCell.swift */; };
 		04D2C1D92A238A39001212A7 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 04D2C1D82A238A39001212A7 /* GoogleSignIn */; };
 		04D2C1DD2A238C03001212A7 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1DC2A238C03001212A7 /* SignInViewController.swift */; };
+		04DF361D2A3DA85D00F61D16 /* cocktails.json in Resources */ = {isa = PBXBuildFile; fileRef = 04DF361C2A3DA85D00F61D16 /* cocktails.json */; };
 		04E568B42A28C44300863D8B /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E568B32A28C44300863D8B /* TabBarViewController.swift */; };
 		04E568B72A290EB500863D8B /* beer loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 04E568B62A290EB500863D8B /* beer loading.json */; };
 		04E568B92A29DAB900863D8B /* EditCaptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E568B82A29DAB900863D8B /* EditCaptionViewController.swift */; };
@@ -146,6 +147,7 @@
 		04D2C1D32A20BFC0001212A7 /* RecipesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipesViewController.swift; sourceTree = "<group>"; };
 		04D2C1D52A20BFF7001212A7 /* RecipeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTableViewCell.swift; sourceTree = "<group>"; };
 		04D2C1DC2A238C03001212A7 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		04DF361C2A3DA85D00F61D16 /* cocktails.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cocktails.json; sourceTree = "<group>"; };
 		04E568B32A28C44300863D8B /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		04E568B62A290EB500863D8B /* beer loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "beer loading.json"; sourceTree = "<group>"; };
 		04E568B82A29DAB900863D8B /* EditCaptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCaptionViewController.swift; sourceTree = "<group>"; };
@@ -334,6 +336,7 @@
 			isa = PBXGroup;
 			children = (
 				047E42552A2F8F8A008D4E5A /* pouring.mp3 */,
+				04DF361C2A3DA85D00F61D16 /* cocktails.json */,
 				047E42512A2F8A88008D4E5A /* beer filling.json */,
 				0450E77A2A2F72FB00B3EFF8 /* fill drink.json */,
 				04E568B62A290EB500863D8B /* beer loading.json */,
@@ -485,6 +488,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				048E16602A176A540008CF2A /* LaunchScreen.storyboard in Resources */,
+				04DF361D2A3DA85D00F61D16 /* cocktails.json in Resources */,
 				047E42522A2F8A88008D4E5A /* beer filling.json in Resources */,
 				04E8564E2A2C7F9B0041F1DE /* DetailsTableViewCell.xib in Resources */,
 				04E568B72A290EB500863D8B /* beer loading.json in Resources */,

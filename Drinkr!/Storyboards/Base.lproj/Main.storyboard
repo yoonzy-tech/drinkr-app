@@ -1106,7 +1106,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7hb-UJ-c5k">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7hb-UJ-c5k">
                                                     <rect key="frame" x="112" y="63.666666666666664" width="265" height="14.333333333333336"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                                     <nil key="textColor"/>
@@ -1135,36 +1135,49 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1hM-dt-1yG" customClass="LottieAnimationView" customModule="Lottie">
+                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
+                                <color key="backgroundColor" white="0.1796861797773919" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="animationName" value="cocktails"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="bex-6P-9iy"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="bex-6P-9iy" firstAttribute="trailing" secondItem="zDm-Z7-5kW" secondAttribute="trailing" id="DEE-RJ-JH7"/>
                             <constraint firstItem="zDm-Z7-5kW" firstAttribute="leading" secondItem="bex-6P-9iy" secondAttribute="leading" id="Jh2-Xk-gBF"/>
+                            <constraint firstItem="1hM-dt-1yG" firstAttribute="bottom" secondItem="bex-6P-9iy" secondAttribute="bottom" id="Mwf-91-eMS"/>
+                            <constraint firstItem="1hM-dt-1yG" firstAttribute="trailing" secondItem="bex-6P-9iy" secondAttribute="trailing" id="TH6-sD-zVb"/>
                             <constraint firstItem="zDm-Z7-5kW" firstAttribute="top" secondItem="bex-6P-9iy" secondAttribute="top" id="U1R-IU-xem"/>
                             <constraint firstItem="bex-6P-9iy" firstAttribute="bottom" secondItem="zDm-Z7-5kW" secondAttribute="bottom" id="eGp-oL-FeL"/>
+                            <constraint firstItem="1hM-dt-1yG" firstAttribute="top" secondItem="bex-6P-9iy" secondAttribute="top" id="fj5-Zs-T25"/>
+                            <constraint firstItem="1hM-dt-1yG" firstAttribute="leading" secondItem="bex-6P-9iy" secondAttribute="leading" id="lU6-QI-SA9"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Cocktails" id="88r-Xf-xpO"/>
                     <connections>
+                        <outlet property="animationView" destination="1hM-dt-1yG" id="cg6-eS-XUv"/>
                         <outlet property="tableView" destination="zDm-Z7-5kW" id="bJs-eX-LZS"/>
                         <segue destination="MXc-C9-gDM" kind="show" identifier="openDrinkDetailsSegue" id="cB2-eR-zNE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rh2-m4-DnM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2318" y="743"/>
+            <point key="canvasLocation" x="-2318.320610687023" y="742.95774647887333"/>
         </scene>
         <!--Drink Details View Controller-->
         <scene sceneID="4wK-gm-Hcs">
             <objects>
                 <viewController storyboardIdentifier="DrinkDetailsViewController" extendedLayoutIncludesOpaqueBars="YES" id="MXc-C9-gDM" customClass="DrinkDetailsViewController" customModule="Drinkr_" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gk4-vw-RUn">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="5a0-Gb-eMa">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                                <rect key="frame" x="0.0" y="103" width="393" height="666"/>
                                 <color key="backgroundColor" red="0.99215686319999996" green="0.97254902119999997" blue="0.90196079019999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                             </tableView>
@@ -1629,7 +1642,6 @@
         <!--Privacy Policy View Controller-->
         <scene sceneID="PkU-Uj-3ZC">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="AgU-4h-ntz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="PrivacyPolicyViewController" id="tkw-Gz-w1h" customClass="PrivacyPolicyViewController" customModule="Drinkr_" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Nyz-yz-Yvz">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
@@ -1638,6 +1650,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AgU-4h-ntz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="215" y="1510"/>
         </scene>
@@ -1918,7 +1931,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="I8p-7y-Lic"/>
+        <segue reference="cB2-eR-zNE"/>
         <segue reference="HeC-HD-pvH"/>
     </inferredMetricsTieBreakers>
     <resources>

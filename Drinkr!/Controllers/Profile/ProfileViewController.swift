@@ -169,7 +169,6 @@ extension ProfileViewController {
                 } catch let signOutError as NSError {
                   print("Error signing out: %@", signOutError)
                 }
-                FirebaseManager.shared.userUid = nil
                 FirebaseManager.shared.userData = nil
                 Utils.changeRootVCToSignIn()
             }

@@ -9,6 +9,7 @@ import UIKit
 import MJRefresh
 import Kingfisher
 import CoreLocation
+import Lottie
 
 class RecipesViewController: UIViewController {
     
@@ -18,6 +19,8 @@ class RecipesViewController: UIViewController {
         }
     }
 
+    @IBOutlet weak var animationView: LottieAnimationView!
+    
     let searchVC = UISearchController(searchResultsController: CocktailResultsViewController())
     
     @IBOutlet weak var tableView: UITableView!
@@ -27,6 +30,50 @@ class RecipesViewController: UIViewController {
         navigationController?.isNavigationBarHidden = false
         navigationItem.title = "Cocktails"
         searchVC.searchBar.text = nil
+    }
+    
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+    
+    var startShaking = CFAbsoluteTimeGetCurrent()
+    
+    override func motionBegan(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            print("Start Shaking")
+            startShaking = CFAbsoluteTimeGetCurrent()
+        }
+    }
+    
+    func startAnimation(completion: (() -> Void)? = nil) {
+        // Lottie Animation
+        animationView.isHidden = false
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .playOnce
+        animationView.animationSpeed = 1.5
+        animationView.play()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.animationView.stop()
+            self.animationView.isHidden = true
+            completion?()
+        }
+    }
+    
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            guard let destinationViewController = storyboard?
+                .instantiateViewController(withIdentifier: "DrinkDetailsViewController")
+                    as? DrinkDetailsViewController else { return }
+            DispatchQueue.main.async {
+                CocktailManager.shared.getRandomCocktail { randomDrink in
+                    destinationViewController.title = randomDrink.strDrink
+                    destinationViewController.drinkDetails = randomDrink
+                }
+                self.startAnimation {
+                    self.navigationController?.pushViewController(destinationViewController, animated: true)
+                }
+            }
+        }
     }
     
     override func viewDidLoad() {
@@ -46,6 +93,8 @@ class RecipesViewController: UIViewController {
         navigationItem.searchController?.searchBar.placeholder = "Search cocktail name"
         navigationItem.searchController = searchVC
         navigationItem.hidesSearchBarWhenScrolling = false
+        
+        animationView.isHidden = true
     }
     
     @objc func refreshData() {
@@ -99,7 +148,7 @@ extension RecipesViewController: UISearchResultsUpdating, CocktailsResultsViewCo
 extension RecipesViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        dataSource.count
+        dataSource.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -107,26 +156,42 @@ extension RecipesViewController: UITableViewDataSource, UITableViewDelegate {
             withIdentifier: "RecipeTableViewCell", for: indexPath) as? RecipeTableViewCell
         else { fatalError("Unable to generate Table View Cell") }
         
-        let imageUrl = URL(string: dataSource[indexPath.row].strDrinkThumb ?? "")
-        
-        cell.drinkImageView.kf.setImage(with: imageUrl)
-        cell.drinkNameLabel.text = dataSource[indexPath.row].strDrink
-        
-        cell.detailsLabel.text = dataSource[indexPath.row].getIngredients()
-
-        return cell
+        if indexPath.row == 0 {
+            // Show Surprise Me
+            cell.drinkImageView.image = UIImage(named: "surpriseDrink")
+            cell.drinkNameLabel.text = "Surprise Me 🤘🏻"
+            cell.detailsLabel.text = "Shake your device to see what to get tonight!"
+            return cell
+        } else {
+            let imageUrl = URL(string: dataSource[indexPath.row].strDrinkThumb ?? "")
+            
+            cell.drinkImageView.kf.setImage(with: imageUrl)
+            cell.drinkNameLabel.text = dataSource[indexPath.row].strDrink
+            
+            cell.detailsLabel.text = dataSource[indexPath.row].getIngredients()
+            
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        // Create an instance of the destination view controller
-       guard let destinationViewController = storyboard?
-        .instantiateViewController(withIdentifier: "DrinkDetailsViewController")
-                as? DrinkDetailsViewController else { return }
-        destinationViewController.title = dataSource[indexPath.row].strDrink
-        destinationViewController.drinkDetails = dataSource[indexPath.row]
-        // Push the destination view controller onto the navigation stack
-        navigationController?.pushViewController(destinationViewController, animated: true)
+        guard let destinationViewController = storyboard?
+         .instantiateViewController(withIdentifier: "DrinkDetailsViewController")
+                 as? DrinkDetailsViewController else { return }
+        
+        if indexPath.row == 0 {
+            CocktailManager.shared.getRandomCocktail { randomDrink in
+                print(randomDrink)
+                destinationViewController.title = randomDrink.strDrink
+                destinationViewController.drinkDetails = randomDrink
+                self.navigationController?.pushViewController(destinationViewController, animated: true)
+            }
+        } else {
+            destinationViewController.title = dataSource[indexPath.row].strDrink
+            destinationViewController.drinkDetails = dataSource[indexPath.row]
+            navigationController?.pushViewController(destinationViewController, animated: true)
+        }
     }
 }

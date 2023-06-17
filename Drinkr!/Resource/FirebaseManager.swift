@@ -35,7 +35,7 @@ class FirebaseManager {
     
     private init() {}
     
-    var userUid: String?
+//    var userUid: String?
     
     var userData: User?
     
@@ -230,8 +230,8 @@ extension FirebaseManager {
 // MARK: File Storage Upload & Delete
 extension FirebaseManager {
     func uploadFile(to path: StoragePath, imageData: Data, completion: ((String, String) -> Void)? = nil) {
-        
-        let imageRef = "\(userUid ?? "Unknown User Uid")\(Date().formatNowDate)"
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let imageRef = "\(uid)\(Date().formatNowDate)"
         
         let path = self.storage.child(path.rawValue).child(imageRef)
         
@@ -316,7 +316,7 @@ extension FirebaseManager {
 extension FirebaseManager {
     
     func listenUserInfo(completion: (() -> Void)? = nil) {
-        guard let uid = userUid else {
+        guard let uid = Auth.auth().currentUser?.uid else {
             print("Hasn't get UID")
             return
         }
@@ -468,7 +468,8 @@ extension FirebaseManager {
                 return
             }
             // Delete data related to this user uid
-            self.deleteAccout()
+            // self.deleteAccout()
+            self.deactivateAccount()
         }
     }
     
@@ -486,6 +487,16 @@ extension FirebaseManager {
                   print("Need User Doc Id to delete user data.")
               }
           }
+        }
+    }
+    
+    func deactivateAccount() {
+        // Fetch the current user data and update isActive to deactivate
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        fetchAccountInfo(uid: uid) { user in
+            var currentUserData = user
+            currentUserData.isActive = false
+            self.update(in: .users, docId: user.id ?? "Unknown User Doc Id", data: currentUserData)
         }
     }
     
