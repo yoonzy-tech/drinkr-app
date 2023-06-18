@@ -66,7 +66,10 @@ extension ScanHistoryViewController: UITableViewDataSource, UITableViewDelegate 
         cell.updateCell(
             label: dataSource[indexPath.row].brandName,
             image: dataSource[indexPath.row].imageUrl,
-            time: dataSource[indexPath.row].createdTime ?? Timestamp()
+            time: dataSource[indexPath.row].createdTime ?? Timestamp(),
+            origin: dataSource[indexPath.row].origin,
+            type: dataSource[indexPath.row].type,
+            vol: dataSource[indexPath.row].vol
         )
         
         return cell

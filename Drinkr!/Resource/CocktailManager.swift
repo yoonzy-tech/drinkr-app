@@ -18,6 +18,14 @@ class CocktailManager {
     let popular = "https://the-cocktail-db.p.rapidapi.com/popular.php"
     let random = "https://the-cocktail-db.p.rapidapi.com/random.php"
     
+    let gin = "https://the-cocktail-db.p.rapidapi.com/filter.php?i=Gin"
+    let whiskey = "https://the-cocktail-db.p.rapidapi.com/filter.php?i=Whiskey"
+    let vodka = "https://the-cocktail-db.p.rapidapi.com/filter.php?i=Vodka"
+    
+    let brandy = "https://the-cocktail-db.p.rapidapi.com/filter.php?i=Brandy"
+    let tequila = "https://the-cocktail-db.p.rapidapi.com/filter.php?i=Tequila"
+    let rum = "https://the-cocktail-db.p.rapidapi.com/filter.php?i=Rum"
+    
     let headers: HTTPHeaders = [
         "X-RapidAPI-Key": cocktailDBApiKey,
         "X-RapidAPI-Host": "the-cocktail-db.p.rapidapi.com"

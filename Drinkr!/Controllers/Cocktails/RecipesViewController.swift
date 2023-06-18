@@ -86,11 +86,14 @@ class RecipesViewController: UIViewController {
         tableView.mj_header = MJRefreshNormalHeader()
         tableView.mj_header?.setRefreshingTarget(self, refreshingAction: #selector(refreshData))
         
+        searchVC.searchBar.sizeToFit()
         searchVC.searchResultsUpdater = self
         searchVC.obscuresBackgroundDuringPresentation = true
+        searchVC.searchBar.scopeButtonTitles = ["All", "Whiskey", "Vodka", "Gin", "Others"]
+        searchVC.searchBar.showsScopeBar = true
+        searchVC.searchBar.placeholder = "Search cocktail name"
+        searchVC.searchBar.delegate = self
         definesPresentationContext = true
-        
-        navigationItem.searchController?.searchBar.placeholder = "Search cocktail name"
         navigationItem.searchController = searchVC
         navigationItem.hidesSearchBarWhenScrolling = false
         
@@ -103,7 +106,7 @@ class RecipesViewController: UIViewController {
     }
     
     private func updateDataSource() {
-        FirebaseManager.shared.fetchAll(in: .cocktails) { (drinks: [Drink]) in
+        FirebaseManager.shared.fetchAll(in: .cocktailDB) { (drinks: [Drink]) in
             self.dataSource = drinks
         }
     }
@@ -116,7 +119,7 @@ class RecipesViewController: UIViewController {
 }
 
 // MARK: Search Controller Delegate
-extension RecipesViewController: UISearchResultsUpdating, CocktailsResultsViewControllerDelegate {
+extension RecipesViewController: UISearchResultsUpdating, UISearchBarDelegate, CocktailsResultsViewControllerDelegate {
 
     func updateSearchResults(for searchController: UISearchController) {
         guard let query = searchController.searchBar.text,
@@ -142,6 +145,19 @@ extension RecipesViewController: UISearchResultsUpdating, CocktailsResultsViewCo
         self.navigationController?.pushViewController(destinationViewController, animated: true)
         
     }
+    
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        print("New scope index is now \(selectedScope)")
+        
+        guard let scope = searchBar.scopeButtonTitles?[selectedScope] else { return }
+        
+        
+        
+        // fetch all the alcohol data
+        // Know which scope is selected to filter the data
+        // Display on the list
+        // Ensure the search bar only search items under that scope data source
+    }
 }
 
 // MARK: Table View DataSource, Delegate
@@ -163,12 +179,12 @@ extension RecipesViewController: UITableViewDataSource, UITableViewDelegate {
             cell.detailsLabel.text = "Shake your device to see what to get tonight!"
             return cell
         } else {
-            let imageUrl = URL(string: dataSource[indexPath.row].strDrinkThumb ?? "")
+            let imageUrl = URL(string: dataSource[indexPath.row - 1].strDrinkThumb ?? "")
             
             cell.drinkImageView.kf.setImage(with: imageUrl)
-            cell.drinkNameLabel.text = dataSource[indexPath.row].strDrink
+            cell.drinkNameLabel.text = dataSource[indexPath.row - 1].strDrink
             
-            cell.detailsLabel.text = dataSource[indexPath.row].getIngredients()
+            cell.detailsLabel.text = dataSource[indexPath.row - 1].getIngredients()
             
             return cell
         }

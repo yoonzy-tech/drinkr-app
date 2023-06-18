@@ -1,0 +1,32 @@
+{
+    "drinks": [
+        {
+            "label": "Heineken",
+            "name": "Heineken Original",
+            "origin": "Netherlands",
+            "type": "Beer",
+            "vol": "5.0%"
+        },
+        {
+            "label": "Bar",
+            "name": "Kinrin Bar Beer",
+            "origin": "Japan",
+            "type": "Beer",
+            "vol": "4.5%"
+        },
+        {
+            "label": "Jim Beam",
+            "name": "Jim Beam Bourbon",
+            "origin": "USA",
+            "type": "Whiskey",
+            "vol": "40%"
+        },
+        {
+            "label": "Johnnie Walker Black Label",
+            "name": "Johnnie Walker Black Label",
+            "origin": "UK Scotland",
+            "type": "Whiskey",
+            "vol": "40%"
+        }
+    ]
+}

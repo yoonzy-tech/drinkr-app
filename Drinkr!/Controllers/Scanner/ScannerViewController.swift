@@ -33,8 +33,10 @@ class ScannerViewController: UIViewController {
     @IBOutlet weak var animationView: LottieAnimationView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var itemLabel: UILabel!
+    @IBOutlet weak var detailsLabel: UILabel!
     let cameraPicker = UIImagePickerController()
-    var model: BarHeinModel?
+//    var model: BarHeinModel?
+    var model: DemoBeerWhiskyModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +45,7 @@ class ScannerViewController: UIViewController {
         photoLibraryButton.layer.cornerRadius = 5
         
         do {
-            model = try BarHeinModel(configuration: MLModelConfiguration())
+            model = try DemoBeerWhiskyModel(configuration: MLModelConfiguration())
         } catch {
             print("Failed to load model: \(error)")
         }
@@ -55,6 +57,7 @@ class ScannerViewController: UIViewController {
         super.viewDidDisappear(animated)
         imageView.image = UIImage(named: "beer can")
         itemLabel.text = "Take a photo or choose from library to scan"
+        detailsLabel.text = nil
     }
     
     @IBAction func openCamera(_ sender: Any) {
@@ -105,7 +108,14 @@ extension ScannerViewController: UINavigationControllerDelegate, UIImagePickerCo
             guard let pixelBuffer = pickedImage.pixelBuffer(width: 299, height: 299),
                   let prediction = try? model?.prediction(image: pixelBuffer) else { return }
             
-            self.uploadCreateScanHistory(imageData: imageData, brandName: prediction.classLabel)
+            guard let drinkDetails = DrinksService.shared.getDrinkInfo(label: prediction.classLabel) else {
+                print("No info for this drink")
+                return
+            }
+            
+            self.uploadCreateScanHistory(imageData: imageData,
+                                         info: drinkDetails
+            )
             
             self.startAnimation()
             
@@ -113,7 +123,8 @@ extension ScannerViewController: UINavigationControllerDelegate, UIImagePickerCo
                 
             // Show Scanned Item & Info on UI
             imageView.image = pickedImage
-            itemLabel.text = "\(prediction.classLabel)"
+            itemLabel.text = "\(drinkDetails.name)"
+            detailsLabel.text = "\(drinkDetails.type) from \(drinkDetails.origin), \(drinkDetails.vol) vol"
         }
         
     }
@@ -146,25 +157,35 @@ extension ScannerViewController: PHPickerViewControllerDelegate {
                         return
                     }
                     
-                    self.uploadCreateScanHistory(imageData: imageData, brandName: prediction.classLabel)
+                    guard let drinkDetails = DrinksService.shared.getDrinkInfo(label: "\(prediction.classLabel)") else {
+                        print("No info for this drink")
+                        return
+                    }
+                    
+                    self.uploadCreateScanHistory(imageData: imageData,
+                                                 info: drinkDetails)
 
                     // Put Picked Image on ImageView
                     DispatchQueue.main.async {
                         self.imageView.image = image
-                        self.itemLabel.text = "\(prediction.classLabel)"
+                        self.itemLabel.text = "\(drinkDetails.name)"
+                        self.detailsLabel.text = "\(drinkDetails.type) from \(drinkDetails.origin), \(drinkDetails.vol) vol"
                     }
                 }
             }
         }
     }
     
-    func uploadCreateScanHistory(imageData: Data, brandName: String) {
+    func uploadCreateScanHistory(imageData: Data, info: DrinkInfo) {
         // Store Scan History to DB
         FirebaseManager.shared.uploadFile(to: .scanHistories, imageData: imageData) { imageRef, imageUrl in
             guard let userUid = Auth.auth().currentUser?.uid else { return }
             let scanHistory = ScanHistory(
                 userUid: userUid,
-                brandName: brandName,
+                brandName: info.name,
+                type: info.type,
+                origin: info.origin,
+                vol: info.vol,
                 imageUrl: imageUrl,
                 imageRef: imageRef,
                 createdTime: Timestamp()

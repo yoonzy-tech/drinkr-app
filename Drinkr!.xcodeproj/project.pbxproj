@@ -73,6 +73,9 @@
 		04D2C1D92A238A39001212A7 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 04D2C1D82A238A39001212A7 /* GoogleSignIn */; };
 		04D2C1DD2A238C03001212A7 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D2C1DC2A238C03001212A7 /* SignInViewController.swift */; };
 		04DF361D2A3DA85D00F61D16 /* cocktails.json in Resources */ = {isa = PBXBuildFile; fileRef = 04DF361C2A3DA85D00F61D16 /* cocktails.json */; };
+		04DF36232A3F130800F61D16 /* DemoBeerWhiskyModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 04DF36222A3F130800F61D16 /* DemoBeerWhiskyModel.mlmodel */; };
+		04DF36252A3F17F900F61D16 /* DrinksInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 04DF36242A3F17F900F61D16 /* DrinksInfo.json */; };
+		04DF36272A3F182D00F61D16 /* DrinksInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DF36262A3F182D00F61D16 /* DrinksInfo.swift */; };
 		04E568B42A28C44300863D8B /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E568B32A28C44300863D8B /* TabBarViewController.swift */; };
 		04E568B72A290EB500863D8B /* beer loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 04E568B62A290EB500863D8B /* beer loading.json */; };
 		04E568B92A29DAB900863D8B /* EditCaptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E568B82A29DAB900863D8B /* EditCaptionViewController.swift */; };
@@ -148,6 +151,9 @@
 		04D2C1D52A20BFF7001212A7 /* RecipeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTableViewCell.swift; sourceTree = "<group>"; };
 		04D2C1DC2A238C03001212A7 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		04DF361C2A3DA85D00F61D16 /* cocktails.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cocktails.json; sourceTree = "<group>"; };
+		04DF36222A3F130800F61D16 /* DemoBeerWhiskyModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = DemoBeerWhiskyModel.mlmodel; sourceTree = "<group>"; };
+		04DF36242A3F17F900F61D16 /* DrinksInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = DrinksInfo.json; sourceTree = "<group>"; };
+		04DF36262A3F182D00F61D16 /* DrinksInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinksInfo.swift; sourceTree = "<group>"; };
 		04E568B32A28C44300863D8B /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		04E568B62A290EB500863D8B /* beer loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "beer loading.json"; sourceTree = "<group>"; };
 		04E568B82A29DAB900863D8B /* EditCaptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCaptionViewController.swift; sourceTree = "<group>"; };
@@ -266,6 +272,9 @@
 		048E166B2A1773C30008CF2A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				04DF36242A3F17F900F61D16 /* DrinksInfo.json */,
+				04DF36262A3F182D00F61D16 /* DrinksInfo.swift */,
+				04DF36222A3F130800F61D16 /* DemoBeerWhiskyModel.mlmodel */,
 				040DB3192A1CD8A3003E02A4 /* BarHeinModel.mlmodel */,
 				0414D3692A333F8C007BB817 /* PlacesResponse.swift */,
 				04E856492A2C5D1F0041F1DE /* DrinksResponse.swift */,
@@ -489,6 +498,7 @@
 			files = (
 				048E16602A176A540008CF2A /* LaunchScreen.storyboard in Resources */,
 				04DF361D2A3DA85D00F61D16 /* cocktails.json in Resources */,
+				04DF36252A3F17F900F61D16 /* DrinksInfo.json in Resources */,
 				047E42522A2F8A88008D4E5A /* beer filling.json in Resources */,
 				04E8564E2A2C7F9B0041F1DE /* DetailsTableViewCell.xib in Resources */,
 				04E568B72A290EB500863D8B /* beer loading.json in Resources */,
@@ -631,11 +641,13 @@
 				04E856592A2C889E0041F1DE /* SectionHeaderView.swift in Sources */,
 				044AA71F2A3988A900C058F9 /* PanelTableViewController.swift in Sources */,
 				0414D3682A324336007BB817 /* FavoriteCocktailTableViewCell.swift in Sources */,
+				04DF36232A3F130800F61D16 /* DemoBeerWhiskyModel.mlmodel in Sources */,
 				044362AC2A28AD56007C89F6 /* UIColor+Extension.swift in Sources */,
 				04D2C1CE2A1F64C8001212A7 /* PostCollectionViewCell.swift in Sources */,
 				0408F5E22A30AC8800D7FF52 /* UserInfoCollectionViewCell.swift in Sources */,
 				04D2C1C72A1F4441001212A7 /* CocktailManager.swift in Sources */,
 				04946E7C2A2757F400DCD2A4 /* CaptionTableViewCell.swift in Sources */,
+				04DF36272A3F182D00F61D16 /* DrinksInfo.swift in Sources */,
 				04946E6F2A248C0600DCD2A4 /* BarCardCollectionViewCell.swift in Sources */,
 				0419034D2A1DB59B009BD42A /* ScanHistoryViewController.swift in Sources */,
 				04946E732A2616C400DCD2A4 /* FavoriteBarsViewController.swift in Sources */,
