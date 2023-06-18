@@ -41,6 +41,11 @@ class ProfileViewController: UIViewController {
         retrieveUserData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        retrieveUserData()
+    }
+    
     @objc func refreshData() {
         retrieveUserData()
         collectionView.mj_header?.endRefreshing()

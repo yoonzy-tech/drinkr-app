@@ -122,11 +122,10 @@ class PostsViewController: UIViewController {
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap))
         tapGesture?.numberOfTouchesRequired = 2
         
-        if let index = navigationController?.viewControllers.count, index >= 1 {
+        if postIndex != nil {
             self.collectionView.reloadData()
         } else {
-            updateDataSource()
-            FirebaseManager.shared.listen(in: .posts) {
+            FirebaseManager.shared.listen(in: .users) {
                 self.updateDataSource()
             }
         }
@@ -135,7 +134,7 @@ class PostsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if let index = navigationController?.viewControllers.count, index >= 1 {
+        if postIndex != nil {
             self.collectionView.reloadData()
         } else {
             updateDataSource()

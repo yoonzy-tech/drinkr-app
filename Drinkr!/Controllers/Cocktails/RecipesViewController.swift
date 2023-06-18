@@ -205,8 +205,8 @@ extension RecipesViewController: UITableViewDataSource, UITableViewDelegate {
                 self.navigationController?.pushViewController(destinationViewController, animated: true)
             }
         } else {
-            destinationViewController.title = dataSource[indexPath.row].strDrink
-            destinationViewController.drinkDetails = dataSource[indexPath.row]
+            destinationViewController.title = dataSource[indexPath.row - 1].strDrink
+            destinationViewController.drinkDetails = dataSource[indexPath.row - 1]
             navigationController?.pushViewController(destinationViewController, animated: true)
         }
     }
