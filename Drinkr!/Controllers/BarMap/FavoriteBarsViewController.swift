@@ -80,15 +80,13 @@ extension FavoriteBarsViewController: UITableViewDataSource, UITableViewDelegate
                 
                 cell.barNameLabel.text = placeDetails.name
                 
-                if let userRatingsTotal = placeDetails.userRatingsTotal,
-                   let priceLevel = placeDetails.priceLevel {
-                    cell.barRatingLabel.text = "\(placeDetails.rating ?? 0) Stars (\(userRatingsTotal)) \(String(repeating: "$", count: priceLevel))"
+                if let userRatingsTotal = placeDetails.userRatingsTotal {
+                    cell.barRatingLabel.text = "\(placeDetails.rating ?? 0) Stars (\(userRatingsTotal)) \(String(repeating: "$", count: placeDetails.priceLevel ?? 0))"
                 }
                 
                 cell.barAddressLabel.text = placeDetails.vicinity
                 cell.barOpenTimeLabel.text = placeDetails.openingHours?["opening_hours"] ?? false ?
                 "Open now" : "Closed"
-                // price level, open hours
             }
         
         return cell

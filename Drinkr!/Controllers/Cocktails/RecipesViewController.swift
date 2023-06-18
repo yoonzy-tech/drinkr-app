@@ -89,8 +89,8 @@ class RecipesViewController: UIViewController {
         searchVC.searchBar.sizeToFit()
         searchVC.searchResultsUpdater = self
         searchVC.obscuresBackgroundDuringPresentation = true
-        searchVC.searchBar.scopeButtonTitles = ["All", "Whiskey", "Vodka", "Gin", "Others"]
-        searchVC.searchBar.showsScopeBar = true
+//        searchVC.searchBar.scopeButtonTitles = ["All", "Whiskey", "Vodka", "Gin", "Others"]
+//        searchVC.searchBar.showsScopeBar = true
         searchVC.searchBar.placeholder = "Search cocktail name"
         searchVC.searchBar.delegate = self
         definesPresentationContext = true
