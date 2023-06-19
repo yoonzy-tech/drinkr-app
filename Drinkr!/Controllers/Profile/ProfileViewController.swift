@@ -117,7 +117,7 @@ extension ProfileViewController: UICollectionViewDataSource,
         let screenWidth = screen.size.width
         return indexPath.section == 0 ?
         CGSize(width: screenWidth, height: 280) :
-        CGSize(width: (screenWidth / 3.0) - 1, height: (screenWidth / 3.0) - 1)
+        CGSize(width: (screenWidth / 3.0) - 2, height: (screenWidth / 3.0) - 2)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

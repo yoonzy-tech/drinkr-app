@@ -12,10 +12,10 @@ class TabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let tabBarAppearance = UITabBarAppearance()
-        tabBarAppearance.backgroundColor = UIColor(hexString: AppColor.blue2.rawValue)
+        tabBarAppearance.backgroundColor = UIColor(hexString: "#FFFFFF")
         tabBarAppearance.stackedLayoutAppearance.normal.titleTextAttributes = [
-            .foregroundColor: UIColor(hexString: AppColor.light.rawValue)]
-        tabBarAppearance.stackedLayoutAppearance.normal.iconColor = UIColor(hexString: AppColor.light.rawValue)
+            .foregroundColor: UIColor.lightGray]
+        tabBarAppearance.stackedLayoutAppearance.normal.iconColor = UIColor.lightGray
         self.tabBar.standardAppearance = tabBarAppearance
         self.tabBar.scrollEdgeAppearance = tabBarAppearance
     }

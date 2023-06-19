@@ -11,13 +11,14 @@ import UIKit
 enum AppColor: String {
     case green = "#B6EF1B"
     case green2 = "#C4FA6F"
-    case blue = "#024BD1"
+    case blue = "#014DD9"
     case blue2 = "#182CD4"
     case light = "#EEEEEE"
     case dark = "#3A3F47"
     case dark2 = "#4D4B50"
     case red = "#FA5252"
     case beige = "#DEDEE3"
+    case lightGreen = "#D2F800"
 }
 
 extension UIColor {

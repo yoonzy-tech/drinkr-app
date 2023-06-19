@@ -55,14 +55,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func customNavigationBarStyle() {
         let newNavBarAppearance = UINavigationBarAppearance()
-        newNavBarAppearance.backgroundColor = UIColor.white
+        newNavBarAppearance.backgroundColor = UIColor(hexString: AppColor.blue.rawValue)
         newNavBarAppearance.shadowColor = .clear
-        newNavBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor(hexString: AppColor.dark.rawValue)]
-        newNavBarAppearance.titleTextAttributes = [.foregroundColor: UIColor(hexString: AppColor.dark.rawValue)]
-        newNavBarAppearance.buttonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(hexString: AppColor.blue2.rawValue)]
+        newNavBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        newNavBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        newNavBarAppearance.buttonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(hexString: AppColor.lightGreen.rawValue)]
 
         let barButtonItemAppearance = UIBarButtonItemAppearance(style: .plain)
-        barButtonItemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(hexString: AppColor.blue2.rawValue)]
+        barButtonItemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(hexString: AppColor.lightGreen.rawValue)]
         barButtonItemAppearance.disabled.titleTextAttributes = [.foregroundColor: UIColor.lightText]
         barButtonItemAppearance.highlighted.titleTextAttributes = [.foregroundColor: UIColor.label]
         barButtonItemAppearance.focused.titleTextAttributes = [.foregroundColor: UIColor.white]
@@ -71,7 +71,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         newNavBarAppearance.doneButtonAppearance = barButtonItemAppearance
         
         let appearance = UINavigationBar.appearance()
-        appearance.tintColor = UIColor(hexString: AppColor.blue2.rawValue)
+        appearance.tintColor = UIColor(hexString: AppColor.lightGreen.rawValue)
+//        appearance.tintColor = UIColor.
         appearance.scrollEdgeAppearance = newNavBarAppearance
         appearance.compactAppearance = newNavBarAppearance
         appearance.standardAppearance = newNavBarAppearance
