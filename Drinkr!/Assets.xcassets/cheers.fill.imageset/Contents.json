@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "icons8-beer-50(@1x).png",
+      "filename" : "icons8-beer-150 (1).png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "icons8-beer-100(@2x).png",
+      "filename" : "icons8-beer-200.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "icons8-beer-150(@3x).png",
+      "filename" : "icons8-beer-250.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

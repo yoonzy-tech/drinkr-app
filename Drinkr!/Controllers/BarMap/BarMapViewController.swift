@@ -54,6 +54,12 @@ class BarMapViewController: UIViewController {
         searchVC.obscuresBackgroundDuringPresentation = true
         definesPresentationContext = true
         navigationItem.searchController = searchVC
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        searchVC.searchBar.searchTextField.backgroundColor = UIColor(hexString: "#1D67FF")
+        searchVC.searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
+            string: "Search bar name",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor(hexString: AppColor.gray.rawValue)])
+        searchVC.searchBar.searchTextField.leftView?.tintColor = UIColor(hexString: AppColor.gray.rawValue)
         // Core Location Setup
         locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -232,6 +238,7 @@ extension BarMapViewController: UICollectionViewDataSource,
         if let rating = dataSource[indexPath.row].rating {
             cell.placeRatingOpenHourLabel.text = rating > 0 ? "\(rating) Stars" : "No ratings"
         }
+        
         if let barLatitude = dataSource[indexPath.row].geometry?.location.lat,
            let barLongitude = dataSource[indexPath.row].geometry?.location.lng {
             let distance = calculateDistance(
@@ -266,7 +273,7 @@ extension BarMapViewController: UICollectionViewDataSource,
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let screen = UIScreen.main.bounds
         let screenWidth = screen.size.width
-        return CGSize(width: screenWidth - 20, height: 145)
+        return CGSize(width: screenWidth - 20, height: 150)
     }
     
     // Enlarge the map pin of this bar card
@@ -420,7 +427,18 @@ extension BarMapViewController {
         }
         
         saved = !saved
-        cell.saveButton.setImage(saved ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"), for: .normal)
+  
+        if saved {
+            let image = UIImage(systemName: "heart.fill",
+                                withConfiguration: UIImage.SymbolConfiguration(scale: .small))
+            cell.saveButton.setImage(image, for: .normal)
+        } else {
+            let image = UIImage(systemName: "heart",
+                                withConfiguration: UIImage.SymbolConfiguration(scale: .small))
+            cell.saveButton.setImage(image, for: .normal)
+            
+        }
+        
         let favPlace = FavPlace(placeID: placeId, addedTime: Timestamp())
         saved ? (favoritePlaces.append(favPlace)) : (favoritePlaces.removeAll { $0.placeID == placeId })
         user?.favoritePlaces = favoritePlaces

@@ -19,6 +19,8 @@ enum AppColor: String {
     case red = "#FA5252"
     case beige = "#DEDEE3"
     case lightGreen = "#D2F800"
+    case gray = "#E6E7E8"
+    case darkGray = "#484848"
 }
 
 extension UIColor {

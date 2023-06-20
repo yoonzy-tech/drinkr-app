@@ -27,5 +27,7 @@ class BarCardCollectionViewCell: UICollectionViewCell {
         layer.shadowOffset = CGSize(width: 0, height: 0.3)
         layer.shadowRadius = 4
         layer.cornerRadius = 5
+        directionButton.layer.cornerRadius = 5
+        saveButton.layer.cornerRadius = 5
     }
 }

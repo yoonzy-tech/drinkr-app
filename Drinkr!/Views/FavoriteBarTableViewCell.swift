@@ -22,6 +22,8 @@ class FavoriteBarTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        barImageView.layer.cornerRadius = 5
+        barNameLabel.font = UIFont.systemFont(ofSize: 18.0, weight: .bold)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

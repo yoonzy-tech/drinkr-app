@@ -40,7 +40,7 @@ class CameraViewController: UIViewController {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.setImage(UIImage(systemName: "pencil"), for: .normal)
-        button.tintColor = UIColor(hexString: AppColor.green2.rawValue, alpha: 1.0)
+        button.tintColor = UIColor(hexString: AppColor.lightGreen.rawValue, alpha: 1.0)
         button.backgroundColor = UIColor(hexString: AppColor.dark2.rawValue, alpha: 1.0)
         button.layer.cornerRadius = 20
         button.addTarget(self, action: #selector(addCaption), for: .touchUpInside)
@@ -57,6 +57,7 @@ class CameraViewController: UIViewController {
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.setImage(UIImage(named: "icons8-post"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
+        button.tintColor = UIColor(hexString: AppColor.lightGreen.rawValue)
         button.backgroundColor = UIColor(hexString: AppColor.dark2.rawValue, alpha: 1.0)
         button.layer.cornerRadius = 20
         button.addTarget(self, action: #selector(publishImage), for: .touchUpInside)

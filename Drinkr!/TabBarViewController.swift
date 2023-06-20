@@ -12,7 +12,7 @@ class TabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         let tabBarAppearance = UITabBarAppearance()
-        tabBarAppearance.backgroundColor = UIColor(hexString: "#FFFFFF")
+        tabBarAppearance.backgroundColor = UIColor.white
         tabBarAppearance.stackedLayoutAppearance.normal.titleTextAttributes = [
             .foregroundColor: UIColor.lightGray]
         tabBarAppearance.stackedLayoutAppearance.normal.iconColor = UIColor.lightGray

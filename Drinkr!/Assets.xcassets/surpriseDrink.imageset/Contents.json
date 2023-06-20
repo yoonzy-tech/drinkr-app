@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "icons8-question-mark-100(@1x).png",
+      "filename" : "icons8-shake-phone-60(@1x).png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "icons8-question-mark-200(@2x).png",
+      "filename" : "icons8-shake-phone-120(@2x).png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "icons8-question-mark-300(@3x).png",
+      "filename" : "icons8-shake-phone-180(@3x).png",
       "idiom" : "universal",
       "scale" : "3x"
     }

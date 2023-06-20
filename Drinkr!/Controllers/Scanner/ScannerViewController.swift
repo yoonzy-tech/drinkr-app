@@ -40,7 +40,6 @@ class ScannerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        imageView.layer.cornerRadius = 10
         cameraButton.layer.cornerRadius = 5
         photoLibraryButton.layer.cornerRadius = 5
         
@@ -55,7 +54,7 @@ class ScannerViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        imageView.image = UIImage(named: "beer can")
+        imageView.image = UIImage(named: "beer can 2")
         itemLabel.text = "Take a photo or choose from library to scan"
         detailsLabel.text = nil
     }

@@ -61,7 +61,7 @@ class PostsViewController: UIViewController {
         // Lottie Animation
         animationView = .init(name: "beer filling")
         animationView!.frame = view.frame
-        animationView?.backgroundColor = UIColor(hexString: AppColor.blue2.rawValue)
+        animationView?.backgroundColor = UIColor(hexString: AppColor.blue.rawValue)
         animationView!.contentMode = .scaleAspectFit
         animationView!.loopMode = .loop
         animationView!.animationSpeed = 1
@@ -116,7 +116,10 @@ class PostsViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.reloadData()
-        collectionView.mj_header = MJRefreshNormalHeader()
+        let header = MJRefreshNormalHeader()
+        header.stateLabel?.textColor = UIColor.white
+        header.lastUpdatedTimeLabel?.textColor = UIColor.white
+        collectionView.mj_header = header
         collectionView.mj_header?.setRefreshingTarget(self, refreshingAction: #selector(refreshData))
         
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap))

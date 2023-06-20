@@ -35,7 +35,6 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.delegate = self
-        
         collectionView.mj_header = MJRefreshNormalHeader()
         collectionView.mj_header?.setRefreshingTarget(self, refreshingAction: #selector(refreshData))
         retrieveUserData()
@@ -116,7 +115,7 @@ extension ProfileViewController: UICollectionViewDataSource,
         let screen = UIScreen.main.bounds
         let screenWidth = screen.size.width
         return indexPath.section == 0 ?
-        CGSize(width: screenWidth, height: 280) :
+        CGSize(width: screenWidth, height: 270) :
         CGSize(width: (screenWidth / 3.0) - 2, height: (screenWidth / 3.0) - 2)
     }
     
@@ -268,5 +267,17 @@ extension ProfileViewController: ASAuthorizationControllerDelegate {
 extension ProfileViewController: ASAuthorizationControllerPresentationContextProviding {
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return self.view.window!
+    }
+}
+
+class WhiteBackgroundDecorationView: UICollectionReusableView {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = .white
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

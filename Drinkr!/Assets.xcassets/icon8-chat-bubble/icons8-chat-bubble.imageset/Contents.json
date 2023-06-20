@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "icons8-chat-bubble-50(@1x).png",
+      "filename" : "icons8-comments-50.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "icons8-chat-bubble-100(@2x).png",
+      "filename" : "icons8-comments-100.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "icons8-chat-bubble-150(@3x).png",
+      "filename" : "icons8-comments-150.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

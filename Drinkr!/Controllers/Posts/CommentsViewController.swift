@@ -15,6 +15,7 @@ class CommentsViewController: UIViewController {
     @IBOutlet weak var userProfileImageView: UIImageView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var postCommentButton: UIButton!
     
     var userData: User?
     var postDataSource: Post?
@@ -39,6 +40,7 @@ class CommentsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        postCommentButton.layer.cornerRadius = postCommentButton.frame.width / 2
         textField.borderStyle = .none
         tableView.dataSource = self
         tableView.delegate = self

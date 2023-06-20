@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0408F5E22A30AC8800D7FF52 /* UserInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408F5E12A30AC8800D7FF52 /* UserInfoCollectionViewCell.swift */; };
+		040D52832A407300001D757F /* GifLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D52822A407300001D757F /* GifLoader.swift */; };
+		040D52852A4074C9001D757F /* findCocktail.json in Resources */ = {isa = PBXBuildFile; fileRef = 040D52842A4074C9001D757F /* findCocktail.json */; };
 		040DB2C12A1B8D44003E02A4 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB2C02A1B8D44003E02A4 /* CameraViewController.swift */; };
 		040DB3092A1C8B82003E02A4 /* CameraViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB3082A1C8B82003E02A4 /* CameraViewController+Extension.swift */; };
 		040DB30B2A1C99C2003E02A4 /* ScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB30A2A1C99C1003E02A4 /* ScannerViewController.swift */; };
@@ -87,11 +89,14 @@
 		04E856572A2C84090041F1DE /* ImageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E856552A2C84090041F1DE /* ImageTableViewCell.xib */; };
 		04E856592A2C889E0041F1DE /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E856582A2C889E0041F1DE /* SectionHeaderView.swift */; };
 		04E8565B2A2C88B30041F1DE /* SectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E8565A2A2C88B30041F1DE /* SectionHeaderView.xib */; };
+		04F014542A41B18800198AF1 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 04F014532A41B18800198AF1 /* loading.json */; };
 		F3EEB3BA26076AFD5FCEA003 /* Pods_Drinkr_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BB0E2B5F3435C8674393EF8 /* Pods_Drinkr_.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0408F5E12A30AC8800D7FF52 /* UserInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoCollectionViewCell.swift; sourceTree = "<group>"; };
+		040D52822A407300001D757F /* GifLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifLoader.swift; sourceTree = "<group>"; };
+		040D52842A4074C9001D757F /* findCocktail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = findCocktail.json; sourceTree = "<group>"; };
 		040DB2C02A1B8D44003E02A4 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		040DB3082A1C8B82003E02A4 /* CameraViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Extension.swift"; sourceTree = "<group>"; };
 		040DB30A2A1C99C1003E02A4 /* ScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerViewController.swift; sourceTree = "<group>"; };
@@ -165,6 +170,7 @@
 		04E856552A2C84090041F1DE /* ImageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageTableViewCell.xib; sourceTree = "<group>"; };
 		04E856582A2C889E0041F1DE /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		04E8565A2A2C88B30041F1DE /* SectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SectionHeaderView.xib; sourceTree = "<group>"; };
+		04F014532A41B18800198AF1 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
 		5BB0E2B5F3435C8674393EF8 /* Pods_Drinkr_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Drinkr_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE559A43A4F2DBB9910367AB /* Pods-Drinkr!.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drinkr!.release.xcconfig"; path = "Target Support Files/Pods-Drinkr!/Pods-Drinkr!.release.xcconfig"; sourceTree = "<group>"; };
 		C0B0CC910109A565297FE5AE /* Pods-Drinkr!.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drinkr!.debug.xcconfig"; path = "Target Support Files/Pods-Drinkr!/Pods-Drinkr!.debug.xcconfig"; sourceTree = "<group>"; };
@@ -337,6 +343,7 @@
 				04D2C1D12A207444001212A7 /* Date+Extension.swift */,
 				044362AB2A28AD56007C89F6 /* UIColor+Extension.swift */,
 				04BEE3D72A378CD2004BF5FD /* Utils.swift */,
+				040D52822A407300001D757F /* GifLoader.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -344,10 +351,12 @@
 		04E568B52A290E9500863D8B /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				040D52842A4074C9001D757F /* findCocktail.json */,
 				047E42552A2F8F8A008D4E5A /* pouring.mp3 */,
 				04DF361C2A3DA85D00F61D16 /* cocktails.json */,
 				047E42512A2F8A88008D4E5A /* beer filling.json */,
 				0450E77A2A2F72FB00B3EFF8 /* fill drink.json */,
+				04F014532A41B18800198AF1 /* loading.json */,
 				04E568B62A290EB500863D8B /* beer loading.json */,
 			);
 			path = Animations;
@@ -500,9 +509,11 @@
 				04DF361D2A3DA85D00F61D16 /* cocktails.json in Resources */,
 				04DF36252A3F17F900F61D16 /* DrinksInfo.json in Resources */,
 				047E42522A2F8A88008D4E5A /* beer filling.json in Resources */,
+				04F014542A41B18800198AF1 /* loading.json in Resources */,
 				04E8564E2A2C7F9B0041F1DE /* DetailsTableViewCell.xib in Resources */,
 				04E568B72A290EB500863D8B /* beer loading.json in Resources */,
 				048E165D2A176A540008CF2A /* Assets.xcassets in Resources */,
+				040D52852A4074C9001D757F /* findCocktail.json in Resources */,
 				04E856572A2C84090041F1DE /* ImageTableViewCell.xib in Resources */,
 				044AA71B2A39870700C058F9 /* PanelTableViewCell.xib in Resources */,
 				0450E77B2A2F72FB00B3EFF8 /* fill drink.json in Resources */,
@@ -603,6 +614,7 @@
 				04D2C1D22A207444001212A7 /* Date+Extension.swift in Sources */,
 				04B9EA092A1A81BA002A7EC4 /* GooglePlacesManager.swift in Sources */,
 				048C8A3B2A2D0122001F001E /* CocktailResultsViewController.swift in Sources */,
+				040D52832A407300001D757F /* GifLoader.swift in Sources */,
 				044AA71A2A39870700C058F9 /* PanelTableViewCell.swift in Sources */,
 				04946E802A27850F00DCD2A4 /* Post.swift in Sources */,
 				047AF2A82A1DEB2B00FB9ADD /* ScanHistory.swift in Sources */,

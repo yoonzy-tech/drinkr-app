@@ -20,11 +20,11 @@ class RecipeTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Add shadow to the cell's contentView
-        contentView.layer.masksToBounds = false
-        contentView.layer.shadowColor = UIColor.darkGray.cgColor
-        contentView.layer.shadowOpacity = 0.3
-        contentView.layer.shadowOffset = CGSize(width: 0, height: 0.8)
-        contentView.layer.shadowRadius = 4
+//        contentView.layer.masksToBounds = false
+//        contentView.layer.shadowColor = UIColor.darkGray.cgColor
+//        contentView.layer.shadowOpacity = 0.3
+//        contentView.layer.shadowOffset = CGSize(width: 0, height: 0.8)
+//        contentView.layer.shadowRadius = 4
         contentView.layer.cornerRadius = 10
         
         drinkImageView.layer.cornerRadius = 5

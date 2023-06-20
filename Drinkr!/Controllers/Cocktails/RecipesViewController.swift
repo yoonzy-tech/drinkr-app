@@ -50,7 +50,7 @@ class RecipesViewController: UIViewController {
         animationView.isHidden = false
         animationView.contentMode = .scaleAspectFit
         animationView.loopMode = .playOnce
-        animationView.animationSpeed = 1.5
+        animationView.animationSpeed = 2
         animationView.play()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.animationView.stop()
@@ -82,16 +82,23 @@ class RecipesViewController: UIViewController {
         tableView.delegate = self
         
         updateDataSource()
-        
-        tableView.mj_header = MJRefreshNormalHeader()
+        let header = MJRefreshNormalHeader()
+        header.stateLabel?.textColor = UIColor.white
+        header.lastUpdatedTimeLabel?.textColor = UIColor.white
+        tableView.mj_header = header
         tableView.mj_header?.setRefreshingTarget(self, refreshingAction: #selector(refreshData))
         
         searchVC.searchBar.sizeToFit()
         searchVC.searchResultsUpdater = self
         searchVC.obscuresBackgroundDuringPresentation = true
+        searchVC.searchBar.searchTextField.backgroundColor = UIColor(hexString: "#1D67FF")
+        searchVC.searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
+            string: "Search cocktail name",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor(hexString: AppColor.gray.rawValue)])
+        searchVC.searchBar.searchTextField.leftView?.tintColor = UIColor(hexString: AppColor.gray.rawValue)
 //        searchVC.searchBar.scopeButtonTitles = ["All", "Whiskey", "Vodka", "Gin", "Others"]
 //        searchVC.searchBar.showsScopeBar = true
-        searchVC.searchBar.placeholder = "Search cocktail name"
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         searchVC.searchBar.delegate = self
         definesPresentationContext = true
         navigationItem.searchController = searchVC
@@ -150,9 +157,6 @@ extension RecipesViewController: UISearchResultsUpdating, UISearchBarDelegate, C
         print("New scope index is now \(selectedScope)")
         
         guard let scope = searchBar.scopeButtonTitles?[selectedScope] else { return }
-        
-        
-        
         // fetch all the alcohol data
         // Know which scope is selected to filter the data
         // Display on the list
@@ -174,18 +178,20 @@ extension RecipesViewController: UITableViewDataSource, UITableViewDelegate {
         
         if indexPath.row == 0 {
             // Show Surprise Me
+            cell.drinkImageView.clipsToBounds = false
             cell.drinkImageView.image = UIImage(named: "surpriseDrink")
-            cell.drinkNameLabel.text = "Surprise Me 🤘🏻"
-            cell.detailsLabel.text = "Shake your device to see what to get tonight!"
+            cell.drinkNameLabel.text = "Shake Phone to Get Surprise 🍾"
+            cell.detailsLabel.text = "Get a random cocktail for tonight!"
+            cell.contentView.layer.backgroundColor = UIColor(hexString: AppColor.lightGreen.rawValue).cgColor
             return cell
         } else {
             let imageUrl = URL(string: dataSource[indexPath.row - 1].strDrinkThumb ?? "")
-            
+            cell.drinkImageView.clipsToBounds = true
             cell.drinkImageView.kf.setImage(with: imageUrl)
             cell.drinkNameLabel.text = dataSource[indexPath.row - 1].strDrink
             
             cell.detailsLabel.text = dataSource[indexPath.row - 1].getIngredients()
-            
+            cell.contentView.layer.backgroundColor = UIColor.white.cgColor
             return cell
         }
     }
