@@ -30,7 +30,7 @@ protocol PostCaptionDelegate: AnyObject {
 
 class PostsViewController: UIViewController {
     
-    var currentUserUid = Auth.auth().currentUser?.uid
+//    var currentUserUid: String?
     
     var postData: Post?
     
@@ -57,6 +57,7 @@ class PostsViewController: UIViewController {
     }
     
     func startAnimation() {
+        collectionView.reloadData()
         playBeerPouringSound()
         // Lottie Animation
         animationView = .init(name: "beer filling")
@@ -115,30 +116,27 @@ class PostsViewController: UIViewController {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.reloadData()
-        let header = MJRefreshNormalHeader()
-        header.stateLabel?.textColor = UIColor.white
-        header.lastUpdatedTimeLabel?.textColor = UIColor.white
-        collectionView.mj_header = header
+        
+        collectionView.mj_header = MJRefreshNormalHeader()
         collectionView.mj_header?.setRefreshingTarget(self, refreshingAction: #selector(refreshData))
-        
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap))
-        tapGesture?.numberOfTouchesRequired = 2
-        
-        if postIndex != nil {
-            self.collectionView.reloadData()
-        } else {
-            FirebaseManager.shared.listen(in: .users) {
-                self.updateDataSource()
-            }
+//        tapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap))
+//        tapGesture?.numberOfTouchesRequired = 2
+        FirebaseManager.shared.listen(in: .users) {
+            self.updateDataSource()
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if postIndex != nil {
-            self.collectionView.reloadData()
+        if let postIndex = postIndex {
+            guard let userUid = Auth.auth().currentUser?.uid else { return }
+            FirebaseManager.shared.fetchAllByUserUid(in: .posts, userUid: userUid) { (posts: [Post]) in
+                self.dataSource = posts
+                self.dataSource.sort { ($0.createdTime ?? .init())
+                    .compare($1.createdTime ?? .init()) == .orderedDescending }
+                self.collectionView.reloadData()
+            }
         } else {
             updateDataSource()
         }
@@ -181,7 +179,7 @@ class PostsViewController: UIViewController {
     }
     
     @objc func refreshData() {
-        if let index = navigationController?.viewControllers.count, index >= 1 {
+        if let index = navigationController?.viewControllers.count, index > 1 {
             self.collectionView.reloadData()
         } else {
             updateDataSource()
@@ -190,13 +188,21 @@ class PostsViewController: UIViewController {
     }
     
     private func updateDataSource() {
-        FirebaseManager.shared.fetchAccountInfo(uid: currentUserUid ?? "Unknown User Uid") { currentUserData in
-            
+        guard let currentUserUid = Auth.auth().currentUser?.uid else { return }
+        FirebaseManager.shared.fetchAccountInfo(uid: currentUserUid) { currentUserData in
             var followingList = currentUserData.following
-            followingList.append(currentUserData.uid)
+            followingList.append(currentUserUid)
             
             FirebaseManager.shared.fetchAll(in: .posts) { [weak self] (posts: [Post]) in
-                let filteredPosts = posts.filter { followingList.contains($0.userUid) }
+                
+                let filteredPosts = posts.filter { post in
+//                    print("----------------")
+//                    print(followingList)
+//                    print(post.userUid)
+//                    print(followingList.contains(post.userUid))
+//                    print("----------------")
+                    return followingList.contains(post.userUid)
+                }
                 self?.dataSource = filteredPosts
                 self?.dataSource.sort { ($0.createdTime ?? .init())
                     .compare($1.createdTime ?? .init()) == .orderedDescending }
@@ -223,11 +229,11 @@ extension PostsViewController: UICollectionViewDataSource,
         cell.updateCell(post: dataSource[indexPath.row])
         cell.postImageView.clipsToBounds = true
         cell.postImageView.isUserInteractionEnabled = true
-        if let tapGesture = tapGesture {
-            cell.postImageView.addGestureRecognizer(tapGesture)
-        } else {
-            print("Failed to add tap gesture")
-        }
+//        if let tapGesture = tapGesture {
+//            cell.postImageView.addGestureRecognizer(tapGesture)
+//        } else {
+//            print("Failed to add tap gesture")
+//        }
         
         cell.likeButton.tag = indexPath.row
         cell.likeButton.addTarget(self, action: #selector(likes), for: .touchUpInside)
@@ -318,7 +324,7 @@ extension PostsViewController {
                 }
             let blockUserAction: UIAlertAction = UIAlertAction(
                 title: "Block user", style: .destructive) { _ in
-                    guard let currentUserUid = self.currentUserUid,
+                    guard let currentUserUid = Auth.auth().currentUser?.uid,
                           let blockUid = self.postData?.userUid else {
                         return
                     }

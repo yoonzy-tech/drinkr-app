@@ -60,9 +60,6 @@ class CommentsViewController: UIViewController {
             }
             
         }
-
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        view.addGestureRecognizer(tapGesture)
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(didEnterBackground),
@@ -85,6 +82,11 @@ class CommentsViewController: UIViewController {
     
     @objc func handleTap() {
         view.endEditing(true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {

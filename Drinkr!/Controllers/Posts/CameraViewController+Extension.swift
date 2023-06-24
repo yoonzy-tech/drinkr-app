@@ -62,8 +62,8 @@ extension CameraViewController {
             preferredStyle: .alert)
         alertController.addTextField { (textField: UITextField!) -> Void in
             textField.placeholder = "Enter Caption"
-            if let caption = textField.text {
-                self.currentCaption = caption
+            if self.currentCaption != nil {
+                textField.text = self.currentCaption
             }
         }
         
@@ -123,15 +123,20 @@ extension CameraViewController {
                     location: self?.location ?? "No location"
                 )
                 
-                FirebaseManager.shared.create(in: .posts, data: post)
                 // Clear whatever is in this variable after posting
                 self?.currentCaption = ""
+                
+                FirebaseManager.shared.create(in: .posts, data: post) {
+                    self?.performSegue(withIdentifier: "backToPosts", sender: nil)
+                }
             }
             
         } else {
             print("Failed to get image data")
         }
-        
-        performSegue(withIdentifier: "backToPosts", sender: nil)
     }
+}
+
+extension CameraViewController {
+    
 }

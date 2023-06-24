@@ -100,7 +100,7 @@ class PanelTabsViewController: UIViewController {
         followingContainerView.isHidden = true
         blocklistContainerView.isHidden = true
         searchResultContainerView.isHidden = true
-        
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         view.addGestureRecognizer(tapGesture)
         

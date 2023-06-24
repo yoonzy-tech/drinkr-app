@@ -35,8 +35,6 @@ class FirebaseManager {
     
     private init() {}
     
-//    var userUid: String?
-    
     var userData: User?
     
     var currentNonce: String?
@@ -46,9 +44,11 @@ class FirebaseManager {
     private let storage = Storage.storage().reference()
     
     // MARK: Create, Write
-    func create<T: Codable>(in collection: Collection, data: T) {
+    func create<T: Codable>(in collection: Collection, data: T, completion: (() -> Void)? = nil) {
         do {
-            try database.collection(collection.rawValue).addDocument(from: data) // ignore the error here
+            try database.collection(collection.rawValue).addDocument(from: data) { _ in
+                completion?()
+            }
         } catch {
             print("Error to add document: \(error.localizedDescription)")
         }
@@ -57,8 +57,9 @@ class FirebaseManager {
     // MARK: Update
     func update<T: Codable>(in collection: Collection, docId: String, data: T, completion: (() -> Void)? = nil) {
         do {
-            try database.collection(collection.rawValue).document(docId).setData(from: data)
-            completion?()
+            try database.collection(collection.rawValue).document(docId).setData(from: data) { _ in 
+                completion?()
+            }
         } catch {
             print(error)
         }

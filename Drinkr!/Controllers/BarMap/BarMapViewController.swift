@@ -255,7 +255,7 @@ extension BarMapViewController: UICollectionViewDataSource,
            let width = dataSource[indexPath.row].photos?.first?.width {
             let string = "https://maps.googleapis.com/maps/api/place/photo?photo_reference=\(photoRef)&maxwidth=\(width)&maxheight=\(height)&key=\(GMSPlacesAPIKey)"
             cell.imageView.kf.setImage(with: URL(string: string))
-            cell.imageView.layer.cornerRadius = 8
+            cell.imageView.layer.cornerRadius = 5
         }
         
         cell.directionButton.tag = indexPath.row
@@ -273,7 +273,7 @@ extension BarMapViewController: UICollectionViewDataSource,
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let screen = UIScreen.main.bounds
         let screenWidth = screen.size.width
-        return CGSize(width: screenWidth - 20, height: 150)
+        return CGSize(width: screenWidth - 20, height: 165)
     }
     
     // Enlarge the map pin of this bar card
@@ -427,17 +427,7 @@ extension BarMapViewController {
         }
         
         saved = !saved
-  
-        if saved {
-            let image = UIImage(systemName: "heart.fill",
-                                withConfiguration: UIImage.SymbolConfiguration(scale: .small))
-            cell.saveButton.setImage(image, for: .normal)
-        } else {
-            let image = UIImage(systemName: "heart",
-                                withConfiguration: UIImage.SymbolConfiguration(scale: .small))
-            cell.saveButton.setImage(image, for: .normal)
-            
-        }
+        cell.saveButton.setImage(saved ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"), for: .normal)
         
         let favPlace = FavPlace(placeID: placeId, addedTime: Timestamp())
         saved ? (favoritePlaces.append(favPlace)) : (favoritePlaces.removeAll { $0.placeID == placeId })

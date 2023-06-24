@@ -21,7 +21,6 @@
 		0414D36A2A333F8C007BB817 /* PlacesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0414D3692A333F8C007BB817 /* PlacesResponse.swift */; };
 		0419034D2A1DB59B009BD42A /* ScanHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0419034C2A1DB59B009BD42A /* ScanHistoryViewController.swift */; };
 		0419034F2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0419034E2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift */; };
-		043140F52A3B5018001EF452 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 043140F42A3B5018001EF452 /* GoogleService-Info.plist */; };
 		043140F72A3B5275001EF452 /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043140F62A3B5275001EF452 /* ApiKeys.swift */; };
 		044362AC2A28AD56007C89F6 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044362AB2A28AD56007C89F6 /* UIColor+Extension.swift */; };
 		04485E762A3854590022F03A /* PanelSearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04485E752A3854590022F03A /* PanelSearchResultsViewController.swift */; };
@@ -90,6 +89,7 @@
 		04E856592A2C889E0041F1DE /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E856582A2C889E0041F1DE /* SectionHeaderView.swift */; };
 		04E8565B2A2C88B30041F1DE /* SectionHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04E8565A2A2C88B30041F1DE /* SectionHeaderView.xib */; };
 		04F014542A41B18800198AF1 /* loading.json in Resources */ = {isa = PBXBuildFile; fileRef = 04F014532A41B18800198AF1 /* loading.json */; };
+		04F014582A41EDB300198AF1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04F014572A41EDB300198AF1 /* GoogleService-Info.plist */; };
 		F3EEB3BA26076AFD5FCEA003 /* Pods_Drinkr_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BB0E2B5F3435C8674393EF8 /* Pods_Drinkr_.framework */; };
 /* End PBXBuildFile section */
 
@@ -109,7 +109,6 @@
 		0419034C2A1DB59B009BD42A /* ScanHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScanHistoryViewController.swift; path = "Drinkr!/Controllers/Scanner/ScanHistoryViewController.swift"; sourceTree = SOURCE_ROOT; };
 		0419034E2A1DB5FF009BD42A /* ScanHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScanHistoryTableViewCell.swift; path = "Drinkr!/Views/ScanHistoryTableViewCell.swift"; sourceTree = SOURCE_ROOT; };
 		0429F2D82A2E18FF00F255CF /* Drinkr!.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Drinkr!.entitlements"; sourceTree = "<group>"; };
-		043140F42A3B5018001EF452 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		043140F62A3B5275001EF452 /* ApiKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 		044362AB2A28AD56007C89F6 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		04485E752A3854590022F03A /* PanelSearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelSearchResultsViewController.swift; sourceTree = "<group>"; };
@@ -171,6 +170,7 @@
 		04E856582A2C889E0041F1DE /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		04E8565A2A2C88B30041F1DE /* SectionHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SectionHeaderView.xib; sourceTree = "<group>"; };
 		04F014532A41B18800198AF1 /* loading.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading.json; sourceTree = "<group>"; };
+		04F014572A41EDB300198AF1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5BB0E2B5F3435C8674393EF8 /* Pods_Drinkr_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Drinkr_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE559A43A4F2DBB9910367AB /* Pods-Drinkr!.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drinkr!.release.xcconfig"; path = "Target Support Files/Pods-Drinkr!/Pods-Drinkr!.release.xcconfig"; sourceTree = "<group>"; };
 		C0B0CC910109A565297FE5AE /* Pods-Drinkr!.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drinkr!.debug.xcconfig"; path = "Target Support Files/Pods-Drinkr!/Pods-Drinkr!.debug.xcconfig"; sourceTree = "<group>"; };
@@ -269,8 +269,8 @@
 				0419034B2A1DB547009BD42A /* Views */,
 				048E166E2A1774170008CF2A /* Storyboards */,
 				048E165C2A176A540008CF2A /* Assets.xcassets */,
+				04F014572A41EDB300198AF1 /* GoogleService-Info.plist */,
 				048E16612A176A540008CF2A /* Info.plist */,
-				043140F42A3B5018001EF452 /* GoogleService-Info.plist */,
 			);
 			path = "Drinkr!";
 			sourceTree = "<group>";
@@ -519,8 +519,8 @@
 				0450E77B2A2F72FB00B3EFF8 /* fill drink.json in Resources */,
 				048E165B2A176A520008CF2A /* Main.storyboard in Resources */,
 				047E42562A2F8F8A008D4E5A /* pouring.mp3 in Resources */,
+				04F014582A41EDB300198AF1 /* GoogleService-Info.plist in Resources */,
 				04E8565B2A2C88B30041F1DE /* SectionHeaderView.xib in Resources */,
-				043140F52A3B5018001EF452 /* GoogleService-Info.plist in Resources */,
 				048C8A392A2CF45D001F001E /* DescrtiptionTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -829,7 +829,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.yoonzy.Drinkr-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -866,7 +866,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.yoonzy.Drinkr-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
