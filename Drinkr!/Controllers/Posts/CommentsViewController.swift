@@ -61,6 +61,10 @@ class CommentsViewController: UIViewController {
             
         }
         
+        // Dismiss Keyboard Gesture
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        view.addGestureRecognizer(tapGesture)
+        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(didEnterBackground),
                                                name: UIApplication.didEnterBackgroundNotification, object: nil)
@@ -86,13 +90,12 @@ class CommentsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        IQKeyboardManager.shared.enableAutoToolbar = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if shouldActivateTextField {
-            IQKeyboardManager.shared.enableAutoToolbar = false
             textField.becomeFirstResponder()
         }
     }

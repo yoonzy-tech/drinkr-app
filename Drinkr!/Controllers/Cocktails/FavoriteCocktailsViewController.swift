@@ -55,7 +55,6 @@ class FavoriteCocktailsViewController: UIViewController {
 extension FavoriteCocktailsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        dataSource.count
         favDrinksDataSource.count
     }
     
@@ -64,20 +63,17 @@ extension FavoriteCocktailsViewController: UITableViewDataSource, UITableViewDel
             withIdentifier: "FavoriteCocktailTableViewCell", for: indexPath) as? FavoriteCocktailTableViewCell
         else { fatalError("Unable to generate Table View Cell") }
         
-        let drinkId = favDrinksDataSource[indexPath.row].idDrink
-        
         FirebaseManager.shared.fetchOne(
             in: .cocktailDB,
             field: "idDrink",
-            value: drinkId) { (drinks: [Drink]) in
-                guard let drinkDetail = drinks.first else {
-                    print("Unable to get cell details")
-                    return
+            value: favDrinksDataSource[indexPath.row].idDrink) { (drinkDetails: [Drink]) in
+
+                if let drinkDetail = drinkDetails.first {
+                    cell.cocktailImageView.kf.setImage(with: URL(string: drinkDetail.strDrinkThumb ?? ""))
+                    cell.cocktailNameLabel.text = drinkDetail.strDrink ?? "Unknown Drink"
+                    cell.cocktailGlassLabel.text = drinkDetail.strGlass ?? "Not specific"
+                    cell.cocktailIngredientsLabel.text = drinkDetail.getIngredients()
                 }
-                cell.cocktailImageView.kf.setImage(with: URL(string: drinkDetail.strDrinkThumb ?? ""))
-                cell.cocktailNameLabel.text = drinkDetail.strDrink ?? "Unknown Drink"
-                cell.cocktailGlassLabel.text = drinkDetail.strGlass ?? "Not specific"
-                cell.cocktailIngredientsLabel.text = drinkDetail.getIngredients()
             }
         
         return cell

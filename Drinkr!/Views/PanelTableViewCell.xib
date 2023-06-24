@@ -28,7 +28,7 @@
                         <state key="normal" title="Button"/>
                         <buttonConfiguration key="configuration" style="plain" title="Button"/>
                     </button>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XU9-Ik-R5L">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XU9-Ik-R5L">
                         <rect key="frame" x="16" y="16" width="60" height="60"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="XU9-Ik-R5L" secondAttribute="height" multiplier="1:1" id="Rum-FH-Qia"/>

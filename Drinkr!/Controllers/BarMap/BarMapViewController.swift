@@ -42,7 +42,7 @@ class BarMapViewController: UIViewController {
     
     @IBAction func relocateUserPosition(_ sender: Any) {
         locationManager.requestLocation()
-        showNearbyBarsToUser()
+        zoomInUserLocation()
     }
     
     override func viewDidLoad() {
@@ -455,18 +455,19 @@ extension BarMapViewController {
                 UIPasteboard.general.string = self.dataSource[index].vicinity
             }
         let secondAction: UIAlertAction = UIAlertAction(
-            title: "Open in Apple Maps", style: .default) { _ in
-                let directionsURLString = "http://maps.apple.com/?saddr=\(userCoordinates)&daddr=\(destinationCoordinates)"
-                guard let directionsURL = URL(string: directionsURLString) else { return }
-                UIApplication.shared.open(directionsURL, options: [:], completionHandler: nil)
-            }
-        let thirdAction: UIAlertAction = UIAlertAction(
             title: "Open in Google Maps",
             style: .default) { _ in
                 let directionURLString = "https://www.google.com/maps/search/?api=1&query=\(destinationCoordinates)&query_place_id=\(placeId)"
                 guard let directionURL = URL(string: directionURLString) else { return }
                 UIApplication.shared.open(directionURL, options: [:], completionHandler: nil)
             }
+        let thirdAction: UIAlertAction = UIAlertAction(
+            title: "Open in Apple Maps", style: .default) { _ in
+                let directionsURLString = "http://maps.apple.com/?saddr=\(userCoordinates)&daddr=\(destinationCoordinates)"
+                guard let directionsURL = URL(string: directionsURLString) else { return }
+                UIApplication.shared.open(directionsURL, options: [:], completionHandler: nil)
+            }
+        
         let cancelAction: UIAlertAction = UIAlertAction(
             title: "Cancel",
             style: .cancel)
