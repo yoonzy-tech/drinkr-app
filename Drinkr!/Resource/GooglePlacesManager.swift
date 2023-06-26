@@ -23,7 +23,8 @@ final class GooglePlacesManager {
     private init() {}
     
     func sendApiRequest(with nextPageToken: String? = nil) {
-        let location  = "25.03028805128867,121.53062812349258"
+//        let location  = "25.03028805128867,121.53062812349258"
+        let location = "25.041465347966945,121.53239042956535"
 //        let location = "25.05294070102404,121.52033823497314"
 //        let location = "25.04190719631412,121.54378190819422"
 //        let location = "25.04193379440791,121.56655051965397"

@@ -457,15 +457,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="M12-NU-UHn">
-                                <rect key="frame" x="0.0" y="103" width="393" height="350"/>
+                                <rect key="frame" x="0.0" y="103" width="393" height="294.66666666666669"/>
                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="350" id="DeZ-8Z-Imf"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="350" id="DeZ-8Z-Imf"/>
+                                    <constraint firstAttribute="width" secondItem="M12-NU-UHn" secondAttribute="height" multiplier="4:3" id="Zgf-Gd-S68"/>
                                 </constraints>
                                 <imageReference key="image" image="beer can 2" symbolScale="small"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Take a photo or choose from library" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBD-wX-dA0">
-                                <rect key="frame" x="16" y="517" width="361" height="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Take a photo or choose from library" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gBD-wX-dA0">
+                                <rect key="frame" x="16" y="461.66666666666669" width="361" height="24"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -506,8 +507,8 @@
                                     <action selector="openCamera:" destination="JHF-np-lfz" eventType="touchUpInside" id="rAg-cV-fYc"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Scan bottles to learn more about it" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dZQ-W0-mI6">
-                                <rect key="frame" x="16" y="557" width="361" height="21.666666666666629"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scan bottles to learn more about it" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dZQ-W0-mI6">
+                                <rect key="frame" x="16" y="501.66666666666669" width="361" height="21.666666666666686"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -531,6 +532,7 @@
                             <constraint firstItem="3b5-OU-pTu" firstAttribute="trailing" secondItem="dZQ-W0-mI6" secondAttribute="trailing" constant="16" id="IQh-iO-YEd"/>
                             <constraint firstItem="z2s-qz-vND" firstAttribute="bottom" secondItem="3b5-OU-pTu" secondAttribute="bottom" id="JDJ-XB-p2F"/>
                             <constraint firstItem="M12-NU-UHn" firstAttribute="top" secondItem="3b5-OU-pTu" secondAttribute="top" id="KVz-IM-Tma"/>
+                            <constraint firstItem="adl-H1-S8Z" firstAttribute="top" relation="lessThanOrEqual" secondItem="dZQ-W0-mI6" secondAttribute="bottom" constant="107.67" id="M6R-YT-moV"/>
                             <constraint firstItem="z2s-qz-vND" firstAttribute="top" secondItem="3b5-OU-pTu" secondAttribute="top" id="Phv-5f-pHV"/>
                             <constraint firstItem="gBD-wX-dA0" firstAttribute="leading" secondItem="3b5-OU-pTu" secondAttribute="leading" constant="16" id="R7g-dI-xAy"/>
                             <constraint firstItem="z2s-qz-vND" firstAttribute="trailing" secondItem="3b5-OU-pTu" secondAttribute="trailing" id="S0g-rL-9kD"/>
