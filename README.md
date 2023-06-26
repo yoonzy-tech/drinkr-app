@@ -73,11 +73,11 @@ target 'Drinkr!' do
 
 ## Meta
 
-Your Name – [@YourTwitter](https://twitter.com/dbader_org) – YourEmail@example.com
+Ruby Chu – [@yoon_tech](https://twitter.com/yoon_tech) – dev.rubyc@gmail.com
 
-Distributed under the XYZ license. See ``LICENSE`` for more information.
+Distributed under the MIT license. See ``LICENSE`` for more information.
 
-[https://github.com/yourname/github-link](https://github.com/dbader/)
+[https://github.com/yoonzy-tech/Drinkr](https://github.com/yoonzy-tech/Drinkr)
 
 [swift-image]:https://img.shields.io/badge/swift-5.0-orange.svg
 [swift-url]: https://swift.org/
