@@ -1,80 +1,75 @@
-
 [![Swift Version][swift-image]][swift-url]
-[![Build Status][travis-image]][travis-url]
 [![License][license-image]][license-url]
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/EZSwiftExtensions.svg)](https://img.shields.io/cocoapods/v/LFAlertController.svg)  
 [![Platform](https://img.shields.io/cocoapods/p/LFAlertController.svg?style=flat)](http://cocoapods.org/pods/LFAlertController)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-# Drinkr
+
+# Drinkr!
 <br />
 <p align="center">
-  <a href="https://github.com/alexanderritik/Best-README-Template">
     <img src="logo.jpeg" alt="Logo" width="80" height="80">
-  </a>
-  <p align="center">
-    One to two paragraph statement about your product and what it does.
-  </p>
+      <p>
+      No ideas for the night out plan?
+      Drinkr! is anyone who loves night life, cocktail tasting, exploring bars & bistros. 
+      Our goal is to maximize the joy for Drinkers in the night, give them inspirations for where to go tonight and what drinks to get tonight.
+      </p>
 </p>
 
 <p align="row">
-<img src= "https://media.giphy.com/media/HYOlBKJBqgAfe/giphy.gif" width="400" >
-<img src= "https://media.giphy.com/media/HYOlBKJBqgAfe/giphy.gif" width="400" >
+<img src= "" width="400" >
+<img src= "" width="400" >
 </p>
 
-## Features
+## Features & Technologies
 
-- [x] Feature 1
-- [x] Feature 2
-- [x] Feature 3
-- [x] Feature 4
-- [x] Feature 5
+1. **Bar Map**
+
+CoreLocation, Apple MapKit, Google Places API
+
+2. **Cocktail Recipe Wiki**
+
+Gesture Recognizer, Cocktail DB API
+
+3. **Bottle Scanner**
+
+AVFoundation Camera, Vision Image Classifier, CoreML
+
+4. **Posts & News**
+
+Comply to Apple UGC Guideline, Animation, AVFoundation Audio
+
+5. **User Profile**
+
+Google Sign In, Apple Sign In, Firebase Firestore, Storage
+
 
 ## Requirements
 
-- iOS 8.0+
-- Xcode 7.3
+- iOS 15.0+
+- Xcode 14.3+
 
 ## Installation
 
 #### CocoaPods
-You can use [CocoaPods](http://cocoapods.org/) to install `YourLibrary` by adding it to your `Podfile`:
+You can use [CocoaPods](http://cocoapods.org/) to install all the required pods for this project.
+
+- Run `pod install` in your terminal console, if the project is not able to run successfully.
 
 ```ruby
-platform :ios, '8.0'
-use_frameworks!
-pod 'YourLibrary'
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '15.0'
+
+target 'Drinkr!' do
+  use_frameworks!
+
+  # Pods for Drinkr!
+  pod 'GooglePlaces'
+  pod 'SwiftLint'
+  pod 'IQKeyboardManagerSwift'
+  pod 'Kingfisher'
+  pod 'MJRefresh'
+  pod 'Alamofire' 
+  pod 'ProgressHUD'
 ```
-
-To get the full benefits import `YourLibrary` wherever you import UIKit
-
-``` swift
-import UIKit
-import YourLibrary
-```
-#### Carthage
-Create a `Cartfile` that lists the framework and run `carthage update`. Follow the [instructions](https://github.com/Carthage/Carthage#if-youre-building-for-ios) to add `$(SRCROOT)/Carthage/Build/iOS/YourLibrary.framework` to an iOS project.
-
-```
-github "yourUsername/yourlibrary"
-```
-#### Manually
-1. Download and drop ```YourLibrary.swift``` in your project.  
-2. Congratulations!  
-
-## Usage example
-
-```swift
-import EZSwiftExtensions
-ez.detectScreenShot { () -> () in
-    print("User took a screen shot")
-}
-```
-
-## Contribute
-
-We would love you for the contribution to **YourLibraryName**, check the ``LICENSE`` file for more info.
 
 ## Meta
 
@@ -84,11 +79,7 @@ Distributed under the XYZ license. See ``LICENSE`` for more information.
 
 [https://github.com/yourname/github-link](https://github.com/dbader/)
 
-[swift-image]:https://img.shields.io/badge/swift-3.0-orange.svg
+[swift-image]:https://img.shields.io/badge/swift-5.0-orange.svg
 [swift-url]: https://swift.org/
 [license-image]: https://img.shields.io/badge/License-MIT-blue.svg
 [license-url]: LICENSE
-[travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
-[codebeat-image]: https://codebeat.co/badges/c19b47ea-2f9d-45df-8458-b2d952fe9dad
-[codebeat-url]: https://codebeat.co/projects/github-com-vsouza-awesomeios-com
