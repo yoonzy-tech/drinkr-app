@@ -72,7 +72,6 @@
 		04AE14212A2F177F00CA4FCD /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AE14202A2F177F00CA4FCD /* ProfileViewController.swift */; };
 		04AE14232A2F207900CA4FCD /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AE14222A2F207900CA4FCD /* KeychainManager.swift */; };
 		04AE47942A3072D7003F5891 /* PostImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AE47932A3072D7003F5891 /* PostImageCollectionViewCell.swift */; };
-		04B1CD602A4A6E2E001990DE /* BaseSearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B1CD5F2A4A6E2E001990DE /* BaseSearchResultsViewController.swift */; };
 		04B9EA092A1A81BA002A7EC4 /* GooglePlacesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9EA082A1A81BA002A7EC4 /* GooglePlacesManager.swift */; };
 		04B9EA0F2A1A8382002A7EC4 /* BarResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9EA0E2A1A8382002A7EC4 /* BarResultsViewController.swift */; };
 		04BEE3D82A378CD2004BF5FD /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BEE3D72A378CD2004BF5FD /* Utils.swift */; };
@@ -166,7 +165,6 @@
 		04AE14202A2F177F00CA4FCD /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		04AE14222A2F207900CA4FCD /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		04AE47932A3072D7003F5891 /* PostImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageCollectionViewCell.swift; sourceTree = "<group>"; };
-		04B1CD5F2A4A6E2E001990DE /* BaseSearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BaseSearchResultsViewController.swift; path = "/Users/rubychew/Desktop/Drinkr-main/Drinkr!/Controllers/BaseSearchResultsViewController.swift"; sourceTree = "<absolute>"; };
 		04B1CD652A4A8AAA001990DE /* Drinkr!Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Drinkr!Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B9EA082A1A81BA002A7EC4 /* GooglePlacesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GooglePlacesManager.swift; sourceTree = "<group>"; };
 		04B9EA0E2A1A8382002A7EC4 /* BarResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarResultsViewController.swift; sourceTree = "<group>"; };
@@ -335,7 +333,6 @@
 		048E166D2A1773D90008CF2A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				04B1CD5F2A4A6E2E001990DE /* BaseSearchResultsViewController.swift */,
 				04E568B32A28C44300863D8B /* TabBarViewController.swift */,
 				046372952A3CBD8C00DE5979 /* PrivacyPolicyViewController.swift */,
 				04BEE3D92A381C9B004BF5FD /* Profile */,
@@ -768,7 +765,6 @@
 				04D2C1CE2A1F64C8001212A7 /* PostCollectionViewCell.swift in Sources */,
 				0408F5E22A30AC8800D7FF52 /* UserInfoCollectionViewCell.swift in Sources */,
 				04D2C1C72A1F4441001212A7 /* CocktailManager.swift in Sources */,
-				04B1CD602A4A6E2E001990DE /* BaseSearchResultsViewController.swift in Sources */,
 				04946E7C2A2757F400DCD2A4 /* CaptionTableViewCell.swift in Sources */,
 				04DF36272A3F182D00F61D16 /* DrinksInfo.swift in Sources */,
 				04946E6F2A248C0600DCD2A4 /* BarCardCollectionViewCell.swift in Sources */,
