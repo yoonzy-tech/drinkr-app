@@ -18,4 +18,5 @@ class Utils {
         (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?
             .changeRootViewController(loginNavController)
     }
+    
 }

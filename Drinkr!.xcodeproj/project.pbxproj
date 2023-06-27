@@ -67,10 +67,12 @@
 		04946E7C2A2757F400DCD2A4 /* CaptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04946E7B2A2757F400DCD2A4 /* CaptionTableViewCell.swift */; };
 		04946E7E2A27829100DCD2A4 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04946E7D2A27829100DCD2A4 /* FirebaseManager.swift */; };
 		04946E802A27850F00DCD2A4 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04946E7F2A27850F00DCD2A4 /* Post.swift */; };
+		049AA0D12A4A9D190065CAA9 /* DrinkrTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049AA0D02A4A9D190065CAA9 /* DrinkrTestCase.swift */; };
 		04AE141E2A2EE20B00CA4FCD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AE141D2A2EE20B00CA4FCD /* User.swift */; };
 		04AE14212A2F177F00CA4FCD /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AE14202A2F177F00CA4FCD /* ProfileViewController.swift */; };
 		04AE14232A2F207900CA4FCD /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AE14222A2F207900CA4FCD /* KeychainManager.swift */; };
 		04AE47942A3072D7003F5891 /* PostImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AE47932A3072D7003F5891 /* PostImageCollectionViewCell.swift */; };
+		04B1CD602A4A6E2E001990DE /* BaseSearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B1CD5F2A4A6E2E001990DE /* BaseSearchResultsViewController.swift */; };
 		04B9EA092A1A81BA002A7EC4 /* GooglePlacesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9EA082A1A81BA002A7EC4 /* GooglePlacesManager.swift */; };
 		04B9EA0F2A1A8382002A7EC4 /* BarResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B9EA0E2A1A8382002A7EC4 /* BarResultsViewController.swift */; };
 		04BEE3D82A378CD2004BF5FD /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BEE3D72A378CD2004BF5FD /* Utils.swift */; };
@@ -101,6 +103,16 @@
 		04F014582A41EDB300198AF1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04F014572A41EDB300198AF1 /* GoogleService-Info.plist */; };
 		F3EEB3BA26076AFD5FCEA003 /* Pods_Drinkr_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BB0E2B5F3435C8674393EF8 /* Pods_Drinkr_.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		04B1CD692A4A8AAA001990DE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 048E16482A176A520008CF2A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 048E164F2A176A520008CF2A;
+			remoteInfo = "Drinkr!";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0408F5E12A30AC8800D7FF52 /* UserInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -149,10 +161,13 @@
 		04946E7B2A2757F400DCD2A4 /* CaptionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionTableViewCell.swift; sourceTree = "<group>"; };
 		04946E7D2A27829100DCD2A4 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		04946E7F2A27850F00DCD2A4 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		049AA0D02A4A9D190065CAA9 /* DrinkrTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkrTestCase.swift; sourceTree = "<group>"; };
 		04AE141D2A2EE20B00CA4FCD /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		04AE14202A2F177F00CA4FCD /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		04AE14222A2F207900CA4FCD /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		04AE47932A3072D7003F5891 /* PostImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		04B1CD5F2A4A6E2E001990DE /* BaseSearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BaseSearchResultsViewController.swift; path = "/Users/rubychew/Desktop/Drinkr-main/Drinkr!/Controllers/BaseSearchResultsViewController.swift"; sourceTree = "<absolute>"; };
+		04B1CD652A4A8AAA001990DE /* Drinkr!Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Drinkr!Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B9EA082A1A81BA002A7EC4 /* GooglePlacesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GooglePlacesManager.swift; sourceTree = "<group>"; };
 		04B9EA0E2A1A8382002A7EC4 /* BarResultsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarResultsViewController.swift; sourceTree = "<group>"; };
 		04BEE3D72A378CD2004BF5FD /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
@@ -212,6 +227,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		04B1CD622A4A8AAA001990DE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -260,6 +282,7 @@
 			isa = PBXGroup;
 			children = (
 				048E16522A176A520008CF2A /* Drinkr! */,
+				04B1CD662A4A8AAA001990DE /* Drinkr!Tests */,
 				048E16512A176A520008CF2A /* Products */,
 				6B09F3D11902C8C6B05A2164 /* Pods */,
 				6887EAF4B283BDF906F2ECA3 /* Frameworks */,
@@ -270,6 +293,7 @@
 			isa = PBXGroup;
 			children = (
 				048E16502A176A520008CF2A /* Drinkr!.app */,
+				04B1CD652A4A8AAA001990DE /* Drinkr!Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -283,7 +307,6 @@
 				040DB31B2A1CD8EE003E02A4 /* Resource */,
 				048E166B2A1773C30008CF2A /* Models */,
 				048E166D2A1773D90008CF2A /* Controllers */,
-				04E568B32A28C44300863D8B /* TabBarViewController.swift */,
 				0419034B2A1DB547009BD42A /* Views */,
 				048E166E2A1774170008CF2A /* Storyboards */,
 				048E165C2A176A540008CF2A /* Assets.xcassets */,
@@ -312,6 +335,8 @@
 		048E166D2A1773D90008CF2A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				04B1CD5F2A4A6E2E001990DE /* BaseSearchResultsViewController.swift */,
+				04E568B32A28C44300863D8B /* TabBarViewController.swift */,
 				046372952A3CBD8C00DE5979 /* PrivacyPolicyViewController.swift */,
 				04BEE3D92A381C9B004BF5FD /* Profile */,
 				04E568BB2A2A166E00863D8B /* Scanner */,
@@ -334,12 +359,20 @@
 		04AE141F2A2F175B00CA4FCD /* Cocktails */ = {
 			isa = PBXGroup;
 			children = (
+				048C8A3A2A2D0122001F001E /* CocktailResultsViewController.swift */,
 				04D2C1D32A20BFC0001212A7 /* RecipesViewController.swift */,
 				04E856472A2C59240041F1DE /* DrinkDetailsViewController.swift */,
-				048C8A3A2A2D0122001F001E /* CocktailResultsViewController.swift */,
 				0414D3632A323D01007BB817 /* FavoriteCocktailsViewController.swift */,
 			);
 			path = Cocktails;
+			sourceTree = "<group>";
+		};
+		04B1CD662A4A8AAA001990DE /* Drinkr!Tests */ = {
+			isa = PBXGroup;
+			children = (
+				049AA0D02A4A9D190065CAA9 /* DrinkrTestCase.swift */,
+			);
+			path = "Drinkr!Tests";
 			sourceTree = "<group>";
 		};
 		04BEE3D92A381C9B004BF5FD /* Profile */ = {
@@ -490,6 +523,24 @@
 			productReference = 048E16502A176A520008CF2A /* Drinkr!.app */;
 			productType = "com.apple.product-type.application";
 		};
+		04B1CD642A4A8AAA001990DE /* Drinkr!Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04B1CD6B2A4A8AAA001990DE /* Build configuration list for PBXNativeTarget "Drinkr!Tests" */;
+			buildPhases = (
+				04B1CD612A4A8AAA001990DE /* Sources */,
+				04B1CD622A4A8AAA001990DE /* Frameworks */,
+				04B1CD632A4A8AAA001990DE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				04B1CD6A2A4A8AAA001990DE /* PBXTargetDependency */,
+			);
+			name = "Drinkr!Tests";
+			productName = "Drinkr!Tests";
+			productReference = 04B1CD652A4A8AAA001990DE /* Drinkr!Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -502,6 +553,10 @@
 				TargetAttributes = {
 					048E164F2A176A520008CF2A = {
 						CreatedOnToolsVersion = 14.3;
+					};
+					04B1CD642A4A8AAA001990DE = {
+						CreatedOnToolsVersion = 14.3;
+						TestTargetID = 048E164F2A176A520008CF2A;
 					};
 				};
 			};
@@ -524,6 +579,7 @@
 			projectRoot = "";
 			targets = (
 				048E164F2A176A520008CF2A /* Drinkr! */,
+				04B1CD642A4A8AAA001990DE /* Drinkr!Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -550,6 +606,13 @@
 				04F014582A41EDB300198AF1 /* GoogleService-Info.plist in Resources */,
 				04E8565B2A2C88B30041F1DE /* SectionHeaderView.xib in Resources */,
 				048C8A392A2CF45D001F001E /* DescrtiptionTableViewCell.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04B1CD632A4A8AAA001990DE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -705,6 +768,7 @@
 				04D2C1CE2A1F64C8001212A7 /* PostCollectionViewCell.swift in Sources */,
 				0408F5E22A30AC8800D7FF52 /* UserInfoCollectionViewCell.swift in Sources */,
 				04D2C1C72A1F4441001212A7 /* CocktailManager.swift in Sources */,
+				04B1CD602A4A6E2E001990DE /* BaseSearchResultsViewController.swift in Sources */,
 				04946E7C2A2757F400DCD2A4 /* CaptionTableViewCell.swift in Sources */,
 				04DF36272A3F182D00F61D16 /* DrinksInfo.swift in Sources */,
 				04946E6F2A248C0600DCD2A4 /* BarCardCollectionViewCell.swift in Sources */,
@@ -715,7 +779,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		04B1CD612A4A8AAA001990DE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				049AA0D12A4A9D190065CAA9 /* DrinkrTestCase.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		04B1CD6A2A4A8AAA001990DE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 048E164F2A176A520008CF2A /* Drinkr! */;
+			targetProxy = 04B1CD692A4A8AAA001990DE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		048E16592A176A520008CF2A /* Main.storyboard */ = {
@@ -925,6 +1005,45 @@
 			};
 			name = Release;
 		};
+		04B1CD6C2A4A8AAA001990DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 7WDBV2M4JT;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yoonzy.Drinkr-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Drinkr!.app/Drinkr!";
+			};
+			name = Debug;
+		};
+		04B1CD6D2A4A8AAA001990DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7WDBV2M4JT;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yoonzy.Drinkr-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Drinkr!.app/Drinkr!";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -942,6 +1061,15 @@
 			buildConfigurations = (
 				048E16652A176A540008CF2A /* Debug */,
 				048E16662A176A540008CF2A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04B1CD6B2A4A8AAA001990DE /* Build configuration list for PBXNativeTarget "Drinkr!Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04B1CD6C2A4A8AAA001990DE /* Debug */,
+				04B1CD6D2A4A8AAA001990DE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

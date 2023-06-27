@@ -29,8 +29,6 @@ class ScanHistoryViewController: UIViewController {
         
         updateDataSource()
         
-        // Add listener that the current user is following
-        
         tableView.mj_header = MJRefreshNormalHeader()
         tableView.mj_header?.setRefreshingTarget(self, refreshingAction: #selector(refreshData))
     }
@@ -63,14 +61,7 @@ extension ScanHistoryViewController: UITableViewDataSource, UITableViewDelegate 
             withIdentifier: "ScanHistoryTableViewCell", for: indexPath) as? ScanHistoryTableViewCell
         else { fatalError("Unable to generate Scan History Table View Cell") }
         
-        cell.updateCell(
-            label: dataSource[indexPath.row].brandName,
-            image: dataSource[indexPath.row].imageUrl,
-            time: dataSource[indexPath.row].createdTime ?? Timestamp(),
-            origin: dataSource[indexPath.row].origin,
-            type: dataSource[indexPath.row].type,
-            vol: dataSource[indexPath.row].vol
-        )
+        cell.updateCell(data: dataSource[indexPath.row])
         
         return cell
     }

@@ -11,6 +11,7 @@ import CoreLocation
 import Kingfisher
 import FirebaseAuth
 import FirebaseFirestore
+import Lottie
 
 class BarMapViewController: UIViewController {
     
@@ -20,15 +21,11 @@ class BarMapViewController: UIViewController {
         }
     }
     
-    var dataSource: [Place] = [] {
-        didSet {
-            collectionView.reloadData()
-        }
-    }
+    var dataSource: [Place] = []
     
     let searchVC = UISearchController(searchResultsController: BarResultsViewController())
     let locationManager = CLLocationManager()
-    var userCoordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 0, longitude: 0)
+    var userCoordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 25.04755, longitude: 121.51705)
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var relocationUserButton: UIButton!
@@ -49,28 +46,29 @@ class BarMapViewController: UIViewController {
         super.viewDidLoad()
         addShadow(relocationUserButton)
         addShadow(refreshButton)
-        // Search Bar Setup
+
         searchVC.searchResultsUpdater = self
         searchVC.obscuresBackgroundDuringPresentation = true
         definesPresentationContext = true
         navigationItem.searchController = searchVC
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [
+            NSAttributedString.Key.foregroundColor: UIColor.white
+        ]
         searchVC.searchBar.searchTextField.backgroundColor = UIColor(hexString: "#1D67FF")
         searchVC.searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
             string: "Search bar name",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor(hexString: AppColor.gray.rawValue)])
         searchVC.searchBar.searchTextField.leftView?.tintColor = UIColor(hexString: AppColor.gray.rawValue)
-        // Core Location Setup
+
         locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         self.locationManager.requestWhenInUseAuthorization()
-        
         if locationManager.authorizationStatus == .authorizedWhenInUse ||
             locationManager.authorizationStatus == .authorizedAlways {
             locationManager.requestLocation()
             locationManager.startUpdatingLocation()
-            showNearbyBarsToUser()
         }
+        showNearbyBarsToUser()
         mapView.delegate = self
     }
     
@@ -101,8 +99,7 @@ extension BarMapViewController: MKMapViewDelegate {
         self.generateMapPins(with: self.userCoordinates)
     }
     
-    private func generateMapPins(with userLocation: CLLocationCoordinate2D) {
-        // Remove all map pins
+    func generateMapPins(with userLocation: CLLocationCoordinate2D) {
         let annotations = mapView.annotations
         mapView.removeAnnotations(annotations)
         
@@ -121,7 +118,7 @@ extension BarMapViewController: MKMapViewDelegate {
                 }
                 self?.mapView.addAnnotation(pin)
             }
-            // Bar Card Collection View
+            
             self?.collectionView.dataSource = self
             self?.collectionView.delegate = self
             self?.zoomInUserLocation()
@@ -136,17 +133,18 @@ extension BarMapViewController: MKMapViewDelegate {
         ), animated: true)
     }
     
-    private func calculateCorrespondingIndex(for coordinates: CLLocationCoordinate2D) -> Int {
+    func calculateCorrespondingIndex(for coordinates: CLLocationCoordinate2D) -> Int {
         // Iterate through annotations or overlays and find the matching coordinates
         for (index, annotation) in dataSource.enumerated() {
             if annotation.geometry?.location.lat as? Double == coordinates.latitude &&
                 annotation.geometry?.location.lng as? Double == coordinates.longitude {
+                print("Answer: \(index)")
                 return index
             }
         }
         return 0 // Default index if no match is found
     }
-    
+
     private func findMapPin(withCoordinates coordinates: CLLocationCoordinate2D) -> MKPointAnnotation? {
         for annotation in mapView.annotations {
             if let pinAnnotation = annotation as? MKPointAnnotation {
@@ -233,30 +231,7 @@ extension BarMapViewController: UICollectionViewDataSource,
             withReuseIdentifier: "BarCardCollectionViewCell", for: indexPath) as? BarCardCollectionViewCell
         else { fatalError("Unable to generate Bar Card Collection View Cell") }
         
-        cell.placeNameLabel.text = dataSource[indexPath.row].name
-        cell.placeAddressLabel.text = dataSource[indexPath.row].vicinity
-        if let rating = dataSource[indexPath.row].rating {
-            cell.placeRatingOpenHourLabel.text = rating > 0 ? "\(rating) Stars" : "No ratings"
-        }
-        
-        if let barLatitude = dataSource[indexPath.row].geometry?.location.lat,
-           let barLongitude = dataSource[indexPath.row].geometry?.location.lng {
-            let distance = calculateDistance(
-                lat1: userCoordinates.latitude,
-                lon1: userCoordinates.longitude,
-                lat2: barLatitude,
-                lon2: barLongitude
-            )
-            cell.placeDistanceLabel.text = "\(distance) km away"
-        }
-        
-        if let photoRef = dataSource[indexPath.row].photos?.first?.photoReference,
-           let height = dataSource[indexPath.row].photos?.first?.height,
-           let width = dataSource[indexPath.row].photos?.first?.width {
-            let string = "https://maps.googleapis.com/maps/api/place/photo?photo_reference=\(photoRef)&maxwidth=\(width)&maxheight=\(height)&key=\(GMSPlacesAPIKey)"
-            cell.imageView.kf.setImage(with: URL(string: string))
-            cell.imageView.layer.cornerRadius = 5
-        }
+        cell.updateCell(user: user, data: dataSource[indexPath.row], userCoordinates: userCoordinates)
         
         cell.directionButton.tag = indexPath.row
         cell.directionButton.addTarget(self, action: #selector(getDirections), for: .touchUpInside)
@@ -294,7 +269,6 @@ extension BarMapViewController: UICollectionViewDataSource,
         }
     }
     
-    // When end display the card resume the image size to small
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if let barLatitude = dataSource[indexPath.row].geometry?.location.lat,
            let barLongitude = dataSource[indexPath.row].geometry?.location.lng,
@@ -327,27 +301,26 @@ extension BarMapViewController: CLLocationManagerDelegate {
         switch status {
         case .denied:
             print("LocationManager didChangeAuthorization denied")
+            showNearbyBarsToUser()
         case .notDetermined:
             print("LocationManager didChangeAuthorization notDetermined")
-            locationManager.requestLocation()
+            locationManager.requestWhenInUseAuthorization()
         case .authorizedWhenInUse:
             print("LocationManager didChangeAuthorization authorizedWhenInUse")
-            locationManager.requestLocation()
             self.locationManager.startUpdatingLocation()
             showNearbyBarsToUser()
         case .authorizedAlways:
             print("LocationManager didChangeAuthorization authorizedAlways")
-            locationManager.requestLocation()
             self.locationManager.startUpdatingLocation()
             showNearbyBarsToUser()
         case .restricted:
             print("LocationManager didChangeAuthorization restricted")
+            
         default:
             print("LocationManager didChangeAuthorization")
         }
     }
     
-    // Store user latitude & longitude
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locationValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         userCoordinates = locationValue
@@ -368,8 +341,7 @@ extension BarMapViewController: UISearchResultsUpdating, BarResultsViewControlle
     func updateSearchResults(for searchController: UISearchController) {
         guard let query = searchController.searchBar.text,
               !query.trimmingCharacters(in: .whitespaces).isEmpty,
-              let resultVC = searchController.searchResultsController as? BarResultsViewController
-        else { return }
+              let resultVC = searchController.searchResultsController as? BarResultsViewController else { return }
         resultVC.delegate = self
         FirebaseManager.shared.search(in: .googlePlaces, value: query, key: "name") { (places: [Place]) in
             resultVC.update(with: places)
@@ -380,11 +352,10 @@ extension BarMapViewController: UISearchResultsUpdating, BarResultsViewControlle
         searchVC.searchBar.resignFirstResponder()
         searchVC.searchBar.text = name
         searchVC.dismiss(animated: true)
-        self.mapView.setRegion(MKCoordinateRegion(
-            center: coordinates,
-            span: MKCoordinateSpan(
-                latitudeDelta: 0.01, longitudeDelta: 0.01)
-        ), animated: true)
+        self.mapView.setRegion(MKCoordinateRegion(center: coordinates,
+                                                  span: MKCoordinateSpan(latitudeDelta: 0.01,
+                                                                         longitudeDelta: 0.01)
+                                                 ), animated: true)
         let correspondingIndex = calculateCorrespondingIndex(for: coordinates)
         scrollToCollectionViewCell(at: correspondingIndex)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -397,15 +368,6 @@ extension BarMapViewController: UISearchResultsUpdating, BarResultsViewControlle
 
 // MARK: Bard Card Utils
 extension BarMapViewController {
-    func calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double) -> Double {
-        let coordinate1 = CLLocation(latitude: lat1, longitude: lon1)
-        let coordinate2 = CLLocation(latitude: lat2, longitude: lon2)
-        let distanceInMeters = coordinate1.distance(from: coordinate2)
-        let distanceInKilometers = distanceInMeters / 1000.0
-        let roundedDistance = (distanceInKilometers * 100).rounded() / 100
-        return roundedDistance
-    }
-    
     @objc func saveToFavorite(_ sender: UIButton) {
         let indexPath = IndexPath(item: sender.tag, section: 0)
         
@@ -483,7 +445,6 @@ extension BarMapViewController {
         }
     }
 }
-
 // MARK: UI Setup
 extension BarMapViewController {
     private func addShadow(_ button: UIButton) {

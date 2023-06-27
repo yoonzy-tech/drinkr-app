@@ -72,7 +72,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let appearance = UINavigationBar.appearance()
         appearance.tintColor = UIColor(hexString: AppColor.lightGreen.rawValue)
-//        appearance.tintColor = UIColor.
         appearance.scrollEdgeAppearance = newNavBarAppearance
         appearance.compactAppearance = newNavBarAppearance
         appearance.standardAppearance = newNavBarAppearance

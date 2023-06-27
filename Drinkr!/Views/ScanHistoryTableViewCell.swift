@@ -18,18 +18,17 @@ class ScanHistoryTableViewCell: UITableViewCell {
     
     @IBOutlet weak var scannedImageView: UIImageView!
     
-    public func updateCell(label: String,
-                           image: String,
-                           time: Timestamp,
-                           origin: String,
-                           type: String,
-                           vol: String) {
+    func updateCell(data: ScanHistory) {
+        self.brandLabel.text = data.brandName
         
-        self.brandLabel.text = label
-        self.scannedImageView.kf.setImage(with: URL(string: image))
-        self.timeLabel.text = "Added on: \(convertTimestampToString(time: time))"
-        self.originLabel.text = "Origin: \(origin)"
-        self.volumeLabel.text = "\(type), \(vol) vol"
+        let imageUrl = URL(string: data.imageUrl)
+        self.scannedImageView.kf.setImage(with: imageUrl)
+        
+        let createdTime = data.createdTime ?? Timestamp()
+        self.timeLabel.text = "Added on: \(convertTimestampToString(time: createdTime))"
+        
+        self.originLabel.text = "Origin: \(data.origin)"
+        self.volumeLabel.text = "\(data.type), \(data.vol) vol"
     }
     
     override func awakeFromNib() {

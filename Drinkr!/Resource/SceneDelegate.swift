@@ -22,7 +22,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // if user is logged in before
         if Auth.auth().currentUser != nil {
-          // User is signed in. Read data in Keychain
             guard let uid = Auth.auth().currentUser?.uid else { return }
             FirebaseManager.shared.fetchAccountInfo(uid: uid)
             let mainTabBarController = storyboard.instantiateViewController(identifier: "TabBarViewController")
