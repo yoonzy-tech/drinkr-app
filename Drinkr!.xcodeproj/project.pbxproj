@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0408F5E22A30AC8800D7FF52 /* UserInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0408F5E12A30AC8800D7FF52 /* UserInfoCollectionViewCell.swift */; };
-		040D52832A407300001D757F /* GifLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D52822A407300001D757F /* GifLoader.swift */; };
 		040D52852A4074C9001D757F /* findCocktail.json in Resources */ = {isa = PBXBuildFile; fileRef = 040D52842A4074C9001D757F /* findCocktail.json */; };
 		040DB2C12A1B8D44003E02A4 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB2C02A1B8D44003E02A4 /* CameraViewController.swift */; };
 		040DB3092A1C8B82003E02A4 /* CameraViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DB3082A1C8B82003E02A4 /* CameraViewController+Extension.swift */; };
@@ -104,7 +103,6 @@
 
 /* Begin PBXFileReference section */
 		0408F5E12A30AC8800D7FF52 /* UserInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoCollectionViewCell.swift; sourceTree = "<group>"; };
-		040D52822A407300001D757F /* GifLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifLoader.swift; sourceTree = "<group>"; };
 		040D52842A4074C9001D757F /* findCocktail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = findCocktail.json; sourceTree = "<group>"; };
 		040DB2C02A1B8D44003E02A4 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		040DB3082A1C8B82003E02A4 /* CameraViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -361,7 +359,6 @@
 				04D2C1D12A207444001212A7 /* Date+Extension.swift */,
 				044362AB2A28AD56007C89F6 /* UIColor+Extension.swift */,
 				04BEE3D72A378CD2004BF5FD /* Utils.swift */,
-				040D52822A407300001D757F /* GifLoader.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -661,7 +658,6 @@
 				04D2C1D22A207444001212A7 /* Date+Extension.swift in Sources */,
 				04B9EA092A1A81BA002A7EC4 /* GooglePlacesManager.swift in Sources */,
 				048C8A3B2A2D0122001F001E /* CocktailResultsViewController.swift in Sources */,
-				040D52832A407300001D757F /* GifLoader.swift in Sources */,
 				044AA71A2A39870700C058F9 /* PanelTableViewCell.swift in Sources */,
 				04946E802A27850F00DCD2A4 /* Post.swift in Sources */,
 				047AF2A82A1DEB2B00FB9ADD /* ScanHistory.swift in Sources */,

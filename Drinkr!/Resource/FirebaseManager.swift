@@ -185,6 +185,35 @@ extension FirebaseManager {
             }
     }
     
+    func getRandomDocument(in collection: Collection, completion: ((Drink) -> Void)? = nil) {
+        // Get the total count of documents in the collection
+        database.collection(collection.rawValue)
+            .getDocuments { querySnapshot, error in
+                if let error = error {
+                print("Error fetching document count: \(error)")
+                return
+            }
+
+            if let documents = querySnapshot?.documents, !documents.isEmpty {
+                // Generate a random index within the range of document counts
+                let randomIndex = Int.random(in: 0..<documents.count)
+
+                // Fetch the document at the random index
+                let randomDocument = documents[randomIndex]
+
+                // Access the data from the random document
+                guard let data = try? randomDocument.data(as: Drink.self) else {
+                    print("No this document found")
+                    return
+                }
+                print("Random Document Data: \(data)")
+                completion?(data)
+            } else {
+                print("No documents in the collection.")
+            }
+        }
+    }
+    
     func search<T: Codable>(in collection: Collection, value: String, key field: String, completion: (([T]) -> Void)? = nil) {
         database.collection(collection.rawValue)
             .whereField(field, isGreaterThan: value)

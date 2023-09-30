@@ -30,19 +30,26 @@ class CocktailManager {
         "X-RapidAPI-Key": cocktailDBApiKey,
         "X-RapidAPI-Host": "the-cocktail-db.p.rapidapi.com"
     ]
-
+    // retrieve it from Firebase data
+//    func getRandomCocktail(completion: ((Drink) -> Void)? = nil) {
+//        AF.request(random, method: .get, encoding: URLEncoding.default, headers: headers)
+//            .responseDecodable(of: DrinksResponse.self) { response in
+//
+//                switch response.result {
+//                case .success(let result):
+//                    guard let cocktail: Drink = result.drinks.first else { return }
+//                    print("Cocktail Details: \(cocktail)")
+//                    completion?(cocktail)
+//                case .failure:
+//                    print(response.error!)
+//                }
+//            }
+//    }
+    
     func getRandomCocktail(completion: ((Drink) -> Void)? = nil) {
-        AF.request(random, method: .get, encoding: URLEncoding.default, headers: headers)
-            .responseDecodable(of: DrinksResponse.self) { response in
-                
-                switch response.result {
-                case .success(let result):
-                    guard let cocktail: Drink = result.drinks.first else { return }
-                    completion?(cocktail)
-                case .failure:
-                    print(response.error!)
-                }
-            }
+        FirebaseManager.shared.getRandomDocument(in: .cocktailDB) { drink in
+            completion?(drink)
+        }
     }
     
     func sendApiRequest(api: String) {

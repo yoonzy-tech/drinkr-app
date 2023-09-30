@@ -112,7 +112,11 @@ extension CameraViewController {
            let imageData = FirebaseManager.shared.rotateImageToUp(image: image) {
             
             FirebaseManager.shared.uploadFile(to: .posts, imageData: imageData) { [weak self] imageRef, imageUrl in
-                guard let uid = Auth.auth().currentUser?.uid else { return }
+                guard let uid = Auth.auth().currentUser?.uid else {
+                    print("Unable to know the author")
+                    return
+                }
+                
                 let post = Post(
                     userUid: uid,
                     caption: self?.currentCaption,
@@ -135,8 +139,4 @@ extension CameraViewController {
             print("Failed to get image data")
         }
     }
-}
-
-extension CameraViewController {
-    
 }
