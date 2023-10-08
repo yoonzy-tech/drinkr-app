@@ -60,6 +60,7 @@ class BarMapViewController: UIViewController {
             string: "Search bar name",
             attributes: [NSAttributedString.Key.foregroundColor: UIColor(hexString: AppColor.gray.rawValue)])
         searchVC.searchBar.searchTextField.leftView?.tintColor = UIColor(hexString: AppColor.gray.rawValue)
+        searchVC.searchBar.searchTextField.textColor = UIColor(hexString: AppColor.gray.rawValue)
         // Core Location Setup
         locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
