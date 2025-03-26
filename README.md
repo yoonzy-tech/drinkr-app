@@ -59,34 +59,10 @@ Find the ideal cocktail inspiration for your night out. Discover exciting recipe
 - **Apple UGC Guidelines Compliance**: Safe, appropriate user-generated content
 
 
-## Requirements
+## System Requirements
 
 - iOS 15.0+
 - Xcode 14.3+
-
-## Installation
-
-#### CocoaPods
-You can use [CocoaPods](http://cocoapods.org/) to install all the required pods for this project.
-
-- Run `pod install` in your terminal console, if the project is not able to run successfully.
-
-```ruby
-source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '15.0'
-
-target 'Drinkr!' do
-  use_frameworks!
-
-  # Pods for Drinkr!
-  pod 'GooglePlaces'
-  pod 'SwiftLint'
-  pod 'IQKeyboardManagerSwift'
-  pod 'Kingfisher'
-  pod 'MJRefresh'
-  pod 'Alamofire' 
-  pod 'ProgressHUD'
-```
 
 ## Credits
 
