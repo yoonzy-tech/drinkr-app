@@ -1,45 +1,62 @@
-[![Swift Version][swift-image]][swift-url]
-[![License][license-image]][license-url]
-[![Platform](https://img.shields.io/cocoapods/p/LFAlertController.svg?style=flat)](http://cocoapods.org/pods/LFAlertController)
+<div align="center">
 
+  # Drinkr!
+  <img src="/Screenshots/Logo.png" alt="Logo" width="150" height="150"> <br />
 
-# Drinkr!
-<br />
-<p align="center">
-    <img src="logo.jpeg" alt="Logo" width="80" height="80">
-      <p>
-      No ideas for the night out plan?
-      Drinkr! is anyone who loves night life, cocktail tasting, exploring bars & bistros. 
-      Our goal is to maximize the joy for Drinkers in the night, give them inspirations for where to go tonight and what drinks to get tonight.
-      </p>
-</p>
+  [![Swift Version](https://img.shields.io/badge/swift-5.0-orange.svg)](https://swift.org/) [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![Platform](https://img.shields.io/cocoapods/p/LFAlertController.svg?style=flat)](http://cocoapods.org/pods/LFAlertController)
+
+</div>
+
+**Drinkr!** is for anyone who loves night life, cocktail tasting, and exploring bars & bistros. Our goal is to maximize your joy and provide inspiration for where to go and what drinks to try. We're here to make your night out truly unforgettable! Discover nearby hotspots, identify drinks with a snap, share highlights with friends, and find endless cocktail inspiration. Get ready to create lasting memories!
+
+## 🌟 Key Features
+
+### 🗺️ Bar Map: Find the Hottest Drinking Spots
+Discover nearby bars and lounges to create the ultimate night out experience. Explore new venues and find hidden gems to make your evening unforgettable.
+
+### 📸 Drink Scanner: Identify Your Favorite Drinks
+Snap a photo of any drink and instantly identify the brand. Impress your friends and expand your knowledge of beverages while enjoying your night out.
+
+### 📱 Social Posts: Share Your Night with Friends
+Capture and share your night out moments with friends and the wider community. Let others join in on the fun and get recommendations for their own nights out.
+
+### 🍹 Cocktail Wiki: Get Inspired for the Perfect Drink
+Find the ideal cocktail inspiration for your night out. Discover exciting recipes, learn about different mixers, and impress everyone with your mixology skills.
+
+## 📷 Screenshots
 
 <p align="row">
-<img src= "" width="400" >
-<img src= "" width="400" >
+  <img src= "/Screenshots/AppStoreScreenshot.png">
 </p>
 
-## Features & Technologies
+## 🛠️ Technologies & Applied Features
 
-1. **Bar Map**
+### 📍 Location & Maps
+- **CoreLocation**: User location tracking for the Bar Map feature
+- **Apple MapKit**: Interactive display of bar locations
+- **Google Places API**: Rich data about nearby bars and nightlife venues
 
-CoreLocation, Apple MapKit, Google Places API
+### 📷 Camera & Image Processing
+- **AVFoundation Camera**: Real-time camera input for bottle scanning
+- **Vision Image Classifier**: ML-powered drink identification
+- **CoreML**: On-device machine learning for fast bottle recognition
 
-2. **Cocktail Recipe Wiki**
+### 🔒 Authentication & User Data
+- **Google Sign In / Apple Sign In**: Secure, convenient authentication options
+- **Firebase Firestore**: Robust user profile and preference storage
+- **Firebase Storage**: Efficient management of user-uploaded content
 
-Gesture Recognizer, Cocktail DB API
+### 📡 APIs & Data Integration
+- **Cocktail DB API**: Comprehensive cocktail recipe database
+- **Google Places API**: Detailed venue information and ratings
 
-3. **Bottle Scanner**
+### 🎛 User Interaction & Experience
+- **Gesture Recognizer**: Intuitive navigation throughout the app
+- **Custom Animations**: Enhanced visual feedback and engagement
 
-AVFoundation Camera, Vision Image Classifier, CoreML
-
-4. **Posts & News**
-
-Comply to Apple UGC Guideline, Animation, AVFoundation Audio
-
-5. **User Profile**
-
-Google Sign In, Apple Sign In, Firebase Firestore, Storage
+### 🎵 Media & Content
+- **AVFoundation Audio**: Rich audio features for social posts
+- **Apple UGC Guidelines Compliance**: Safe, appropriate user-generated content
 
 
 ## Requirements
@@ -71,15 +88,8 @@ target 'Drinkr!' do
   pod 'ProgressHUD'
 ```
 
-## Meta
+## Credits
 
-Ruby Chu – [@yoon_tech](https://twitter.com/yoon_tech) – dev.rubyc@gmail.com
+© 2025 Ruby Chu - [@yoon_tech](https://twitter.com/yoon_tech) - dev.rubyc@gmail.com
 
-Distributed under the MIT license. See ``LICENSE`` for more information.
-
-[https://github.com/yoonzy-tech/Drinkr](https://github.com/yoonzy-tech/Drinkr)
-
-[swift-image]:https://img.shields.io/badge/swift-5.0-orange.svg
-[swift-url]: https://swift.org/
-[license-image]: https://img.shields.io/badge/License-MIT-blue.svg
-[license-url]: LICENSE
+This project was designed and developed by Ruby Chu as a portfolio piece.
