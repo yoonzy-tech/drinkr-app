@@ -357,7 +357,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Ruby Chu**
 
-- GitHub: [@rubychew](https://github.com/yoonzy-tech)
+- GitHub: [@yoonzy-tech](https://github.com/yoonzy-tech)
 - LinkedIn: [Ruby Chu](https://linkedin.com/in/rubychu-yunsyuan)
 - Email: dev.rubyc@gmail.com
 
