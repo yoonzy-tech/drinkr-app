@@ -355,11 +355,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👨‍💻 Author
 
-**Ruby Chew**
+**Ruby Chu**
 
-- GitHub: [@rubychew](https://github.com/rubychew)
-- LinkedIn: [Ruby Chew](https://linkedin.com/in/rubychew)
-- Email: rubychew.dev@gmail.com
+- GitHub: [@rubychew](https://github.com/yoonzy-tech)
+- LinkedIn: [Ruby Chu](https://linkedin.com/in/rubychu-yunsyuan)
+- Email: dev.rubyc@gmail.com
 
 ---
 
